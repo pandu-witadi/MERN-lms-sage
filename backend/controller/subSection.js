@@ -2,14 +2,14 @@
 //
 const Section = require('../model/section')
 const SubSection = require('../model/subSection')
-const { uploadImageToCloudinary } = require('../util/imageUploader')
-
+// const { uploadImageToCloudinary } = require('../util/imageUploader')
 
 const path = require('path')
 const short = require('short-uuid')
-const { getVideoDurationInSeconds } = require('get-video-duration')
-// require('dotenv').config()
 const CF = require('../conf/conf_app')
+
+const { getVideoDurationInSeconds } = require('get-video-duration')
+
 
 // ================ create SubSection ================
 exports.createSubSection = async (req, res) => {
@@ -130,9 +130,23 @@ exports.updateSubSection = async (req, res) => {
         // upload video to cloudinary
         if (req.files && req.files.videoFile !== undefined) {
             const video = req.files.videoFile;
-            const uploadDetails = await uploadImageToCloudinary(video, process.env.FOLDER_NAME);
-            subSection.videoUrl = uploadDetails.secure_url;
-            subSection.timeDuration = uploadDetails.duration;
+            // const uploadDetails = await uploadImageToCloudinary(video, process.env.FOLDER_NAME);
+            if (video) {
+                let video_filename = "vid-" + short.generate() + '-' + video.name
+                const uploadPath = path.join(__dirname, "..", CF.path.video, video_filename)
+                video.mv(uploadPath, function (err) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log("... successfully uploaded ... " + video_filename)
+                    }
+                })
+                subSection.videoUrl = video_filename
+            }
+            // subSection.videoUrl = uploadDetails.secure_url;
+
+            // subSection.timeDuration = uploadDetails.duration;
+            subSection.timeDuration = 200
         }
 
         // save data to DB

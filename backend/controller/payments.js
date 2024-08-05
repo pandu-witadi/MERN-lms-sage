@@ -1,10 +1,8 @@
 //
 //
-const Rajorpay = require('razorpay')
 const crypto = require('crypto')
 const { default: mongoose } = require('mongoose')
 
-const instance = require('../config/rajorpay')
 const mailSender = require('../util/mailSender')
 const { courseEnrollmentEmail } = require('../mail/templates/courseEnrollmentEmail')
 require('dotenv').config()
@@ -102,7 +100,7 @@ exports.verifyPayment = async (req, res) => {
     // console.log(' req.body === ', req.body)
 
     if (
-        // !razorpay_order_id || !razorpay_payment_id || !razorpay_signature || 
+        // !razorpay_order_id || !razorpay_payment_id || !razorpay_signature ||
         !courses || !userId
     ) {
         return res.status(400).json({ success: false, message: "Payment Failed, data not found" });
