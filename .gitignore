@@ -1,0 +1,9 @@
+# backend
+backend/package-lock.json
+backend/node_modules
+backend/upload
+
+
+# frontend
+frontend/package-lock.json
+frontend/node_modules
