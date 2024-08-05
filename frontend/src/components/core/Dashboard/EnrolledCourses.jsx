@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 
 import { getUserEnrolledCourses } from "../../../services/operations/profileAPI"
 import Img from './../../common/Img';
+import {courseAssets} from "../../../constant/constant.js";
 
 
 
@@ -25,7 +26,7 @@ export default function EnrolledCourses() {
   };
 
   useEffect(() => {
-    getEnrolledCourses();
+    getEnrolledCourses().then(r => {});
   }, [])
 
   // Loading Skeleton
@@ -50,7 +51,7 @@ export default function EnrolledCourses() {
   }
 
   // return if data is null
-  if (enrolledCourses?.length == 0) {
+  if (enrolledCourses?.length === 0) {
     return (
       <p className="grid h-[50vh] w-full place-content-center text-center text-richblack-5 text-3xl">
         You have not enrolled in any course yet.
@@ -97,17 +98,17 @@ export default function EnrolledCourses() {
                   }}
                 >
                   <Img
-                    src={course.thumbnail}
+                    src={courseAssets + course?.thumbnail}
                     alt="course_img"
                     className="h-14 w-14 rounded-lg object-cover"
                   />
 
                   <div className="flex max-w-xs flex-col gap-2">
-                    <p className="font-semibold">{course.courseName}</p>
+                    <p className="font-semibold">{course?.courseName}</p>
                     <p className="text-xs text-richblack-300">
-                      {course.courseDescription.length > 50
-                        ? `${course.courseDescription.slice(0, 50)}...`
-                        : course.courseDescription}
+                      {course?.courseDescription.length > 50
+                        ? `${course?.courseDescription.slice(0, 50)}...`
+                        : course?.courseDescription}
                     </p>
                   </div>
                 </div>
@@ -120,9 +121,9 @@ export default function EnrolledCourses() {
                   <div className="flex sm:w-2/5 flex-col gap-2 px-2 py-3">
                     {/* {console.log('Course ============== ', course.progressPercentage)} */}
 
-                    <p>Progress: {course.progressPercentage || 0}%</p>
+                    <p>Progress: {course?.progressPercentage || 0}%</p>
                     <ProgressBar
-                      completed={course.progressPercentage || 0}
+                      completed={course?.progressPercentage || 0}
                       height="8px"
                       isLabelVisible={false}
                     />
@@ -133,9 +134,9 @@ export default function EnrolledCourses() {
                 {/* duration -  progress */}
                 <div className="hidden w-1/5 sm:flex px-2 py-3">{course?.totalDuration}</div>
                 <div className="hidden sm:flex w-1/5 flex-col gap-2 px-2 py-3">
-                  <p>Progress: {course.progressPercentage || 0}%</p>
+                  <p>Progress: {course?.progressPercentage || 0}%</p>
                   <ProgressBar
-                    completed={course.progressPercentage || 0}
+                    completed={course?.progressPercentage || 0}
                     height="8px"
                     isLabelVisible={false}
                   />

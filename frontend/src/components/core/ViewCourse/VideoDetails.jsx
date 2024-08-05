@@ -13,6 +13,7 @@ import { setCourseViewSidebar } from "../../../slices/sidebarSlice"
 import IconBtn from "../../common/IconBtn"
 
 import { HiMenuAlt1 } from 'react-icons/hi'
+import AttachmentsListView from "../../../test/AttachmentsListView.jsx";
 
 
 const VideoDetails = () => {
@@ -99,14 +100,8 @@ const VideoDetails = () => {
       currentSectionIndx
     ].subSection.findIndex((data) => data._id === subSectionId)
 
-    if (
-      currentSectionIndx === courseSectionData.length - 1 &&
-      currentSubSectionIndx === noOfSubsections - 1
-    ) {
-      return true
-    } else {
-      return false
-    }
+    return currentSectionIndx === courseSectionData.length - 1 &&
+        currentSubSectionIndx === noOfSubsections - 1;
   }
 
   // go to the previous video
@@ -175,7 +170,7 @@ const VideoDetails = () => {
           ref={playerRef}
           aspectRatio="16:9"
           playsInline
-          autoPlay
+          autoPlay={false}
           onEnded={() => setVideoEnded(true)}
           src={videoData?.videoUrl}
         >
@@ -236,7 +231,8 @@ const VideoDetails = () => {
       )}
 
       <h1 className="mt-4 text-3xl font-semibold">{videoData?.title}</h1>
-      <p className="pt-2 pb-6">{videoData?.description}</p>
+      <div className="pt-2 pb-6">{videoData?.description}</div>
+      <AttachmentsListView/>
     </div>
   )
 }

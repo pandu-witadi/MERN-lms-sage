@@ -40,7 +40,7 @@ const timeline = [
 const TimelineSection = () => {
     return (
         <div>
-            <div className='flex flex-col lg:flex-row gap-15 items-center'>
+            <div className='flex flex-col lg:flex-row gap-15 items-center mt-6'>
 
                 <motion.div
                     variants={fadeIn('right', 0.1)}
@@ -80,19 +80,19 @@ const TimelineSection = () => {
                         className='shadow-white object-cover h-fit scale-x-[-1] w-[550px] '
                     />
 
-                    <div className=' absolute bg-caribbeangreen-700 flex flex-row text-white uppercase py-7
-                            left-[50%] translate-x-[-50%] translate-y-[-70%] rounded-3xl'>
-                        <div className='flex flex-row gap-5 items-center border-r border-caribbeangreen-300 px-7'>
-                            <p className='text-2xl lg:text-3xl font-bold'>10</p>
-                            <p className='text-caribbeangreen-300 text-xs lg:text-sm'>Years of Experience</p>
-                        </div>
+                    {/*<div className=' absolute bg-caribbeangreen-700 flex flex-row text-white uppercase py-7*/}
+                    {/*        left-[50%] translate-x-[-50%] translate-y-[-70%] rounded-3xl'>*/}
+                    {/*    <div className='flex flex-row gap-5 items-center border-r border-caribbeangreen-300 px-7'>*/}
+                    {/*        <p className='text-2xl lg:text-3xl font-bold'>10</p>*/}
+                    {/*        <p className='text-caribbeangreen-300 text-xs lg:text-sm'>Years of Experience</p>*/}
+                    {/*    </div>*/}
 
-                        <div className='flex gap-5 items-center px-7'>
-                            <p className='text-2xl lg:text-3xl font-bold'>250</p>
-                            <p className='text-caribbeangreen-300 text-xs lg:text-sm'>TYpe of Courses</p>
-                        </div>
+                    {/*    <div className='flex gap-5 items-center px-7'>*/}
+                    {/*        <p className='text-2xl lg:text-3xl font-bold'>250</p>*/}
+                    {/*        <p className='text-caribbeangreen-300 text-xs lg:text-sm'>TYpe of Courses</p>*/}
+                    {/*    </div>*/}
 
-                    </div>
+                    {/*</div>*/}
 
                 </motion.div>
             </div>

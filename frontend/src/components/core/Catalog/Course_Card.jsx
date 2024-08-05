@@ -7,6 +7,7 @@ import { Link } from "react-router-dom"
 import GetAvgRating from "../../../utils/avgRating"
 import RatingStars from "../../common/RatingStars"
 import Img from './../../common/Img';
+import {coinSymbol} from "../../../constant/constant.js";
 
 
 
@@ -52,7 +53,7 @@ function Course_Card({ course, Height }) {
                 {course?.ratingAndReviews?.length} Ratings
               </span>
             </div>
-            <p className="text-xl text-richblack-5">Rs. {course?.price}</p>
+            <p className="text-xl text-richblack-5">{coinSymbol} {course?.price}</p>
           </div>
         </div>
       </Link>

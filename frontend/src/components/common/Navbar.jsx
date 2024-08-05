@@ -3,7 +3,6 @@ import { Link, matchPath, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { NavbarLinks } from "../../../data/navbar-links"
-import studyNotionLogo from '../../assets/Logo/Logo-Full-Light.png'
 import { fetchCourseCategories } from './../../services/operations/courseDetailsAPI';
 
 import ProfileDropDown from '../core/Auth/ProfileDropDown'
@@ -11,12 +10,12 @@ import MobileProfileDropDown from '../core/Auth/MobileProfileDropDown'
 
 import { AiOutlineShoppingCart } from "react-icons/ai"
 import { MdKeyboardArrowDown } from "react-icons/md"
+import WebLogo from "./WebLogo.jsx";
 
 
 
 
 const Navbar = () => {
-    console.log("Printing base url: ", import.meta.env.VITE_APP_BASE_URL);
     const { token } = useSelector((state) => state.auth);
     const { user } = useSelector((state) => state.profile);
     // console.log('USER data from Navbar (store) = ', user)
@@ -89,7 +88,7 @@ const Navbar = () => {
             <div className='flex w-11/12 max-w-maxContent items-center justify-between '>
                 {/* logo */}
                 <Link to="/">
-                    <img src={studyNotionLogo} width={160} height={42} loading='lazy' />
+                    <WebLogo/>
                 </Link>
 
                 {/* Nav Links - visible for only large devices*/}
@@ -150,18 +149,18 @@ const Navbar = () => {
 
                 {/* Login/SignUp/Dashboard */}
                 <div className='flex gap-x-4 items-center'>
-                    {
-                        user && user?.accountType !== "Instructor" && (
-                            <Link to="/dashboard/cart" className="relative">
-                                <AiOutlineShoppingCart className="text-[2.35rem] text-richblack-5 hover:bg-richblack-700 rounded-full p-2 duration-200" />
-                                {totalItems > 0 && (
-                                    <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-100">
-                                        {totalItems}
-                                    </span>
-                                )}
-                            </Link>
-                        )
-                    }
+                    {/*{*/}
+                    {/*    user && user?.accountType !== "Instructor" && (*/}
+                    {/*        <Link to="/dashboard/cart" className="relative">*/}
+                    {/*            <AiOutlineShoppingCart className="text-[2.35rem] text-richblack-5 hover:bg-richblack-700 rounded-full p-2 duration-200" />*/}
+                    {/*            {totalItems > 0 && (*/}
+                    {/*                <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-100">*/}
+                    {/*                    {totalItems}*/}
+                    {/*                </span>*/}
+                    {/*            )}*/}
+                    {/*        </Link>*/}
+                    {/*    )*/}
+                    {/*}*/}
                     {
                         token === null && (
                             <Link to="/login">

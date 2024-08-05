@@ -1,13 +1,14 @@
 //
 //
-import { useEffect, useState } from "react"
+import {useEffect, useState} from "react"
 import {
     Route,
     Routes,
     useLocation,
-    Link } from "react-router-dom"
-import { useSelector } from "react-redux"
-import { HiArrowNarrowUp } from "react-icons/hi"
+    Link
+} from "react-router-dom"
+import {useSelector} from "react-redux"
+import {HiArrowNarrowUp} from "react-icons/hi"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -41,14 +42,13 @@ import AddCourse from "./components/core/Dashboard/AddCourse/AddCourse"
 import ViewCourse from "./pages/ViewCourse"
 import VideoDetails from './components/core/ViewCourse/VideoDetails'
 
-import { ACCOUNT_TYPE } from './utils/constants'
-
-
+import {ACCOUNT_TYPE} from './utils/constants'
+import CourseSectionPlayerTest from "./test/CourseSectionPlayerTest.jsx";
 
 
 function App() {
 
-    const { user } = useSelector((state) => state.profile)
+    const {user} = useSelector((state) => state.profile)
 
     // Scroll to the top of the page when the component mounts
     const location = useLocation()
@@ -85,116 +85,122 @@ function App() {
 
     return (
         <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
-            <Navbar />
+            <Navbar/>
 
             {/* go upward arrow */}
             <button onClick={() => window.scrollTo(0, 0)}
-                className={`bg-yellow-25 hover:bg-yellow-50 hover:scale-110 p-3 text-lg text-black rounded-2xl fixed right-3 z-10 duration-500 ease-in-out ${showArrow ? 'bottom-6' : '-bottom-24'} `} >
-                <HiArrowNarrowUp />
+                    className={`bg-yellow-25 hover:bg-yellow-50 hover:scale-110 p-3 text-lg text-black rounded-2xl fixed right-3 z-10 duration-500 ease-in-out ${showArrow ? 'bottom-6' : '-bottom-24'} `}>
+                <HiArrowNarrowUp/>
             </button>
 
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/about" element={<About />} />
-                <Route path="catalog/:catalogName" element={<Catalog />} />
-                <Route path="courses/:courseId" element={<CourseDetails />} />
+                <Route path="/" element={<Home/>}/>
+                <Route path="/contact" element={<Contact/>}/>
+                <Route path="/about" element={<About/>}/>
+                <Route path="catalog/:catalogName" element={<Catalog/>}/>
+                <Route path="courses/:courseId" element={<CourseDetails/>}/>
 
                 {/* Open Route - for Only Non Logged in User */}
                 <Route
-                  path="signup" element={
+                    path="signup" element={
                     <OpenRoute>
-                      <Signup />
+                        <Signup/>
                     </OpenRoute>
-                  }
+                }
                 />
 
                 <Route
-                  path="login" element={
+                    path="login" element={
                     <OpenRoute>
-                      <Login />
+                        <Login/>
                     </OpenRoute>
-                  }
+                }
                 />
 
                 <Route
-                  path="forgot-password" element={
+                    path="forgot-password" element={
                     <OpenRoute>
-                      <ForgotPassword />
+                        <ForgotPassword/>
                     </OpenRoute>
-                  }
+                }
                 />
 
                 <Route
-                  path="verify-email" element={
+                    path="verify-email" element={
                     <OpenRoute>
-                      <VerifyEmail />
+                        <VerifyEmail/>
                     </OpenRoute>
-                  }
+                }
                 />
 
                 <Route
-                  path="update-password/:id" element={
+                    path="update-password/:id" element={
                     <OpenRoute>
-                      <UpdatePassword />
+                        <UpdatePassword/>
                     </OpenRoute>
-                  }
+                }
                 />
-
-
 
 
                 {/* Protected Route - for Only Logged in User */}
                 {/* Dashboard */}
                 <Route element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
+                    <ProtectedRoute>
+                        <Dashboard/>
+                    </ProtectedRoute>
                 }
                 >
-                  <Route path="dashboard/my-profile" element={<MyProfile />} />
-                  <Route path="dashboard/Settings" element={<Settings />} />
+                    <Route path="dashboard/my-profile" element={<MyProfile/>}/>
+                    <Route path="dashboard/Settings" element={<Settings/>}/>
 
-                  {/* Route only for Students */}
-                  {/* cart , EnrolledCourses */}
-                  {user?.accountType === ACCOUNT_TYPE.STUDENT && (
-                    <>
-                      <Route path="dashboard/cart" element={<Cart />} />
-                      <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
-                    </>
-                  )}
+                    {/* Route only for Students */}
+                    {/* cart , EnrolledCourses */}
+                    {user?.accountType === ACCOUNT_TYPE.STUDENT && (
+                        <>
+                            <Route path="dashboard" element={<EnrolledCourses/>}/>
+                            <Route path="dashboard/cart" element={<Cart/>}/>
+                            <Route path="dashboard/enrolled-courses" element={<EnrolledCourses/>}/>
+                        </>
+                    )}
 
-                  {/* Route only for Instructors */}
-                  {/* add course , MyCourses, EditCourse*/}
-                  {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
-                    <>
-                      <Route path="dashboard/instructor" element={<Instructor />} />
-                      <Route path="dashboard/add-course" element={<AddCourse />} />
-                      <Route path="dashboard/my-courses" element={<MyCourses />} />
-                      <Route path="dashboard/edit-course/:courseId" element={<EditCourse />} />
-                    </>
-                  )}
+                    {/* Route only for Instructors */}
+                    {/* add course , MyCourses, EditCourse*/}
+                    {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+                        <>
+                            <Route path="dashboard" element={<Instructor/>}/>
+                            <Route path="dashboard/instructor" element={<Instructor/>}/>
+                            <Route path="dashboard/add-course" element={<AddCourse/>}/>
+                            <Route path="dashboard/my-courses" element={<MyCourses/>}/>
+                            <Route path="dashboard/edit-course/:courseId" element={<EditCourse/>}/>
+                        </>
+                    )}
                 </Route>
 
 
                 {/* For the watching course lectures */}
                 <Route
-                  element={
-                    <ProtectedRoute>
-                      <ViewCourse />
-                    </ProtectedRoute>
-                  }
+                    element={
+                        <ProtectedRoute>
+                            <ViewCourse/>
+                        </ProtectedRoute>
+                    }
                 >
-                  {user?.accountType === ACCOUNT_TYPE.STUDENT && (
-                    <Route
-                      path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
-                      element={<VideoDetails />}
-                    />
-                  )}
+                    {user?.accountType === ACCOUNT_TYPE.STUDENT && (
+                        <>
+                            <Route
+                                path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
+                                element={<VideoDetails/>}
+                            />
+                            <Route
+                                path="view-course/:courseId/section/:sectionId/sub-test/:subSectionId"
+                                element={<CourseSectionPlayerTest/>}
+                            />
+                        </>
+                    )}
                 </Route>
 
                 {/* Page Not Found (404 Page ) */}
-                <Route path="*" element={<PageNotFound />} />
+                <Route path="*" element={<PageNotFound/>}/>
             </Routes>
         </div>
     )

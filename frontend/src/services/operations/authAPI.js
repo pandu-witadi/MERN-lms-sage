@@ -116,7 +116,7 @@ export function login(email, password, navigate) {
 
             localStorage.setItem("user", JSON.stringify({ ...response.data.user, image: userImage }))
 
-            navigate("/dashboard/my-profile")
+            navigate("/dashboard/enrolled-courses")
         } catch (error) {
             console.log("LOGIN API ERROR.......", error)
             toast.error(error.response?.data?.message)

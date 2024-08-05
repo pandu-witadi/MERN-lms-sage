@@ -25,7 +25,7 @@ export default function MyCourses() {
         setCourses(result)
       }
     }
-    fetchCourses()
+    fetchCourses().then(r => {})
   }, [])
 
 

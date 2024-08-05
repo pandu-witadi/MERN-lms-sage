@@ -10,6 +10,7 @@ import { FaShareSquare } from "react-icons/fa"
 import { addToCart } from "../../../slices/cartSlice"
 import { ACCOUNT_TYPE } from "../../../utils/constants"
 import Img from './../../common/Img';
+import {coinSymbol, courseAssets} from "../../../constant/constant.js";
 
 
 function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
@@ -57,14 +58,14 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
       >
         {/* Course Image */}
         <Img
-          src={ThumbnailImage}
+          src={courseAssets + ThumbnailImage}
           alt={course?.courseName}
           className="max-h-[300px] min-h-[180px] w-[400px] overflow-hidden rounded-2xl object-cover md:max-w-full"
         />
 
         <div className="px-4">
           <div className="space-x-3 pb-4 text-3xl font-semibold">
-            Rs. {CurrentPrice}
+            {coinSymbol} {CurrentPrice}
           </div>
           <div className="flex flex-col gap-4">
             <button
@@ -77,18 +78,18 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
             >
               {user && course?.studentsEnrolled.includes(user?._id)
                 ? "Go To Course"
-                : "Buy Now"}
+                : "Add Course"}
             </button>
-            {(!user || !course?.studentsEnrolled.includes(user?._id)) && (
-              <button onClick={handleAddToCart} className="blackButton outline-none">
-                Add to Cart
-              </button>
-            )}
+            {/*{(!user || !course?.studentsEnrolled.includes(user?._id)) && (*/}
+            {/*  <button onClick={handleAddToCart} className="blackButton outline-none">*/}
+            {/*    Add to Cart*/}
+            {/*  </button>*/}
+            {/*)}*/}
           </div>
 
-          <p className="pb-3 pt-6 text-center text-sm text-richblack-25">
-            30-Day Money-Back Guarantee
-          </p>
+          {/*<p className="pb-3 pt-6 text-center text-sm text-richblack-25">*/}
+          {/*  30-Day Money-Back Guarantee*/}
+          {/*</p>*/}
 
           <div className={``}>
             <p className={`my-2 text-xl font-semibold `}>

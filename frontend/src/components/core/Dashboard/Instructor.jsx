@@ -6,6 +6,7 @@ import { fetchInstructorCourses } from "../../../services/operations/courseDetai
 import { getInstructorData } from "../../../services/operations/profileAPI"
 import InstructorChart from "./InstructorDashboard/InstructorChart"
 import Img from './../../common/Img';
+import {coinSymbol} from "../../../constant/constant.js";
 
 
 
@@ -84,7 +85,7 @@ export default function Instructor() {
     <div>
       <div className="space-y-2">
         <h1 className="text-2xl font-bold text-richblack-5 text-center sm:text-left">
-          Hii {user?.firstName} 👋
+          Hi {user?.firstName} 👋
         </h1>
         <p className="font-medium text-richblack-200 text-center sm:text-left">
           Let's start something new
@@ -100,7 +101,7 @@ export default function Instructor() {
         :
         courses.length > 0 ? (
           <div>
-            <div className="my-4 flex h-[450px] space-x-4">
+            <div className="my-4 flex h-[500px] space-x-4">
               {/* Render chart / graph */}
               {totalAmount > 0 || totalStudents > 0 ? (
                 <InstructorChart courses={instructorData} />
@@ -133,7 +134,7 @@ export default function Instructor() {
                   <div>
                     <p className="text-lg text-richblack-200">Total Income</p>
                     <p className="text-3xl font-semibold text-richblack-50">
-                      Rs. {totalAmount}
+                      {coinSymbol} {totalAmount}
                     </p>
                   </div>
                 </div>
@@ -170,7 +171,7 @@ export default function Instructor() {
                           |
                         </p>
                         <p className="text-xs font-medium text-richblack-300">
-                          Rs. {course.price}
+                          {coinSymbol} {course.price}
                         </p>
                       </div>
                     </div>
