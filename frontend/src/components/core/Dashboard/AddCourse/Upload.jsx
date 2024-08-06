@@ -1,17 +1,16 @@
-import { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { FiUploadCloud } from "react-icons/fi"
 import { useSelector } from "react-redux"
-
-import "video-react/dist/video-react.css"
-import { Player } from "video-react"
+import ReactPlayer from "react-player";
+import {courseAssets} from "../../../../constant/constant.js";
 
 
 
 export default function Upload({ name, label, register, setValue, errors, video = false, viewData = null, editData = null, }) {
   // const { course } = useSelector((state) => state.course)
   const [selectedFile, setSelectedFile] = useState(null)
-  const [previewSource, setPreviewSource] = useState(viewData ? viewData : editData ? editData : "")
+  const [previewSource, setPreviewSource] = useState(viewData ? viewData : editData ? courseAssets+editData : "")
   const inputRef = useRef(null)
 
   const onDrop = (acceptedFiles) => {
@@ -66,7 +65,13 @@ export default function Upload({ name, label, register, setValue, errors, video 
                 className="h-full w-full rounded-md object-cover"
               />
             ) : (
-              <Player aspectRatio="16:9" playsInline src={previewSource} />
+              <ReactPlayer
+                url={previewSource}
+                playing={false}
+                controls={true}
+                width={'100%'}
+                height={'300px'}
+              />
             )}
 
             {!viewData && (
