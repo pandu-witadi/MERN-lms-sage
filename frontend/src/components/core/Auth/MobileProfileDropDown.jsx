@@ -85,10 +85,10 @@ export default function MobileProfileDropDown() {
             {open && (
                 <div
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute min-w-[120px] top-[118%] right-0 z-[1000] divide-y-[1px] divide-richblack-700 overflow-hidden rounded-lg border-[1px] border-richblack-700 bg-richblack-800"
+                    className="absolute min-w-[150px] top-[118%] right-0 z-[1000] divide-y-[1px] divide-richblack-700 overflow-hidden rounded-lg border-[1px] border-richblack-700 bg-richblack-800"
                     ref={ref}
                 >
-                    <Link to="/dashboard/my-profile" onClick={() => setOpen(false)}>
+                    <Link to="/dashboard" onClick={() => setOpen(false)}>
                         <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100">
                             <VscDashboard className="text-lg" />
                             Dashboard
@@ -103,12 +103,12 @@ export default function MobileProfileDropDown() {
                         </div>
                     </Link>
 
-                    <Link to='/' onClick={() => setOpen(false)}>
-                        <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100">
-                            <PiNotebook className="text-lg" />
-                            Catalog
-                        </div>
-                    </Link>
+                    {/*<Link to='/' onClick={() => setOpen(false)}>*/}
+                    {/*    <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100">*/}
+                    {/*        <PiNotebook className="text-lg" />*/}
+                    {/*        Catalog*/}
+                    {/*    </div>*/}
+                    {/*</Link>*/}
 
                     <Link to='/about' onClick={() => setOpen(false)}>
                         <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 border-y border-richblack-700 ">

@@ -10,7 +10,8 @@ import {courseAssets} from "../../../../constant/constant.js";
 export default function Upload({ name, label, register, setValue, errors, video = false, viewData = null, editData = null, }) {
   // const { course } = useSelector((state) => state.course)
   const [selectedFile, setSelectedFile] = useState(null)
-  const [previewSource, setPreviewSource] = useState(viewData ? viewData : editData ? courseAssets+editData : "")
+  const [previewSource, setPreviewSource] = useState(viewData ? viewData : editData ? editData : "")
+  // const [previewSourceImage, setPreviewSourceImage] = useState(viewData ? viewData : editData ? courseAssets + editData : "")
   const inputRef = useRef(null)
 
   const onDrop = (acceptedFiles) => {
@@ -61,6 +62,7 @@ export default function Upload({ name, label, register, setValue, errors, video 
             {!video ? (
               <img
                 src={previewSource}
+                // url={previewSource}
                 alt="Preview"
                 className="h-full w-full rounded-md object-cover"
               />
