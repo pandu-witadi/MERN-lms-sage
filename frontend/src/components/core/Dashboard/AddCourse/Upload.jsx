@@ -11,7 +11,6 @@ export default function Upload({ name, label, register, setValue, errors, video 
   // const { course } = useSelector((state) => state.course)
   const [selectedFile, setSelectedFile] = useState(null)
   const [previewSource, setPreviewSource] = useState(viewData ? viewData : editData ? editData : "")
-  // const [previewSourceImage, setPreviewSourceImage] = useState(viewData ? viewData : editData ? courseAssets + editData : "")
   const inputRef = useRef(null)
 
   const onDrop = (acceptedFiles) => {
@@ -21,6 +20,15 @@ export default function Upload({ name, label, register, setValue, errors, video 
       setSelectedFile(file)
     }
   }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      previewFile(file)
+      setSelectedFile(file)
+      // setSelectedFile(file.name);
+    }
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: !video
@@ -96,12 +104,24 @@ export default function Upload({ name, label, register, setValue, errors, video 
             {...getRootProps()}
           >
             <input {...getInputProps()} ref={inputRef} />
+            {/* Hidden file input */}
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: 'none' }}
+              ref={inputRef}
+              onChange={handleFileChange}
+              accept={!video ? ".jpeg,.jpg,.png" : ".mp4"}
+            />
+
             <div className="grid aspect-square w-14 place-items-center rounded-full bg-pure-greys-800">
               <FiUploadCloud className="text-2xl text-yellow-50" />
             </div>
             <p className="mt-2 max-w-[200px] text-center text-sm text-richblack-200">
               Drag and drop an {!video ? "image" : "video"}, or click to{" "}
-              <span className="font-semibold text-yellow-50">Browse</span> a
+              <span className="font-semibold text-yellow-50" onClick={() => document.getElementById('fileInput').click()}>
+                Browse
+              </span> a
               file
             </p>
             <ul className="mt-10 flex list-disc justify-between space-x-12 text-center  text-xs text-richblack-200">
