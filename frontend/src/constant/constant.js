@@ -1,3 +1,3 @@
 const coinSymbol = '🪙';
-const courseAssets = import.meta.env.VITE_BASE_WEB_URL + '/upload/image/';
+const courseAssets = '';
 export {coinSymbol, courseAssets}
