@@ -4,7 +4,7 @@ require('dotenv').config()
 
 let CF = {
     app: {
-        name: "MERN-study-notion",
+        name: "LINXEDU",
         version: "0.0.1"
     },
     server: {
@@ -26,7 +26,7 @@ let CF = {
             // useNewUrlParser: true,
             // useUnifiedTopology: true
         },
-        url : 'mongodb://127.0.0.1:27017/study-notion'
+        url : 'mongodb://127.0.0.1:27017/linxedu'
     },
     jwt: {
        saltLength: 10,
