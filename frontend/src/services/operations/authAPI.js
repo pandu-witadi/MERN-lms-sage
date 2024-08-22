@@ -7,6 +7,7 @@ import {resetCart} from "../../reducer/slices/cartSlice"
 import {setUser} from "../../reducer/slices/profileSlice"
 import {apiConnector} from "../apiConnector"
 import {endpoints} from "../apis"
+import {ApiLogin, ApiSignUp, getRouterApi} from "../router.js";
 
 const {
   SENDOTP_API,
@@ -48,13 +49,10 @@ export function sendOtp(email, navigate) {
 }
 
 // ================ sign Up ================
-export function signUp(accountType, firstName, lastName, email, password, confirmPassword, otp, navigate) {
+export function http_signup(accountType, firstName, lastName, email, password, confirmPassword, otp, navigate) {
   return async (dispatch) => {
-
-    const toastId = toast.loading("Loading...")
-    dispatch(setLoading(true))
     try {
-      const response = await apiConnector("POST", SIGNUP_API, {
+      const response = await apiConnector("POST", getRouterApi(ApiSignUp), {
         accountType,
         firstName,
         lastName,
@@ -64,31 +62,24 @@ export function signUp(accountType, firstName, lastName, email, password, confir
         otp,
       })
 
-      // console.log("SIGNUP API RESPONSE --> ", response)
       if (!response.data.success) {
-        toast.error(response.data.message)
-        throw new Error(response.data.message)
+        return ({status: false, msg: response.data.message});
       }
 
-      toast.success("Signup Successful")
-      navigate("/login")
+      return ({status: true, msg: ""});
     } catch (error) {
-      console.log("SIGNUP API ERROR --> ", error)
-      // toast.error(error.response.data.message)
-      toast.error("Invalid OTP")
-      // navigate("/signup")
+      toast.error(error.message)
+      return ({status: false, msg: error.message});
     }
-    dispatch(setLoading(false))
-    toast.dismiss(toastId)
   }
 }
 
 
 // ================ Login ================
-export function login(email, password) {
+export function http_login(email, password) {
   return async (dispatch) => {
     try {
-      const response = await apiConnector("POST", LOGIN_API, {
+      const response = await apiConnector("POST", getRouterApi(ApiLogin), {
         email,
         password,
       })
@@ -106,8 +97,8 @@ export function login(email, password) {
       localStorage.setItem("user", JSON.stringify({...response.data.user, image: userImage}))
       return ({status: true, msg: ""});
     } catch (error) {
-      //toast.error(error.response?.data?.message)
-      return ({status: false, msg: error.response?.data?.message});
+      toast.error(error.message)
+      return ({status: false, msg: error.message});
     }
   }
 }

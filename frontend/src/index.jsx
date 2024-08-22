@@ -1,5 +1,3 @@
-//
-//
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
@@ -13,7 +11,6 @@ import { Toaster } from 'react-hot-toast'
 import App from './App.jsx'
 import './index.css'
 
-
 const store = configureStore({
     reducer: rootReducer
 })
@@ -21,10 +18,10 @@ const store = configureStore({
 ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <Provider store={store}>
-            <React.StrictMode>
+            {/*<React.StrictMode>*/}
                 <App />
                 <Toaster />
-            </React.StrictMode>
+            {/*</React.StrictMode>*/}
         </Provider>
     </BrowserRouter>
 )

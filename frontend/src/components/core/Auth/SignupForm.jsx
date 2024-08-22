@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom"
 // import { sendOtp } from "../../../services/operations/authAPI"
 import { setSignupData } from "../../../reducer/slices/authSlice"
 import { ACCOUNT_TYPE } from "../../../utils/constants"
-import Tab from "../../common/Tab"
+import TabSwitch from "../../common/TabSwitch.jsx"
 
-import { sendOtp, signUp } from "../../../services/operations/authAPI"
+import { sendOtp, http_signup } from "../../../services/operations/authAPI"
 
 
 function getOtp(num) {
@@ -77,7 +77,7 @@ function SignupForm() {
         // instead, send directly signup
         const otp = getOtp(6)
         console.log(' ... otp - ', otp)
-        dispatch(signUp(accountType, firstName, lastName, email, password, confirmPassword, otp, navigate))
+        dispatch(http_signup(accountType, firstName, lastName, email, password, confirmPassword, otp, navigate))
 
         // Reset form data
         setFormData({
@@ -107,7 +107,7 @@ function SignupForm() {
     return (
         <div>
           {/* Tab */}
-          <Tab tabData={tabData} field={accountType} setField={setAccountType} />
+          <TabSwitch tabData={tabData} field={accountType} setField={setAccountType} />
 
           {/* Form */}
           <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4">

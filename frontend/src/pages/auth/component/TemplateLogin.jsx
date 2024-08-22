@@ -3,12 +3,13 @@ import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useState} from "react";
-import {login} from "../../../services/operations/authAPI.js";
+import {http_login} from "../../../services/operations/authAPI.js";
 import LogoLinxEdu from "../../../assets/linxedu/logo-linxedu.png";
 import PeopleHomeLeft from "../../../assets/linxedu/people_home_left.png";
 import PeopleHomeRight from "../../../assets/linxedu/people_home_right.png";
 import LoginLeftFailed from "../../../assets/linxedu/login_left_failed.png";
 import LoginRightFailed from "../../../assets/linxedu/login_right_failed.png";
+import {getDashboardPage} from "../../../services/router.js";
 
 function TemplateLogin({title}) {
   const navigate = useNavigate();
@@ -32,12 +33,13 @@ function TemplateLogin({title}) {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    setApiResponse({status: true, msg: ""});
     setLoading(true);
-    dispatch(login(email, password)).then(response => {
+    dispatch(http_login(email, password)).then(response => {
       setLoading(false);
       setApiResponse({...response, msg: appLocale["login"]["loginFailed"]});
       if (response.status) {
-        // navigate("/dashboard/enrolled-courses")
+        navigate(getDashboardPage())
       }
     })
   }
