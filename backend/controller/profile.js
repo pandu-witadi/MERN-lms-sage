@@ -5,10 +5,13 @@ const User = require('../model/user')
 const CourseProgress = require('../model/courseProgress')
 const Course = require('../model/course')
 
-const { uploadImageToCloudinary, deleteResourceFromCloudinary } = require('../util/imageUploader')
+// const { uploadImageToCloudinary, deleteResourceFromCloudinary } = require('../util/imageUploader')
 const { convertSecondsToDuration } = require('../util/secToDuration')
 
+const path = require('path')
+const short = require('short-uuid')
 
+const CF = require('../conf/conf_app')
 
 
 // ================ update Profile ================
@@ -83,7 +86,7 @@ exports.deleteAccount = async (req, res) => {
         }
 
         // delete user profile picture From Cloudinary
-        await deleteResourceFromCloudinary(userDetails.image)
+        // await deleteResourceFromCloudinary(userDetails.image)
 
         // if any student delete their account && enrollded in any course then ,
         // student entrolled in particular course sholud be decreae by one
@@ -163,15 +166,28 @@ exports.updateUserProfileImage = async (req, res) => {
         // validation
         // console.log('profileImage = ', profileImage)
 
-        // upload imga eto cloudinary
-        const image = await uploadImageToCloudinary(profileImage,
-            process.env.FOLDER_NAME, 1000, 1000)
-
+        // upload image to cloudinary
+        // const image = await uploadImageToCloudinary(profileImage, process.env.FOLDER_NAME, 1000, 1000)
         // console.log('image url - ', image)
+        let profileImage_url = null
+        if (profileImage) {
+            let profileImage_filename = "thumbnail-" + short.generate() + '-' + profileImage.name
+            const uploadPath = path.join(__dirname, "..", CF.path.image, profileImage_filename)
+            profileImage_url = profileImage_filename
+            profileImage.mv(uploadPath, function (err) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("... successfully uploaded ... " + profileImage_filename)
+                }
+            })
+        }
+
 
         // update in DB
         const updatedUserDetails = await User.findByIdAndUpdate(userId,
-            { image: image.secure_url },
+            // { image: image.secure_url },
+            { image: profileImage_url },
             { new: true }
         )
             .populate({
@@ -220,6 +236,9 @@ exports.getEnrolledCourses = async (req, res) => {
 
         var SubsectionLength = 0
         for (var i = 0; i < userDetails.courses.length; i++) {
+            // add path
+            userDetails.courses[i]['thumbnail'] = CF.server.path_image + '/' + userDetails.courses[i]['thumbnail']
+
             let totalDurationInSeconds = 0
             SubsectionLength = 0
             for (var j = 0; j < userDetails.courses[i].courseContent.length; j++) {

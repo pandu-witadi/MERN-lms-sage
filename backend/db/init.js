@@ -33,7 +33,7 @@ async function insert_categories(client, dbase, collection, src) {
 }
 
 
-let dbase = 'study-notion'
+let dbase = 'linxedu'
 let collection = 'categories'
 
 let src = [

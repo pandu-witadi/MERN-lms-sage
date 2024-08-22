@@ -7,7 +7,7 @@ const Section = require('../model/section')
 const SubSection = require('../model/subSection')
 const CourseProgress = require('../model/courseProgress')
 
-const { uploadImageToCloudinary, deleteResourceFromCloudinary } = require('../util/imageUploader')
+// const { uploadImageToCloudinary, deleteResourceFromCloudinary } = require('../util/imageUploader')
 const { convertSecondsToDuration } = require("../util/secToDuration")
 
 
@@ -21,13 +21,13 @@ const CF = require('../conf/conf_app')
 exports.createCourse = async (req, res) => {
     try {
         // extract data
-        let { courseName, courseDescription, whatYouWillLearn, price, category, instructions: _instructions, status, tag: _tag } = req.body;
+        let { courseName, courseDescription, whatYouWillLearn, price, category, instructions: _instructions, status, tag: _tag } = req.body
 
         // Convert the tag and instructions from stringified Array to Array
         const tag = JSON.parse(_tag)
         const instructions = JSON.parse(_instructions)
-        console.log("tag = ", tag)
-        console.log("instructions = ", instructions)
+        // console.log("tag = ", tag)
+        // console.log("instructions = ", instructions)
 
         // validation
         if (!courseName || !courseDescription || !whatYouWillLearn ||  !category ||
@@ -39,17 +39,15 @@ exports.createCourse = async (req, res) => {
             })
         }
 
-        if (!status || status === undefined) {
-            status = "Draft";
-        }
+        if (!status || status === undefined)
+            status = "Draft"
 
-        if (!price || price === undefined) {
+        if (!price || price === undefined)
             price = 0
-        }
 
         // check current user is instructor or not , bcoz only instructor can create
         // we have insert user id in req.user , (payload , while auth )
-        const instructorId = req.user.id;
+        const instructorId = req.user.id
 
         // check given category is valid or not
         const categoryDetails = await Category.findById(category)
@@ -60,31 +58,27 @@ exports.createCourse = async (req, res) => {
             })
         }
 
-
-        let thumbnail_url = null
         // When a file has been uploaded
+        let thumbnail_url = null
         if (req.files && Object.keys(req.files).length !== 0) {
             // get thumbnail
             const thumbnail = req.files?.thumbnailImage;
             if (thumbnail) {
                 let thumbnail_filename = "thumbnail-" + short.generate() + '-' + thumbnail.name
-                // Upload path
                 const uploadPath = path.join(__dirname, "..", CF.path.image, thumbnail_filename)
-                console.log(uploadPath)
+                // console.log(uploadPath)
                 thumbnail_url = thumbnail_filename
                 // To save the file using mv() function
                 thumbnail.mv(uploadPath, function (err) {
                     if (err) {
                         console.log(err)
                     } else {
-                        thumbnail_url = thumbnail_filename
                         console.log("... successfully uploaded ... " + thumbnail_url)
                     }
                 })
             }
         }
 
-        console.log(thumbnail_url)
         // create new course - entry in DB
         const newCourse = await Course.create({
             courseName,
@@ -109,7 +103,6 @@ exports.createCourse = async (req, res) => {
             },
             { new: true }
         )
-
 
         // Add the new course to the Categories
         await Category.findByIdAndUpdate(
@@ -188,26 +181,24 @@ exports.getCourseDetails = async (req, res) => {
         const { courseId } = req.body;
 
         // find course details
-        const courseDetails = await Course.findOne({
-            _id: courseId,
+        const courseDetails = await Course.findOne({ _id: courseId })
+        .populate({
+            path: "instructor",
+            populate: {
+                path: "additionalDetails",
+            },
         })
-            .populate({
-                path: "instructor",
-                populate: {
-                    path: "additionalDetails",
-                },
-            })
-            .populate("category")
-            .populate("ratingAndReviews")
+        .populate("category")
+        .populate("ratingAndReviews")
 
-            .populate({
-                path: "courseContent",
-                populate: {
-                    path: "subSection",
-                    select: "-videoUrl",
-                },
-            })
-            .exec()
+        .populate({
+            path: "courseContent",
+            populate: {
+                path: "subSection",
+                select: "-videoUrl",
+            },
+        })
+        .exec()
 
 
         //validation
@@ -235,6 +226,9 @@ exports.getCourseDetails = async (req, res) => {
         })
 
         const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
+
+        courseDetails['thumbnail'] = CF.server.path_image + '/' + courseDetails['thumbnail']
 
         //return response
         return res.status(200).json({
@@ -284,22 +278,18 @@ exports.getFullCourseDetails = async (req, res) => {
             .exec()
 
         if (courseDetails) {
-            // console.log(courseDetails)
+            courseDetails['thumbnail'] = CF.server.path_image + '/' + courseDetails['thumbnail']
             for (let i=0; i<courseDetails['courseContent'].length; i++) {
                 for (let j=0; j<courseDetails['courseContent'][i]['subSection'].length; j++) {
                     courseDetails['courseContent'][i]['subSection'][j]['videoUrl'] = CF.server.path_video + '/' + courseDetails['courseContent'][i]['subSection'][j]['videoUrl']
-                    console.log(courseDetails['courseContent'][i]['subSection'][j])
                 }
-                // console.log(courseDetails['courseContent'][i])
             }
         }
-
 
         let courseProgressCount = await CourseProgress.findOne({
             courseID: courseId,
             userId: userId,
         })
-
         //   console.log("courseProgressCount : ", courseProgressCount)
 
         if (!courseDetails) {
@@ -324,10 +314,8 @@ exports.getFullCourseDetails = async (req, res) => {
                 totalDurationInSeconds += timeDurationInSeconds
             })
         })
-
         const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
 
-        // console.log(courseDetails)
         return res.status(200).json({
             success: true,
             data: {
@@ -361,11 +349,21 @@ exports.editCourse = async (req, res) => {
         if (req.files) {
             // console.log("thumbnail update")
             const thumbnail = req.files.thumbnailImage
-            const thumbnailImage = await uploadImageToCloudinary(
-                thumbnail,
-                process.env.FOLDER_NAME
-            )
-            course.thumbnail = thumbnailImage.secure_url
+            // const thumbnailImage = await uploadImageToCloudinary(
+            //     thumbnail,
+            //     process.env.FOLDER_NAME
+            // )
+            let thumbnail_filename = "thumbnail-" + short.generate() + '-' + thumbnail.name
+            const uploadPath = path.join(__dirname, "..", CF.path.image, thumbnail_filename)
+            thumbnail.mv(uploadPath, function (err) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("... successfully uploaded ... " + thumbnail_url)
+                }
+            })
+            // course.thumbnail = thumbnailImage.secure_url
+            course.thumbnail = thumbnailImage.thumbnail_filename
         }
 
         // Update only the fields that are present in the request body
@@ -385,9 +383,7 @@ exports.editCourse = async (req, res) => {
         //   save data
         await course.save()
 
-        const updatedCourse = await Course.findOne({
-            _id: courseId,
-        })
+        const updatedCourse = await Course.findOne({ _id: courseId })
             .populate({
                 path: "instructor",
                 populate: {
@@ -475,7 +471,7 @@ exports.deleteCourse = async (req, res) => {
         }
 
         // delete course thumbnail From Cloudinary
-        await deleteResourceFromCloudinary(course?.thumbnail)
+        // await deleteResourceFromCloudinary(course?.thumbnail)
 
         // Delete sections and sub-sections
         const courseSections = course.courseContent
@@ -487,7 +483,7 @@ exports.deleteCourse = async (req, res) => {
                 for (const subSectionId of subSections) {
                     const subSection = await SubSection.findById(subSectionId)
                     if (subSection) {
-                        await deleteResourceFromCloudinary(subSection.videoUrl) // delete course videos From Cloudinary
+                        // await deleteResourceFromCloudinary(subSection.videoUrl) // delete course videos From Cloudinary
                     }
                     await SubSection.findByIdAndDelete(subSectionId)
                 }
