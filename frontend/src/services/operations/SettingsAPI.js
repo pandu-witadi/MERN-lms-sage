@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast"
 
-import { setUser } from "../../slices/profileSlice"
+import { setUser } from "../../reducer/slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { settingsEndpoints } from "../apis"
 import { logout } from "./authAPI"
@@ -37,7 +37,7 @@ export function updateUserProfileImage(token, formData) {
       toast.success("Display Picture Updated Successfully")
       dispatch(setUser(response.data.data));
 
-      // below line is must - if not code - then as we refresh the page after changing profile image then old profile image will show 
+      // below line is must - if not code - then as we refresh the page after changing profile image then old profile image will show
       // as we only changes in user(store) not in localStorage
       localStorage.setItem("user", JSON.stringify(response.data.data));
     } catch (error) {
@@ -68,7 +68,7 @@ export function updateProfile(token, formData) {
 
       dispatch(setUser({ ...response.data.updatedUserDetails, image: userImage }))
 
-   
+
       // console.log('DATA = ', data)
       localStorage.setItem("user", JSON.stringify({ ...response.data.updatedUserDetails, image: userImage }));
       toast.success("Profile Updated Successfully")

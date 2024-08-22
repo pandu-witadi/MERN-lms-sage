@@ -8,6 +8,7 @@ const Img = ({ src, className, alt }) => {
             className={`${className} `}
             alt={alt || 'Image'}
             effect='blur'
+            height={500}
             src={src}
         />
     )

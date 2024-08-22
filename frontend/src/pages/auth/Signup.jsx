@@ -1,7 +1,7 @@
 //
 //
-import signupImg from "../assets/Images/signup.png"
-import Template from "../components/core/Auth/Template"
+import signupImg from "../../assets/Images/signup.png"
+import Template from "../../components/core/Auth/Template.jsx"
 
 function Signup() {
     return (

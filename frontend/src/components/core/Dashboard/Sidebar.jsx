@@ -12,7 +12,7 @@ import Loading from './../../common/Loading';
 import { HiMenuAlt1 } from 'react-icons/hi'
 import { IoMdClose } from 'react-icons/io'
 
-import { setOpenSideMenu, setScreenSize } from "../../../slices/sidebarSlice";
+import { setOpenSideMenu, setScreenSize } from "../../../reducer/slices/sidebarSlice";
 
 
 

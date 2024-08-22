@@ -5,8 +5,8 @@ import {useNavigate, useParams} from "react-router-dom"
 
 import ReactPlayer from 'react-player'
 import {markLectureAsComplete} from "../../../services/operations/courseDetailsAPI"
-import {updateCompletedLectures} from "../../../slices/viewCourseSlice"
-import {setCourseViewSidebar} from "../../../slices/sidebarSlice"
+import {updateCompletedLectures} from "../../../reducer/slices/viewCourseSlice"
+import {setCourseViewSidebar} from "../../../reducer/slices/sidebarSlice"
 
 import IconBtn from "../../common/IconBtn"
 

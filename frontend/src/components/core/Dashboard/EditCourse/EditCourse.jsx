@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 
 import { getFullDetailsOfCourse, } from "../../../../services/operations/courseDetailsAPI"
-import { setCourse, setEditCourse } from "../../../../slices/courseSlice"
+import { setCourse, setEditCourse } from "../../../../reducer/slices/courseSlice"
 import RenderSteps from "../AddCourse/RenderSteps"
 import Loading from './../../../common/Loading';
 

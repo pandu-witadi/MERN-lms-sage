@@ -8,7 +8,7 @@ import {
   createSubSection,
   updateSubSection,
 } from "../../../../../services/operations/courseDetailsAPI"
-import { setCourse } from "../../../../../slices/courseSlice"
+import { setCourse } from "../../../../../reducer/slices/courseSlice"
 import IconBtn from "../../../../common/IconBtn"
 import Upload from "../Upload"
 
@@ -165,7 +165,7 @@ export default function SubSectionModal({ modalData, setModalData, add = false, 
               </span>
             )}
           </div>
-          
+
           {/* Lecture Description */}
           <div className="flex flex-col space-y-2">
             <label className="text-sm text-richblack-5" htmlFor="lectureDesc">

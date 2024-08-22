@@ -6,7 +6,7 @@ import { MdNavigateNext } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 
 import { addCourseDetails, editCourseDetails, fetchCourseCategories } from "../../../../../services/operations/courseDetailsAPI"
-import { setCourse, setStep } from "../../../../../slices/courseSlice"
+import { setCourse, setStep } from "../../../../../reducer/slices/courseSlice"
 import { COURSE_STATUS } from "../../../../../utils/constants"
 import IconBtn from "../../../../common/IconBtn"
 import Upload from "../Upload"
@@ -33,7 +33,7 @@ export default function CourseInformationForm() {
       }
       setLoading(false)
     }
-    // if form is in edit mode 
+    // if form is in edit mode
     // It will add value in input field
     if (editCourse) {
       // console.log("editCourse ", editCourse)
@@ -123,7 +123,7 @@ export default function CourseInformationForm() {
       return
     }
 
-    // user has visted first time to step 1 
+    // user has visted first time to step 1
     const formData = new FormData()
     formData.append("courseName", data.courseTitle)
     formData.append("courseDescription", data.courseShortDesc)

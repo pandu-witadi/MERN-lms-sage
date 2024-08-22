@@ -6,7 +6,7 @@ import { MdNavigateNext } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 
 import { createSection, updateSection } from "../../../../../services/operations/courseDetailsAPI"
-import { setCourse, setEditCourse, setStep, } from "../../../../../slices/courseSlice"
+import { setCourse, setEditCourse, setStep, } from "../../../../../reducer/slices/courseSlice"
 
 import IconBtn from "../../../../common/IconBtn"
 import NestedView from "./NestedView"

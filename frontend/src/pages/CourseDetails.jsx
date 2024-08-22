@@ -16,7 +16,7 @@ import {buyCourse} from "../services/operations/studentFeaturesAPI"
 
 import GetAvgRating from "../utils/avgRating"
 import {ACCOUNT_TYPE} from './../utils/constants';
-import {addToCart} from "../slices/cartSlice"
+import {addToCart} from "../reducer/slices/cartSlice"
 
 import {GiReturnArrow} from 'react-icons/gi'
 import {MdOutlineVerified} from 'react-icons/md'

@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 
-import useOnClickOutside from "../../../hooks/useOnClickOutside"
+import useOnClickOutside from "../../../utils/hooks/useOnClickOutside"
 import Img from './../../common/Img';
 
 import { logout } from "../../../services/operations/authAPI"

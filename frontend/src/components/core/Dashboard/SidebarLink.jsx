@@ -2,8 +2,8 @@ import * as Icons from "react-icons/vsc"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink, matchPath, useLocation } from "react-router-dom"
 
-import { resetCourseState } from "../../../slices/courseSlice"
-import { setOpenSideMenu } from "../../../slices/sidebarSlice"
+import { resetCourseState } from "../../../reducer/slices/courseSlice"
+import { setOpenSideMenu } from "../../../reducer/slices/sidebarSlice"
 
 
 

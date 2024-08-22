@@ -10,9 +10,9 @@ import {
   setCourseSectionData,
   setEntireCourseData,
   setTotalNoOfLectures,
-} from "../slices/viewCourseSlice"
+} from "../reducer/slices/viewCourseSlice"
 
-import { setCourseViewSidebar } from "../slices/sidebarSlice"
+import { setCourseViewSidebar } from "../reducer/slices/sidebarSlice"
 
 
 

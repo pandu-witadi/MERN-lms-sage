@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux"
 import {useLocation, useNavigate, useParams} from "react-router-dom"
 
 import IconBtn from './../../common/IconBtn';
-import {setCourseViewSidebar} from "../../../slices/sidebarSlice"
+import {setCourseViewSidebar} from "../../../reducer/slices/sidebarSlice"
 
 import {BsChevronDown} from "react-icons/bs"
 import {IoIosArrowBack} from "react-icons/io"

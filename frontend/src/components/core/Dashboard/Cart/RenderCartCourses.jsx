@@ -3,7 +3,7 @@ import { RiDeleteBin6Line } from "react-icons/ri"
 import ReactStars from "react-rating-stars-component"
 import { useDispatch, useSelector } from "react-redux"
 
-import { removeFromCart } from "../../../../slices/cartSlice"
+import { removeFromCart } from "../../../../reducer/slices/cartSlice"
 import Img from './../../../common/Img';
 
 export default function RenderCartCourses() {

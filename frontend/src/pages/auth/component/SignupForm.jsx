@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom"
 // import { sendOtp } from "../../../services/operations/authAPI"
 import { setSignupData } from "../../../reducer/slices/authSlice"
 import { ACCOUNT_TYPE } from "../../../utils/constants"
-import Tab from "../../common/Tab"
+import Tab from "../../../components/common/Tab.jsx"
 
 import { sendOtp, signUp } from "../../../services/operations/authAPI"
 

@@ -1,7 +1,7 @@
 import courseTest from './data/course-test.js'
 import {BsChevronDown} from "react-icons/bs";
 import {useState} from "react";
-import {setCourseViewSidebar} from "../slices/sidebarSlice.js";
+import {setCourseViewSidebar} from "../reducer/slices/sidebarSlice.js";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
