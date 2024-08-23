@@ -5,8 +5,7 @@ import {
 } from "react-router-dom"
 import {useSelector} from "react-redux"
 
-import {LoginUser, SignUp, Dashboard, Instructor} from "./pages";
-import Home from "./pages/Home"
+import {LoginUser, SignUp, Dashboard, Instructor, DashboardInstructor} from "./pages";
 import About from "./pages/About";
 import PageNotFound from "./pages/PageNotFound";
 import CourseDetails from './pages/CourseDetails';
@@ -29,24 +28,25 @@ import VideoDetails from './components/core/ViewCourse/VideoDetails'
 
 import {ACCOUNT_TYPE} from './utils/constants'
 import CourseSectionPlayerTest from "./test/CourseSectionPlayerTest.jsx";
-import Navbar from "./components/common/Navbar"
-import {getRouterPath, PathLogin, PathSignUp, PathUserDashboard} from "./services/router.js";
+import {
+    getRouterPath,
+    PathDashboard,
+    PathInstructorAddCourses,
+    PathInstructorCourses,
+    PathLogin,
+    PathProfile, PathSettings,
+    PathSignUp
+} from "./services/router.js";
+import {WebLoading} from "./components/base";
 
 function App() {
 
     const {user} = useSelector((state) => state.profile)
     return (
-        <div data-theme="light" className="w-screen min-h-screen flex flex-col">
-            {/*<Navbar/>*/}
-
+        <div data-theme="light" className="w-screen h-screen flex flex-col">
             <Suspense
                 fallback={
-                    <div className="pt-3 h-full text-center">
-                        <span className="loading loading-bars loading-xs"></span>
-                        <span className="loading loading-bars loading-sm"></span>
-                        <span className="loading loading-bars loading-md"></span>
-                        <span className="loading loading-bars loading-lg"></span>
-                    </div>
+                    <WebLoading/>
                 }
             >
                 <Routes>
@@ -62,21 +62,38 @@ function App() {
                         </OpenRoute>
                     }/>
 
-                    <Route path="/" element={<Home/>}/>
                     <Route path="/about" element={<About/>}/>
                     <Route path="catalog/:catalogName" element={<Catalog/>}/>
                     <Route path="courses/:courseId" element={<CourseDetails/>}/>
 
+                    {/* Route only for Instructors */}
+                    {/* add course , MyCourses, EditCourse*/}
+                    {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+                      <Route element={
+                          <ProtectedRoute>
+                              <DashboardInstructor/>
+                          </ProtectedRoute>
+                      }>
+                          <>
+                              <Route path={"/"} element={<Instructor/>}/>
+                              <Route path={getRouterPath(PathDashboard)} element={<Instructor/>}/>
+                              <Route path={getRouterPath(PathInstructorAddCourses)} element={<AddCourse/>}/>
+                              <Route path={getRouterPath(PathInstructorCourses)} element={<MyCourses/>}/>
+                              <Route path={getRouterPath(PathProfile)} element={<MyProfile/>}/>
+                              <Route path={getRouterPath(PathSettings)} element={<Settings/>}/>
+                              <Route path="dashboard/edit-course/:courseId" element={<EditCourse/>}/>
+                          </>
+                      </Route>
+                    )}
 
-                    {/* Dashboard */}
+                    <Route path="/" element={<LoginUser/>}/>
+
+                    {user?.accountType === ACCOUNT_TYPE.STUDENT && (
                     <Route element={
                         <ProtectedRoute>
                             <Dashboard/>
                         </ProtectedRoute>
                     }>
-                        <Route path="dashboard/my-profile" element={<MyProfile/>}/>
-                        <Route path="dashboard/Settings" element={<Settings/>}/>
-
                         {/* Route only for Students */}
                         {/* cart , EnrolledCourses */}
                         {user?.accountType === ACCOUNT_TYPE.STUDENT && (
@@ -86,20 +103,8 @@ function App() {
                                 <Route path="dashboard/enrolled-courses" element={<EnrolledCourses/>}/>
                             </>
                         )}
-
-                        {/* Route only for Instructors */}
-                        {/* add course , MyCourses, EditCourse*/}
-                        {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
-                            <>
-                                <Route path={getRouterPath(PathUserDashboard)} element={<Instructor/>}/>
-                                <Route path="dashboard/instructor" element={<Instructor/>}/>
-                                <Route path="dashboard/add-course" element={<AddCourse/>}/>
-                                <Route path="dashboard/my-courses" element={<MyCourses/>}/>
-                                <Route path="dashboard/edit-course/:courseId" element={<EditCourse/>}/>
-                            </>
-                        )}
                     </Route>
-
+                    )}
 
                     {/* For the watching course lectures */}
                     <Route

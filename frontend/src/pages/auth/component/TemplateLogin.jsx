@@ -9,7 +9,7 @@ import PeopleHomeLeft from "../../../assets/linxedu/people_home_left.png";
 import PeopleHomeRight from "../../../assets/linxedu/people_home_right.png";
 import LoginLeftFailed from "../../../assets/linxedu/login_left_failed.png";
 import LoginRightFailed from "../../../assets/linxedu/login_right_failed.png";
-import {getDashboardPage} from "../../../services/router.js";
+import {getRouterPath, PathDashboard} from "../../../services/router.js";
 
 function TemplateLogin({title}) {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function TemplateLogin({title}) {
       setLoading(false);
       setApiResponse({...response, msg: appLocale["login"]["loginFailed"]});
       if (response.status) {
-        navigate(getDashboardPage())
+        navigate(getRouterPath(PathDashboard))
       }
     })
   }
@@ -103,9 +103,9 @@ function TemplateLogin({title}) {
                 className="absolute right-3 top-[20px] z-[10] cursor-pointer"
               >
           {showPassword ? (
-            <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF"/>
+            <AiOutlineEyeInvisible fontSize={24}/>
           ) : (
-            <AiOutlineEye fontSize={24} fill="#AFB2BF"/>
+            <AiOutlineEye fontSize={24}/>
           )}
         </span>
             </label>
@@ -113,7 +113,7 @@ function TemplateLogin({title}) {
               {appLocale["login"]["emailInfo"]}
             </div>
 
-            <button className="btn btn-lg btn-warning rounded-[1.0rem] bg-yellow-25 border-yellow-25" onClick={handleOnSubmit}>
+            <button className="btn btn-lg btn-warning rounded-[1.0rem] bg-app-yellow border-app-yellow" onClick={handleOnSubmit}>
               {loading && <span className="loading loading-spinner mr-2"></span>}
               Login
             </button>

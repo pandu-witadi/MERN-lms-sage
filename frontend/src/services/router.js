@@ -14,34 +14,34 @@ function getRouterApi(key, param = {}) {
 
 const PathLogin = "PathLogin";
 const PathSignUp = "PathSignUp";
-const PathUserDashboard = "PathUserDashboard";
+const PathDashboard = "PathDashboard";
+const PathSettings = "PathSettings";
+const PathProfile = "PathProfile";
+const PathInstructorCourses = "PathInstructorCourses";
+const PathInstructorAddCourses = "PathInstructorAddCourses";
 
-const PathInstructorDashboard = "PathInstructorDashboard";
 function getRouterPath(key, prefix = "/", param = {}) {
     let routers = {
         [PathLogin]: prefix + "login",
         [PathSignUp]: prefix + "signup",
-        [PathUserDashboard]: prefix + "dashboard",
-        [PathInstructorDashboard]: prefix + "dashboard"
+        [PathDashboard]: prefix + "dashboard",
+        [PathSettings]: prefix + "settings",
+        [PathProfile]: prefix + "profile",
+        [PathInstructorCourses]: prefix + "courses",
+        [PathInstructorAddCourses]: prefix + "courses-add",
     }
     return (routers[key]);
 }
 
-function getDashboardPage(userType="Student") {
-    // ['Admin', 'Instructor', 'Student']
-    if(userType === ACCOUNT_TYPE.INSTRUCTOR) {
-        return(getRouterPath(PathUserDashboard));
-    }
-    else {
-        return(getRouterPath(PathUserDashboard));
-    }
-}
 export {
     ApiLogin,
     ApiSignUp,
     PathLogin,
     PathSignUp,
-    PathUserDashboard,
-    PathInstructorDashboard,
-    getRouterApi, getRouterPath, getDashboardPage
+    PathDashboard,
+    PathSettings,
+    PathProfile,
+    PathInstructorCourses,
+    PathInstructorAddCourses,
+    getRouterApi, getRouterPath
 }

@@ -6,11 +6,11 @@ import {useDispatch} from "react-redux";
 import {useState} from "react";
 import {ACCOUNT_TYPE} from "../../../utils/constants.js";
 import {http_signup} from "../../../services/operations/authAPI"
-import TabSwitch from "../../../components/common/TabSwitch.jsx";
 import {setSignupData} from "../../../reducer/slices/authSlice.js";
 import {getOtp} from "../../../utils/utils.js";
 import toast from "react-hot-toast";
 import {getRouterPath, PathLogin} from "../../../services/router.js";
+import {TabSwitch} from "../../../components/base";
 
 function TemplateSignUp({title}) {
     const navigate = useNavigate()
@@ -94,7 +94,7 @@ function TemplateSignUp({title}) {
                         className={'max-h-[90px]'}
                     />
                     <div className="text-[1.6rem] md:text-[1.7rem] font-bold text-center mt-3">{appLocale['byCreator']}</div>
-                    <div className="text-[1.8rem] md:text-[2.0rem] font-bold text-center mt-3 text-info">{title}</div>
+                    <div className="text-[1.8rem] md:text-[2.0rem] font-bold text-center mt-3 text-app-primary">{title}</div>
                     <div className="max-w-[450px] md:mx-0">
                         <TabSwitch tabData={tabData} field={accountType} setField={setAccountType}/>
                         <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4">
@@ -102,7 +102,7 @@ function TemplateSignUp({title}) {
                             <div className="w-full">
                                 <label>
                                     <p className="mb-1 text-[0.875rem] leading-[1.375rem]">
-                                        First Name <sup className="text-pink-200">*</sup>
+                                        First Name <sup className="text-app-error">*</sup>
                                     </p>
                                     <input
                                         required
@@ -119,7 +119,7 @@ function TemplateSignUp({title}) {
                             <div className="w-full">
                                 <label>
                                     <p className="mb-1 text-[0.875rem] leading-[1.375rem]">
-                                        Last Name <sup className="text-pink-200">*</sup>
+                                        Last Name <sup className="text-app-error">*</sup>
                                     </p>
                                     <input
                                         required
@@ -136,7 +136,7 @@ function TemplateSignUp({title}) {
                             {/* Email Address */}
                             <div className="w-full">
                                 <p className="mb-1 text-[0.875rem] leading-[1.375rem]">
-                                    Email Address <sup className="text-pink-200">*</sup>
+                                    Email Address <sup className="text-app-error">*</sup>
                                 </p>
                                 <input
                                     required
@@ -153,7 +153,7 @@ function TemplateSignUp({title}) {
                             <div className="flex gap-x-4">
                                 <label className="relative">
                                     <p className="mb-1 text-[0.875rem] leading-[1.375rem]">
-                                        Create Password <sup className="text-pink-200">*</sup>
+                                        Create Password <sup className="text-app-error">*</sup>
                                     </p>
                                     <input
                                         required
@@ -177,7 +177,7 @@ function TemplateSignUp({title}) {
                                 {/* Confirm Password  */}
                                 <label className="relative">
                                     <p className="mb-1 text-[0.875rem] leading-[1.375rem]">
-                                        Confirm Password <sup className="text-pink-200">*</sup>
+                                        Confirm Password <sup className="text-app-error">*</sup>
                                     </p>
                                     <input
                                         required
@@ -200,9 +200,9 @@ function TemplateSignUp({title}) {
                             </div>
 
                             {
-                                !apiResponse.status && (<div className="text-error text-center">{apiResponse.msg}</div>)
+                                !apiResponse.status && (<div className="text-app-error text-center">{apiResponse.msg}</div>)
                             }
-                            <button className="btn btn-md btn-warning rounded-[1.0rem] bg-yellow-25 border-yellow-25" onClick={handleOnSubmit}>
+                            <button className="btn btn-md btn-warning rounded-[1.0rem] bg-app-yellow border-app-yellow" onClick={handleOnSubmit}>
                                 {loading && <span className="loading loading-spinner mr-2"></span>}
                                 Create Account
                             </button>

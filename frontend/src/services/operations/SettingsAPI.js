@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast"
 import { setUser } from "../../reducer/slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { settingsEndpoints } from "../apis"
-import { logout } from "./authAPI"
+import {http_logout} from "./authAPI"
 
 const {
   UPDATE_DISPLAY_PICTURE_API,
@@ -115,7 +115,7 @@ export function deleteProfile(token, navigate) {
         throw new Error(response.data.message)
       }
       toast.success("Profile Deleted Successfully")
-      dispatch(logout(navigate))
+      dispatch(http_logout(navigate))
     } catch (error) {
       console.log("DELETE_PROFILE_API API ERROR............", error)
       toast.error("Could Not Delete Profile")

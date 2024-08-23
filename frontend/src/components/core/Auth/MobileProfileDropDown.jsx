@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import useOnClickOutside from "../../../utils/hooks/useOnClickOutside"
 import Img from './../../common/Img';
 
-import { logout } from "../../../services/operations/authAPI"
+import { http_logout } from "../../../services/operations/authAPI"
 
 
 import { VscDashboard, VscSignOut } from "react-icons/vsc"
@@ -126,7 +126,7 @@ export default function MobileProfileDropDown() {
 
                     <div
                         onClick={() => {
-                            dispatch(logout(navigate))
+                            dispatch(http_logout(navigate))
                             setOpen(false)
                         }}
                         className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100"

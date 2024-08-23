@@ -8,8 +8,6 @@ import InstructorChart from "../../components/core/Dashboard/InstructorDashboard
 import Img from '../../components/common/Img';
 import {coinSymbol} from "../../constant/constant.js";
 
-
-
 export default function Instructor() {
   const { token } = useSelector((state) => state.auth)
   const { user } = useSelector((state) => state.profile)

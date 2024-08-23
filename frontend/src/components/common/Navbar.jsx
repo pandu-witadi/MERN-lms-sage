@@ -7,10 +7,8 @@ import {fetchCourseCategories} from './../../services/operations/courseDetailsAP
 
 import ProfileDropDown from '../core/Auth/ProfileDropDown'
 import MobileProfileDropDown from '../core/Auth/MobileProfileDropDown'
-
-import {AiOutlineShoppingCart} from "react-icons/ai"
 import {MdKeyboardArrowDown} from "react-icons/md"
-import WebLogo from "./WebLogo.jsx";
+import WebLogo from "../base/WebLogo.jsx";
 
 
 const Navbar = () => {

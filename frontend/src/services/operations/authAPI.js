@@ -1,5 +1,3 @@
-//
-//
 import {toast} from "react-hot-toast"
 
 import {setLoading, setToken} from "../../reducer/slices/authSlice"
@@ -16,37 +14,6 @@ const {
   RESETPASSTOKEN_API,
   RESETPASSWORD_API,
 } = endpoints
-
-// ================ send Otp ================
-export function sendOtp(email, navigate) {
-  return async (dispatch) => {
-
-    const toastId = toast.loading("Loading...")
-    dispatch(setLoading(true))
-
-    try {
-      const response = await apiConnector("POST", SENDOTP_API, {
-        email,
-        checkUserPresent: true,
-      })
-      // console.log("SENDOTP API RESPONSE ---> ", response)
-
-      // console.log(response.data.success)
-      if (!response.data.success) {
-        throw new Error(response.data.message)
-      }
-
-      navigate("/verify-email")
-      toast.success("OTP Sent Successfully")
-    } catch (error) {
-      console.log("SENDOTP API ERROR --> ", error)
-      toast.error(error.response.data?.message)
-      // toast.error("Could Not Send OTP")
-    }
-    dispatch(setLoading(false))
-    toast.dismiss(toastId)
-  }
-}
 
 // ================ sign Up ================
 export function http_signup(accountType, firstName, lastName, email, password, confirmPassword, otp, navigate) {
@@ -103,6 +70,17 @@ export function http_login(email, password) {
   }
 }
 
+// ================ Logout ================
+export function http_logout(navigate) {
+  return (dispatch) => {
+    dispatch(setToken(null))
+    dispatch(setUser(null))
+    dispatch(resetCart())
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    navigate("/")
+  }
+}
 
 // ================ get Password Reset Token ================
 export function getPasswordResetToken(email, setEmailSent) {
@@ -163,16 +141,33 @@ export function resetPassword(password, confirmPassword, token, navigate) {
   }
 }
 
+// ================ send Otp ================
+export function sendOtp(email, navigate) {
+  return async (dispatch) => {
 
-// ================ Logout ================
-export function logout(navigate) {
-  return (dispatch) => {
-    dispatch(setToken(null))
-    dispatch(setUser(null))
-    dispatch(resetCart())
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    toast.success("Logged Out")
-    navigate("/")
+    const toastId = toast.loading("Loading...")
+    dispatch(setLoading(true))
+
+    try {
+      const response = await apiConnector("POST", SENDOTP_API, {
+        email,
+        checkUserPresent: true,
+      })
+      // console.log("SENDOTP API RESPONSE ---> ", response)
+
+      // console.log(response.data.success)
+      if (!response.data.success) {
+        throw new Error(response.data.message)
+      }
+
+      navigate("/verify-email")
+      toast.success("OTP Sent Successfully")
+    } catch (error) {
+      console.log("SENDOTP API ERROR --> ", error)
+      toast.error(error.response.data?.message)
+      // toast.error("Could Not Send OTP")
+    }
+    dispatch(setLoading(false))
+    toast.dismiss(toastId)
   }
 }

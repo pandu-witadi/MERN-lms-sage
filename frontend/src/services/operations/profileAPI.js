@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast"
 import { setLoading, setUser } from "../../reducer/slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { profileEndpoints } from "../apis"
-import { logout } from "./authAPI"
+import { http_logout } from "./authAPI"
 
 const { GET_USER_DETAILS_API, GET_USER_ENROLLED_COURSES_API, GET_INSTRUCTOR_DATA_API } = profileEndpoints
 
@@ -25,7 +25,7 @@ export function getUserDetails(token, navigate) {
         : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.data.firstName} ${response.data.data.lastName}`
       dispatch(setUser({ ...response.data.data, image: userImage }))
     } catch (error) {
-      dispatch(logout(navigate))
+      dispatch(http_logout(navigate))
       console.log("GET_USER_DETAILS API ERROR............", error)
       toast.error("Could Not Get User Details")
     }
