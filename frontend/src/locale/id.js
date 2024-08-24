@@ -18,7 +18,30 @@ const localeId = {
   },
   btn: {
     logout: "Logout",
-    cancel: "Batal"
+    cancel: "Batal",
+    select: "Pilih",
+    upload: "Upload",
+    uploading: "Uploading..."
+  },
+  profile: {
+    editProfile: "Edit Profile",
+    changePicLabel: "Ubah gambar profile",
+    pleaseAddImage: "Silahkan pilih gambar terlebih dahulu",
+    successUpdateAvatar: "Sukses mengubah avatar",
+    successUpdateProfile: "Sukses mengubah profile",
+    avatar: "Avatar",
+    profileInfo: "Informasi Profile",
+    firstName: "Nama Depan",
+    firstNamePlaceholder: "Tuliskan nama depan",
+    lastName: "Nama Belakang",
+    lastNamePlaceholder: "Tuliskan nama belakang",
+    dateOfBirth: "Tanggal Lahir",
+    gender: "Jenis Kelamin",
+    contactNumber: "Nomor Kontak",
+    contactNumberPlaceholder: "Tuliskan nomor kontak",
+    about: "About",
+    aboutPlaceholder: "Tuliskan informasi tambahan",
+    genderList: [{key: "male", label: "Pria"}, {key: "female", label: "Wanita"}]
   }
 }
 export default localeId

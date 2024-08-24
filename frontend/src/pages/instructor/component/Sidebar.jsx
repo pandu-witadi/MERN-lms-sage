@@ -1,14 +1,9 @@
-import {useEffect, useState} from "react"
-import {VscSignOut} from "react-icons/vsc"
+import {useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux"
-import {useNavigate} from "react-router-dom"
-
-import {http_logout} from "../../../services/operations/authAPI"
 import {HiMenuAlt1} from 'react-icons/hi'
 import {IoMdClose} from 'react-icons/io'
-
 import {setOpenSideMenu, setScreenSize} from "../../../reducer/slices/sidebarSlice";
-import {WebLoading, ConfirmationModal, SidebarLink} from "../../../components/base/index.jsx";
+import {WebLoading, SidebarLink} from "../../../components/base/index.jsx";
 import {appLocale} from "../../../locale/index.js";
 import {ACCOUNT_TYPE} from "../../../utils/constants.js";
 import {getRouterPath, PathDashboard, PathInstructorAddCourses, PathInstructorCourses} from "../../../services/router.js";
@@ -17,10 +12,8 @@ export default function Sidebar() {
   const {user, loading: profileLoading} = useSelector((state) => state.profile)
   const {loading: authLoading} = useSelector((state) => state.auth)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   // to keep track of confirmation modal
-  const [confirmationModal, setConfirmationModal] = useState(null)
   const {openSideMenu, screenSize} = useSelector((state) => state.sidebar)
 
   const sidebarLinks = [
@@ -79,10 +72,9 @@ export default function Sidebar() {
         }
       </div>
 
-
       {
         openSideMenu &&
-        <div className={`flex min-w-[250px] flex-col border-r-[1px] border-app-border ${openSideMenu ? "py-10" : ""}`}>
+        <div className={`flex sm:min-w-[250px] min-w-[190px] flex-col border-r-[1px] border-app-border ${openSideMenu ? "py-10" : ""}`}>
           <div className="flex flex-col mt-6">
             {sidebarLinks.map((link) => {
               if (link.type && user?.accountType !== link.type) return null
@@ -93,9 +85,6 @@ export default function Sidebar() {
           </div>
         </div>
       }
-
-
-      {confirmationModal && <ConfirmationModal modalData={confirmationModal}/>}
     </>
   )
 }

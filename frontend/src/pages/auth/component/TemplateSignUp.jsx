@@ -202,7 +202,7 @@ function TemplateSignUp({title}) {
                             {
                                 !apiResponse.status && (<div className="text-app-error text-center">{apiResponse.msg}</div>)
                             }
-                            <button className="btn btn-md btn-warning rounded-[1.0rem] bg-app-yellow border-app-yellow" onClick={handleOnSubmit}>
+                            <button className="btn btn-md btn-warning rounded-[1.0rem] bg-app-base border-app-base" onClick={handleOnSubmit}>
                                 {loading && <span className="loading loading-spinner mr-2"></span>}
                                 Create Account
                             </button>

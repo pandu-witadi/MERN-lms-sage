@@ -13,6 +13,39 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+.my-side-bar {
+  @apply sm:text-lg text-base
+}
+.my-label {
+  @apply sm:text-base text-sm
+}
+.my-form-label {
+  @apply sm:text-base text-sm opacity-80
+}
+.my-form-style {
+  @apply input sm:input-md input-sm input-bordered sm:rounded-2xl rounded-xl
+}
+.my-form-style-error {
+  @apply -mt-1 text-[12px] text-error
+}
+.my-page-title {
+  @apply mb-5 text-3xl font-medium font-boogaloo text-center sm:text-left
+}
+.my-card-title {
+  @apply sm:text-2xl text-xl font-bold mb-4
+}
+.my-dialog-title {
+  @apply sm:text-2xl text-lg font-semibold
+}
+.my-dialog-desc {
+  @apply mt-3 mb-5 sm:text-base text-sm opacity-70
+}
+.my-btn-confirm {
+  @apply btn sm:btn-md btn-sm btn-warning bg-app-base border-app-base
+}
+.my-btn-cancel {
+  @apply btn sm:btn-md btn-sm btn-active
+}
 
 /* use in homePage */
 .homepage_bg {
@@ -73,11 +106,11 @@ body {
 
 
 .lable-style {
-  @apply text-[14px] text-richblack-5;
+  @apply text-[14px];
 }
 
 .form-style {
-  @apply rounded-lg bg-richblack-700 p-3 text-[16px] leading-[24px] text-richblack-5 shadow-[0_1px_0_0] shadow-white/30 placeholder:text-richblack-400 focus:outline-none;
+  @apply rounded-lg p-3 text-[16px] leading-[24px] focus:outline-none bordered;
 }
 
 .section_heading {

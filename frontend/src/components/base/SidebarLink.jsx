@@ -38,7 +38,7 @@ export default function SidebarLink({link, iconName}) {
 
       <div className="flex items-center gap-x-2">
         <Icon className="text-lg"/>
-        <span className={"text-lg"}>{link.name}</span>
+        <span className={"my-side-bar"}>{link.name}</span>
       </div>
 
     </NavLink>

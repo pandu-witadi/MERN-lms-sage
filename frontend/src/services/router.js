@@ -4,10 +4,16 @@ const APP_BASE_URL = import.meta.env.VITE_APP_BASE_URL
 
 const ApiLogin = "ApiLogin";
 const ApiSignUp = "ApiSignUp";
+const ApiProfileGet = "ApiProfileGet";
+const ApiProfileUpdate = "ApiProfileUpdate";
+const ApiProfileUpdateImage = "ApiProfileUpdateImage";
 function getRouterApi(key, param = {}) {
     let routers = {
         [ApiLogin]: APP_BASE_URL + "/auth/login",
-        [ApiSignUp]: APP_BASE_URL + "/auth/signup"
+        [ApiSignUp]: APP_BASE_URL + "/auth/signup",
+        [ApiProfileGet]: APP_BASE_URL + "/profile/getUserDetails",
+        [ApiProfileUpdate]: APP_BASE_URL + "/profile/updateProfile",
+        [ApiProfileUpdateImage]: APP_BASE_URL + "/profile/updateUserProfileImage",
     }
     return (routers[key]);
 }
@@ -36,6 +42,9 @@ function getRouterPath(key, prefix = "/", param = {}) {
 export {
     ApiLogin,
     ApiSignUp,
+    ApiProfileGet,
+    ApiProfileUpdate,
+    ApiProfileUpdateImage,
     PathLogin,
     PathSignUp,
     PathDashboard,

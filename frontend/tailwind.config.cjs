@@ -6,22 +6,21 @@ module.exports = {
   ],
   theme: {
     themes: ["light", "dark", "cupcake"],
-    // fontFamily: {
-    //   inter: ["Inter", "sans-serif"],
-    //   "edu-sa": ["Edu SA Beginner", "cursive"],
-    //   mono: ["Roboto Mono", "monospace"],
-    //   boogaloo: ['Boogaloo', "sans-serif"]
-    // },
+    fontFamily: {
+      inter: ["Inter", "sans-serif"],
+      mono: ["Roboto Mono", "monospace"],
+      boogaloo: ['Boogaloo', "sans-serif"]
+    },
     colors: {
       white: "#fff",
       black: "#000",
       transparent: "#ffffff00",
-      "app-yellow": "#F7D634",
+      "app-base": "#F7D634",
+      "app-border": "#F7D634",
       "app-primary": "#275DAD",
       "app-secondary": "#B4A0E5",
       "app-tertiary": "#2CA6A4",
       "app-error": "#F97068",
-      "app-border": "#F7D634",
       richblack: {
         5: "#F1F2FF",
         25: "#DBDDEA",

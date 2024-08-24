@@ -53,7 +53,7 @@ exports.updateProfile = async (req, res) => {
         // return response
         res.status(200).json({
             success: true,
-            updatedUserDetails,
+            data: updatedUserDetails,
             message: 'Profile updated successfully'
         })
     }
@@ -187,7 +187,7 @@ exports.updateUserProfileImage = async (req, res) => {
         // update in DB
         const updatedUserDetails = await User.findByIdAndUpdate(userId,
             // { image: image.secure_url },
-            { image: profileImage_url },
+            { image: CF.server.path_image + "/" + profileImage_url },
             { new: true }
         )
             .populate({

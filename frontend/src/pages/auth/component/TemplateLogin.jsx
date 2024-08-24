@@ -113,7 +113,7 @@ function TemplateLogin({title}) {
               {appLocale["login"]["emailInfo"]}
             </div>
 
-            <button className="btn btn-lg btn-warning rounded-[1.0rem] bg-app-yellow border-app-yellow" onClick={handleOnSubmit}>
+            <button className="btn btn-lg btn-warning rounded-[1.0rem] bg-app-base border-app-base" onClick={handleOnSubmit}>
               {loading && <span className="loading loading-spinner mr-2"></span>}
               Login
             </button>

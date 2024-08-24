@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { FiUpload } from "react-icons/fi"
 import { useDispatch, useSelector } from "react-redux"
 
-import { updateUserProfileImage } from "../../../../services/operations/SettingsAPI"
+import { http_profile_update_image } from "../../../../services/operations/SettingsAPI"
 import IconBtn from "../../../common/IconBtn"
 import Img from './../../../common/Img';
 
@@ -47,7 +47,7 @@ export default function ChangeProfilePicture() {
       const formData = new FormData()
       formData.append("profileImage", profileImage)
 
-      dispatch(updateUserProfileImage(token, formData)).then(() => {
+      dispatch(http_profile_update_image(token, formData)).then(() => {
         setLoading(false)
       })
     } catch (error) {
