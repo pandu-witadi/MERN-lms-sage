@@ -73,7 +73,7 @@ export default function ChangeProfilePicture() {
             <div className="card bordered p-4">
                 <div className="my-card-title">{appLocale["profile"]["avatar"]}</div>
                 <div className="flex items-center gap-x-4">
-                    <div className="avatar rounded-full bg-app-yellow shadow w-[96px] bordered border-2 border-app-yellow mr-3">
+                    <div className="avatar rounded-full bg-app-yellow shadow w-[96px] bordered border-2 border-app-base mr-3">
                         <img
                             src={previewSource ? previewSource : ((user.image === "") ? UserIcon : user?.image)}
                             alt={`profile-${user?.firstName}`}

@@ -4,16 +4,20 @@ const APP_BASE_URL = import.meta.env.VITE_APP_BASE_URL
 
 const ApiLogin = "ApiLogin";
 const ApiSignUp = "ApiSignUp";
+const ApiChangePassword = "ApiChangePassword";
 const ApiProfileGet = "ApiProfileGet";
 const ApiProfileUpdate = "ApiProfileUpdate";
 const ApiProfileUpdateImage = "ApiProfileUpdateImage";
+const ApiProfileDelete = "ApiProfileDelete";
 function getRouterApi(key, param = {}) {
     let routers = {
         [ApiLogin]: APP_BASE_URL + "/auth/login",
         [ApiSignUp]: APP_BASE_URL + "/auth/signup",
+        [ApiChangePassword]: APP_BASE_URL + "/auth/changepassword",
         [ApiProfileGet]: APP_BASE_URL + "/profile/getUserDetails",
         [ApiProfileUpdate]: APP_BASE_URL + "/profile/updateProfile",
         [ApiProfileUpdateImage]: APP_BASE_URL + "/profile/updateUserProfileImage",
+        [ApiProfileDelete]: APP_BASE_URL + "/profile/deleteProfile",
     }
     return (routers[key]);
 }
@@ -23,6 +27,7 @@ const PathSignUp = "PathSignUp";
 const PathDashboard = "PathDashboard";
 const PathSettings = "PathSettings";
 const PathProfile = "PathProfile";
+const PathNotifications = "PathNotifications";
 const PathInstructorCourses = "PathInstructorCourses";
 const PathInstructorAddCourses = "PathInstructorAddCourses";
 
@@ -33,6 +38,7 @@ function getRouterPath(key, prefix = "/", param = {}) {
         [PathDashboard]: prefix + "dashboard",
         [PathSettings]: prefix + "settings",
         [PathProfile]: prefix + "profile",
+        [PathNotifications]: prefix + "notifications",
         [PathInstructorCourses]: prefix + "courses",
         [PathInstructorAddCourses]: prefix + "courses-add",
     }
@@ -42,14 +48,17 @@ function getRouterPath(key, prefix = "/", param = {}) {
 export {
     ApiLogin,
     ApiSignUp,
+    ApiChangePassword,
     ApiProfileGet,
     ApiProfileUpdate,
     ApiProfileUpdateImage,
+    ApiProfileDelete,
     PathLogin,
     PathSignUp,
     PathDashboard,
     PathSettings,
     PathProfile,
+    PathNotifications,
     PathInstructorCourses,
     PathInstructorAddCourses,
     getRouterApi, getRouterPath

@@ -13,7 +13,7 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
-.my-side-bar {
+.my-menu {
   @apply sm:text-lg text-base
 }
 .my-label {
@@ -44,9 +44,11 @@ body {
   @apply btn sm:btn-md btn-sm btn-warning bg-app-base border-app-base
 }
 .my-btn-cancel {
-  @apply btn sm:btn-md btn-sm btn-active
+  @apply btn sm:btn-md btn-sm btn-neutral
 }
-
+.my-card-border {
+  @apply card p-4 border-[1px] border-neutral-400 shadow
+}
 /* use in homePage */
 .homepage_bg {
   background: url('./assets/Images/bghome.svg');

@@ -18,7 +18,7 @@ const CF = require('../conf/conf_app')
 exports.updateProfile = async (req, res) => {
     try {
         // extract data
-        const { gender = '', dateOfBirth = "", about = "", contactNumber = '', firstName, lastName } = req.body;
+        const { gender = '', dateOfBirth = "", about = "", contactNumber = '', firstName='', lastName='', theme='light', language='id' } = req.body;
 
         // extract userId
         const userId = req.user.id;
@@ -32,8 +32,12 @@ exports.updateProfile = async (req, res) => {
         // console.log('User profileDetails -> ', profileDetails)
 
         // Update the profile fields
-        userDetails.firstName = firstName;
+		if(firstName !== '') {
+			userDetails.firstName = firstName;
+		}
         userDetails.lastName = lastName;
+		userDetails.theme = theme;
+		userDetails.language = language;
         await userDetails.save()
 
         profileDetails.gender = gender;

@@ -2,17 +2,8 @@ import {toast} from "react-hot-toast"
 
 import {setUser} from "../../reducer/slices/profileSlice"
 import {apiConnector} from "../apiConnector"
-import {settingsEndpoints} from "../apis"
 import {http_logout} from "./authAPI"
-import {ApiProfileUpdate, ApiProfileUpdateImage, getRouterApi} from "../router.js";
-
-const {
-    UPDATE_DISPLAY_PICTURE_API,
-    UPDATE_PROFILE_API,
-    CHANGE_PASSWORD_API,
-    DELETE_PROFILE_API,
-} = settingsEndpoints
-
+import {ApiChangePassword, ApiProfileDelete, ApiProfileUpdate, ApiProfileUpdateImage, getRouterApi} from "../router.js";
 
 // ================ update User Profile Image  ================
 export function http_profile_update_image(token, formData) {
@@ -55,7 +46,6 @@ export function http_profile_update(token, formData) {
             localStorage.setItem("user", JSON.stringify(response.data.data));
             return ({status: true, msg: ""});
         } catch (error) {
-            console.log(error)
             return ({status: false, msg: "Could Not Update Profile"});
         }
     }
@@ -63,44 +53,35 @@ export function http_profile_update(token, formData) {
 
 
 // ================ change Password  ================
-export async function changePassword(token, formData) {
-    const toastId = toast.loading("Loading...")
+export async function http_change_password(token, formData) {
     try {
-        const response = await apiConnector("POST", CHANGE_PASSWORD_API, formData, {
+        const response = await apiConnector("POST", getRouterApi(ApiChangePassword), formData, {
             Authorization: `Bearer ${token}`,
         })
-        console.log("CHANGE_PASSWORD_API API RESPONSE............", response)
 
         if (!response.data.success) {
-            throw new Error(response.data.message)
+            return ({status: false, msg: response.data.message});
         }
-        toast.success("Password Changed Successfully")
+        return ({status: true, msg: ""});
     } catch (error) {
-        console.log("CHANGE_PASSWORD_API API ERROR............", error)
-        toast.error(error.response.data.message)
+        return ({status: false, msg: error.response.data.message});
     }
-    toast.dismiss(toastId)
 }
 
 // ================ delete Profile ================
-export function deleteProfile(token, navigate) {
+export function http_profile_delete(token, navigate) {
     return async (dispatch) => {
-        const toastId = toast.loading("Loading...")
         try {
-            const response = await apiConnector("DELETE", DELETE_PROFILE_API, null, {
+            const response = await apiConnector("DELETE", getRouterApi(ApiProfileDelete), null, {
                 Authorization: `Bearer ${token}`,
             })
-            console.log("DELETE_PROFILE_API API RESPONSE............", response)
 
             if (!response.data.success) {
-                throw new Error(response.data.message)
+                return ({status: false, msg: response.data.message});
             }
-            toast.success("Profile Deleted Successfully")
             dispatch(http_logout(navigate))
         } catch (error) {
-            console.log("DELETE_PROFILE_API API ERROR............", error)
             toast.error("Could Not Delete Profile")
         }
-        toast.dismiss(toastId)
     }
 }

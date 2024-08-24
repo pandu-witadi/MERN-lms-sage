@@ -25,8 +25,8 @@ export default function EditProfile() {
         <div className={"mt-4"}>
             <form onSubmit={handleSubmit(submitProfileForm)}>
                 {/* Profile Information */}
-                <div className="card bordered p-4">
-                    <div className="my-card-title">{appLocale["profile"]["profileInfo"]}</div>
+                <div className="my-card-border">
+                    <div className="my-card-title">{appLocale["btn"]["profile"]}</div>
                     <div className="flex flex-col gap-5 lg:flex-row">
                         <div className="flex flex-col gap-2 lg:w-[50%]">
                             <label htmlFor="firstName" className="my-form-label">{appLocale["profile"]["firstName"]}</label>

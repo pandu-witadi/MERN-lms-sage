@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
         },
         lastName: {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
         email: {
@@ -21,6 +21,16 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+		theme: {
+			type: String,
+			required: true,
+			default: 'light'
+		},
+		language: {
+			type: String,
+			required: true,
+			default: 'id'
+		},
         accountType: {
             type: String,
             enum: ['Admin', 'Instructor', 'Student'],
