@@ -31,15 +31,16 @@ export default function EditProfile() {
                         <div className="flex flex-col gap-2 lg:w-[50%]">
                             <label htmlFor="firstName" className="my-form-label">{appLocale["profile"]["firstName"]}</label>
                             <input
-                                type="text"
-                                name="firstName"
-                                id="firstName"
-                                placeholder={appLocale["profile"]["firstNamePlaceholder"]}
-                                className="my-form-style"
-                                {...register("firstName", {required: true})}
-                                defaultValue={user?.firstName}
+                              type="text"
+                              name="firstName"
+                              id="firstName"
+                              placeholder={appLocale["profile"]["firstNamePlaceholder"]}
+                              className="my-form-style"
+                              {...register("firstName", {required: true})}
+                              defaultValue={user?.firstName}
                             />
-                            {errors.firstName && (<span className="my-form-style-error">{appLocale["profile"]["firstNamePlaceholder"]}</span>)}
+                            {errors.firstName && (
+                              <span className="my-form-style-error">{appLocale["profile"]["firstNamePlaceholder"]}</span>)}
                         </div>
 
                         <div className="flex flex-col gap-2 lg:w-[50%]">
@@ -47,15 +48,16 @@ export default function EditProfile() {
                                 Last Name
                             </label>
                             <input
-                                type="text"
-                                name="lastName"
-                                id="lastName"
-                                placeholder={appLocale["profile"]["lastNamePlaceholder"]}
-                                className="my-form-style"
-                                {...register("lastName", {required: true})}
-                                defaultValue={user?.lastName}
+                              type="text"
+                              name="lastName"
+                              id="lastName"
+                              placeholder={appLocale["profile"]["lastNamePlaceholder"]}
+                              className="my-form-style"
+                              {...register("lastName", {required: true})}
+                              defaultValue={user?.lastName}
                             />
-                            {errors.lastName && (<span className="my-form-style-error">{appLocale["profile"]["lastNamePlaceholder"]}</span>)}
+                            {errors.lastName && (
+                              <span className="my-form-style-error">{appLocale["profile"]["lastNamePlaceholder"]}</span>)}
                         </div>
                     </div>
 
@@ -63,21 +65,21 @@ export default function EditProfile() {
                         <div className="flex flex-col gap-2 lg:w-[50%]">
                             <label htmlFor="dateOfBirth" className="my-form-label">{appLocale["profile"]["dateOfBirth"]}</label>
                             <input
-                                type="date"
-                                name="dateOfBirth"
-                                id="dateOfBirth"
-                                className="my-form-style"
-                                {...register("dateOfBirth", {
-                                    required: {
-                                        value: false,
-                                        message: "Please enter your Date of Birth.",
-                                    },
-                                    max: {
-                                        value: new Date().toISOString().split("T")[0],
-                                        message: "Date of Birth cannot be in the future.",
-                                    },
-                                })}
-                                defaultValue={user?.additionalDetails?.dateOfBirth}
+                              type="date"
+                              name="dateOfBirth"
+                              id="dateOfBirth"
+                              className="my-form-style"
+                              {...register("dateOfBirth", {
+                                  required: {
+                                      value: false,
+                                      message: "Please enter your Date of Birth.",
+                                  },
+                                  max: {
+                                      value: new Date().toISOString().split("T")[0],
+                                      message: "Date of Birth cannot be in the future.",
+                                  },
+                              })}
+                              defaultValue={user?.additionalDetails?.dateOfBirth}
                             />
                             {errors.dateOfBirth && (<span className="my-form-style-error">{errors.dateOfBirth.message}</span>)}
                         </div>
@@ -85,17 +87,17 @@ export default function EditProfile() {
                         <div className="flex flex-col gap-2 lg:w-[50%]">
                             <label htmlFor="gender" className="my-form-label">{appLocale["profile"]["gender"]}</label>
                             <select
-                                name="gender"
-                                id="gender"
-                                className="my-form-style"
-                                {...register("gender", {required: false})}
-                                defaultValue={user?.additionalDetails?.gender}
+                              name="gender"
+                              id="gender"
+                              className="my-form-style"
+                              {...register("gender", {required: false})}
+                              defaultValue={user?.additionalDetails?.gender}
                             >
                                 {genders.map((value, i) => {
                                     return (
-                                        <option key={i} value={value.key}>
-                                            {value.label}
-                                        </option>
+                                      <option key={i} value={value.key}>
+                                          {value.label}
+                                      </option>
                                     )
                                 })}
                             </select>
@@ -107,20 +109,20 @@ export default function EditProfile() {
                         <div className="flex flex-col gap-2 lg:w-[50%]">
                             <label htmlFor="contactNumber" className="my-form-label">{appLocale["profile"]["contactNumber"]}</label>
                             <input
-                                type="tel"
-                                name="contactNumber"
-                                id="contactNumber"
-                                placeholder={appLocale["profile"]["contactNumberPlaceholder"]}
-                                className="my-form-style"
-                                {...register("contactNumber", {
-                                    required: {
-                                        value: false,
-                                        message: "Please enter your Contact Number.",
-                                    },
-                                    maxLength: {value: 12, message: "Invalid Contact Number"},
-                                    minLength: {value: 6, message: "Invalid Contact Number"},
-                                })}
-                                defaultValue={user?.additionalDetails?.contactNumber}
+                              type="tel"
+                              name="contactNumber"
+                              id="contactNumber"
+                              placeholder={appLocale["profile"]["contactNumberPlaceholder"]}
+                              className="my-form-style"
+                              {...register("contactNumber", {
+                                  required: {
+                                      value: false,
+                                      message: "Please enter your Contact Number.",
+                                  },
+                                  maxLength: {value: 12, message: "Invalid Contact Number"},
+                                  minLength: {value: 6, message: "Invalid Contact Number"},
+                              })}
+                              defaultValue={user?.additionalDetails?.contactNumber}
                             />
                             {errors.contactNumber && (<span className="my-form-style-error">{errors.contactNumber.message}</span>)}
                         </div>
@@ -128,19 +130,19 @@ export default function EditProfile() {
                         <div className="flex flex-col gap-2 lg:w-[50%]">
                             <label htmlFor="about" className="my-form-label">{appLocale["profile"]["about"]}</label>
                             <input
-                                type="text"
-                                name="about"
-                                id="about"
-                                placeholder="Enter Bio Details"
-                                className="my-form-style"
-                                {...register("about", {required: false})}
-                                defaultValue={user?.additionalDetails?.about}
+                              type="text"
+                              name="about"
+                              id="about"
+                              placeholder="Enter Bio Details"
+                              className="my-form-style"
+                              {...register("about", {required: false})}
+                              defaultValue={user?.additionalDetails?.about}
                             />
                             {errors.about && (<span className="my-form-style-error">{appLocale["profile"]["aboutPlaceholder"]}</span>)}
                         </div>
                     </div>
-
-                    <div className="flex justify-end gap-5 mt-4">
+                    <div className="divider"/>
+                    <div className="flex justify-end gap-5">
                         {/*<button*/}
                         {/*    onClick={() => {*/}
                         {/*        navigate("/dashboard/my-profile")*/}

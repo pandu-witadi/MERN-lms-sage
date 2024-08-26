@@ -9,7 +9,7 @@ import PeopleHomeLeft from "../../../assets/linxedu/people_home_left.png";
 import PeopleHomeRight from "../../../assets/linxedu/people_home_right.png";
 import LoginLeftFailed from "../../../assets/linxedu/login_left_failed.png";
 import LoginRightFailed from "../../../assets/linxedu/login_right_failed.png";
-import {getRouterPath, PathDashboard} from "../../../services/router.js";
+import {getRouterPath, PathRoot} from "../../../services/router.js";
 
 function TemplateLogin({title}) {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function TemplateLogin({title}) {
       setLoading(false);
       setApiResponse({...response, msg: appLocale["login"]["loginFailed"]});
       if (response.status) {
-        navigate(getRouterPath(PathDashboard))
+        navigate(getRouterPath(PathRoot))
       }
     })
   }

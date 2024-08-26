@@ -35,8 +35,8 @@ export default function EditTheme() {
                         <div className={"flex flex-row gap-x-4"}>
                             {
                                 appLocale["profile"]["languageList"].map(item => (
-                                    <ToggleButton label={item.label} setToggle={setSelectedLanguage} key={item.key} id={item.key}
-                                                  value={selectedLanguage}/>
+                                  <ToggleButton label={item.label} setToggle={setSelectedLanguage} key={item.key} id={item.key}
+                                                value={selectedLanguage}/>
                                 ))
                             }
                         </div>
@@ -46,14 +46,15 @@ export default function EditTheme() {
                         <div className={"flex flex-row gap-x-4"}>
                             {
                                 appLocale["profile"]["themeList"].map(item => (
-                                    <ToggleButton label={item.label} setToggle={setSelectedTheme} key={item.key} id={item.key}
-                                                  value={selectedTheme}/>
+                                  <ToggleButton label={item.label} setToggle={setSelectedTheme} key={item.key} id={item.key}
+                                                value={selectedTheme}/>
                                 ))
                             }
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-end gap-5 mt-4">
+                <div className="divider"/>
+                <div className="flex justify-end gap-5">
                     <button onClick={submitFormData} className={"my-btn-confirm"}>Save</button>
                 </div>
             </div>

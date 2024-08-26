@@ -6,7 +6,7 @@ import {setOpenSideMenu, setScreenSize} from "../../../reducer/slices/sidebarSli
 import {WebLoading, SidebarLink} from "../../../components/base/index.jsx";
 import {appLocale} from "../../../locale/index.js";
 import {ACCOUNT_TYPE} from "../../../utils/constants.js";
-import {getRouterPath, PathDashboard, PathInstructorAddCourses, PathInstructorCourses} from "../../../services/router.js";
+import {getRouterPath, PathDashboard, PathInstructorAddCourses} from "../../../services/router.js";
 
 export default function Sidebar() {
   const {user, loading: profileLoading} = useSelector((state) => state.profile)
@@ -23,13 +23,6 @@ export default function Sidebar() {
       path: getRouterPath(PathDashboard),
       type: ACCOUNT_TYPE.INSTRUCTOR,
       icon: "VscDashboard",
-    },
-    {
-      id: 2,
-      name: appLocale["navBar"]["myCourses"],
-      path: getRouterPath(PathInstructorCourses),
-      type: ACCOUNT_TYPE.INSTRUCTOR,
-      icon: "VscVm",
     },
     {
       id: 3,

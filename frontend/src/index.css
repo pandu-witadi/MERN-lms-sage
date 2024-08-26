@@ -41,13 +41,13 @@ body {
   @apply mt-3 mb-5 sm:text-base text-sm opacity-70
 }
 .my-btn-confirm {
-  @apply btn sm:btn-md btn-sm btn-warning bg-app-base border-app-base
+  @apply btn btn-sm px-[30px] btn-warning bg-app-base border-app-base
 }
 .my-btn-cancel {
-  @apply btn sm:btn-md btn-sm btn-neutral
+  @apply btn btn-sm px-[30px] btn-neutral
 }
 .my-card-border {
-  @apply card p-4 border-[1px] border-neutral-400 shadow
+  @apply card p-4 border-[1px] border-neutral-500
 }
 /* use in homePage */
 .homepage_bg {

@@ -22,24 +22,24 @@ function getRouterApi(key, param = {}) {
     return (routers[key]);
 }
 
+const PathRoot = "PathRoot";
 const PathLogin = "PathLogin";
 const PathSignUp = "PathSignUp";
 const PathDashboard = "PathDashboard";
 const PathSettings = "PathSettings";
 const PathProfile = "PathProfile";
 const PathNotifications = "PathNotifications";
-const PathInstructorCourses = "PathInstructorCourses";
 const PathInstructorAddCourses = "PathInstructorAddCourses";
 
 function getRouterPath(key, prefix = "/", param = {}) {
     let routers = {
+        [PathRoot]: prefix,
         [PathLogin]: prefix + "login",
         [PathSignUp]: prefix + "signup",
         [PathDashboard]: prefix + "dashboard",
         [PathSettings]: prefix + "settings",
         [PathProfile]: prefix + "profile",
         [PathNotifications]: prefix + "notifications",
-        [PathInstructorCourses]: prefix + "courses",
         [PathInstructorAddCourses]: prefix + "courses-add",
     }
     return (routers[key]);
@@ -53,13 +53,13 @@ export {
     ApiProfileUpdate,
     ApiProfileUpdateImage,
     ApiProfileDelete,
+    PathRoot,
     PathLogin,
     PathSignUp,
     PathDashboard,
     PathSettings,
     PathProfile,
     PathNotifications,
-    PathInstructorCourses,
     PathInstructorAddCourses,
     getRouterApi, getRouterPath
 }

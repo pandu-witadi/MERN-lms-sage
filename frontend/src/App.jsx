@@ -5,7 +5,7 @@ import {
 } from "react-router-dom"
 import {useSelector} from "react-redux"
 
-import {LoginUser, SignUp, Dashboard, Instructor, DashboardInstructor, ProfileInstructor, SettingsInstructor} from "./pages";
+import {LoginUser, SignUp, Dashboard, CoursesList, DashboardInstructor, ProfileInstructor, SettingsInstructor} from "./pages";
 import About from "./pages/About";
 import PageNotFound from "./pages/PageNotFound";
 import CourseDetails from './pages/CourseDetails';
@@ -30,7 +30,6 @@ import {
     getRouterPath,
     PathDashboard,
     PathInstructorAddCourses,
-    PathInstructorCourses,
     PathLogin,
     PathProfile, PathSettings,
     PathSignUp
@@ -69,12 +68,11 @@ function App() {
                           </ProtectedRoute>
                       }>
                           <>
-                              <Route path={"/"} element={<Instructor/>}/>
-                              <Route path={getRouterPath(PathDashboard)} element={<Instructor/>}/>
-                              <Route path={getRouterPath(PathInstructorAddCourses)} element={<AddCourse/>}/>
-                              <Route path={getRouterPath(PathInstructorCourses)} element={<MyCourses/>}/>
+                              <Route path={"/"} element={<CoursesList/>}/>
                               <Route path={getRouterPath(PathProfile)} element={<ProfileInstructor/>}/>
                               <Route path={getRouterPath(PathSettings)} element={<SettingsInstructor/>}/>
+                              <Route path={getRouterPath(PathDashboard)} element={<CoursesList/>}/>
+                              <Route path={getRouterPath(PathInstructorAddCourses)} element={<AddCourse/>}/>
                               <Route path="dashboard/edit-course/:courseId" element={<EditCourse/>}/>
                           </>
                       </Route>

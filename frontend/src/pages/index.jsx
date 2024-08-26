@@ -5,7 +5,7 @@ const Dashboard = React.lazy(() => import('./Dashboard.jsx'));
 
 // Instructor
 const DashboardInstructor = React.lazy(() => import('./instructor/DashboardInstructor.jsx'));
-const Instructor = React.lazy(() => import('./instructor/Instructor.jsx'));
+const CoursesList = React.lazy(() => import('./instructor/CoursesList.jsx'));
 const ProfileInstructor = React.lazy(() => import('./instructor/ProfileInstructor.jsx'));
 const SettingsInstructor = React.lazy(() => import('./instructor/SettingsInstructor.jsx'));
-export {LoginUser, SignUp, Dashboard, DashboardInstructor, Instructor, ProfileInstructor, SettingsInstructor}
+export {LoginUser, SignUp, Dashboard, DashboardInstructor, CoursesList, ProfileInstructor, SettingsInstructor}
