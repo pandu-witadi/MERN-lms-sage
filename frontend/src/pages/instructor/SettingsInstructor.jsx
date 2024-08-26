@@ -1,4 +1,3 @@
-import {appLocale} from "../../locale/index.js";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,9 +8,11 @@ import {setLoading} from "../../reducer/slices/profileSlice.js";
 import EditProfile from "./profile/EditProfile.jsx"
 import UpdatePassword from "./profile/UpdatePassword.jsx"
 import EditTheme from "./profile/EditTheme.jsx";
+import {useTranslation} from "react-i18next";
 // import DeleteAccount from "./profile/DeleteAccount.jsx"
 
 export default function SettingsInstructor() {
+    const { t } = useTranslation();
     const {token} = useSelector((state) => state.auth)
     const navigate = useNavigate();
     const dispatch = useDispatch()
@@ -27,9 +28,9 @@ export default function SettingsInstructor() {
     }, []);
 
     return (
-        <div className={"m-4 gap-4"}>
+        <div className={"gap-4"}>
             <h1 className="my-page-title">
-                {appLocale["navBar"]["settings"]}
+                {t("navBar.settings")}
             </h1>
             {/* Change Profile Picture */}
             {/*<ChangeProfilePicture/>*/}

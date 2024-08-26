@@ -2,14 +2,16 @@ import {ACCOUNT_TYPE} from "../utils/constants.js";
 
 const APP_BASE_URL = import.meta.env.VITE_APP_BASE_URL
 
-const ApiLogin = "ApiLogin";
-const ApiSignUp = "ApiSignUp";
-const ApiChangePassword = "ApiChangePassword";
-const ApiProfileGet = "ApiProfileGet";
-const ApiProfileUpdate = "ApiProfileUpdate";
-const ApiProfileUpdateImage = "ApiProfileUpdateImage";
-const ApiProfileDelete = "ApiProfileDelete";
-function getRouterApi(key, param = {}) {
+export const ApiLogin = "ApiLogin";
+export const ApiSignUp = "ApiSignUp";
+export const ApiChangePassword = "ApiChangePassword";
+export const ApiProfileGet = "ApiProfileGet";
+export const ApiProfileUpdate = "ApiProfileUpdate";
+export const ApiProfileUpdateImage = "ApiProfileUpdateImage";
+export const ApiProfileDelete = "ApiProfileDelete";
+export const ApiProfileCourses = "ApiProfileCourses";
+export const ApiProfileInstructorData = "ApiProfileInstructorData";
+export function getRouterApi(key, param = {}) {
     let routers = {
         [ApiLogin]: APP_BASE_URL + "/auth/login",
         [ApiSignUp]: APP_BASE_URL + "/auth/signup",
@@ -18,20 +20,22 @@ function getRouterApi(key, param = {}) {
         [ApiProfileUpdate]: APP_BASE_URL + "/profile/updateProfile",
         [ApiProfileUpdateImage]: APP_BASE_URL + "/profile/updateUserProfileImage",
         [ApiProfileDelete]: APP_BASE_URL + "/profile/deleteProfile",
+        [ApiProfileCourses]: APP_BASE_URL + "/profile/getEnrolledCourses",
+        [ApiProfileInstructorData]: APP_BASE_URL + "/profile/instructorDashboard",
     }
     return (routers[key]);
 }
 
-const PathRoot = "PathRoot";
-const PathLogin = "PathLogin";
-const PathSignUp = "PathSignUp";
-const PathDashboard = "PathDashboard";
-const PathSettings = "PathSettings";
-const PathProfile = "PathProfile";
-const PathNotifications = "PathNotifications";
-const PathInstructorAddCourses = "PathInstructorAddCourses";
+export const PathRoot = "PathRoot";
+export const PathLogin = "PathLogin";
+export const PathSignUp = "PathSignUp";
+export const PathDashboard = "PathDashboard";
+export const PathSettings = "PathSettings";
+export const PathProfile = "PathProfile";
+export const PathNotifications = "PathNotifications";
+export const PathInstructorAddCourses = "PathInstructorAddCourses";
 
-function getRouterPath(key, prefix = "/", param = {}) {
+export function getRouterPath(key, prefix = "/", param = {}) {
     let routers = {
         [PathRoot]: prefix,
         [PathLogin]: prefix + "login",
@@ -43,23 +47,4 @@ function getRouterPath(key, prefix = "/", param = {}) {
         [PathInstructorAddCourses]: prefix + "courses-add",
     }
     return (routers[key]);
-}
-
-export {
-    ApiLogin,
-    ApiSignUp,
-    ApiChangePassword,
-    ApiProfileGet,
-    ApiProfileUpdate,
-    ApiProfileUpdateImage,
-    ApiProfileDelete,
-    PathRoot,
-    PathLogin,
-    PathSignUp,
-    PathDashboard,
-    PathSettings,
-    PathProfile,
-    PathNotifications,
-    PathInstructorAddCourses,
-    getRouterApi, getRouterPath
 }

@@ -1,5 +1,4 @@
 import LogoLinxEdu from "../../../assets/linxedu/logo-linxedu.png";
-import {appLocale} from "../../../locale/index.js";
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
@@ -11,8 +10,10 @@ import {getOtp} from "../../../utils/utils.js";
 import toast from "react-hot-toast";
 import {getRouterPath, PathLogin} from "../../../services/router.js";
 import {TabSwitch} from "../../../components/base";
+import {useTranslation} from "react-i18next";
 
 function TemplateSignUp({title}) {
+    const { t } = useTranslation();
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -93,7 +94,7 @@ function TemplateSignUp({title}) {
                         alt={""}
                         className={'max-h-[90px]'}
                     />
-                    <div className="text-[1.6rem] md:text-[1.7rem] font-bold text-center mt-3">{appLocale['byCreator']}</div>
+                    <div className="text-[1.6rem] md:text-[1.7rem] font-bold text-center mt-3">{t('byCreator')}</div>
                     <div className="text-[1.8rem] md:text-[2.0rem] font-bold text-center mt-3 text-app-primary">{title}</div>
                     <div className="max-w-[450px] md:mx-0">
                         <TabSwitch tabData={tabData} field={accountType} setField={setAccountType}/>

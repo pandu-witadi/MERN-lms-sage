@@ -3,7 +3,7 @@ import ProgressBar from "@ramonak/react-progress-bar"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { getUserEnrolledCourses } from "../../../services/operations/profileAPI"
+import { http_get_courses } from "../../../services/operations/profileAPI"
 import Img from './../../common/Img';
 import {courseAssets} from "../../../constant/constant.js";
 
@@ -18,8 +18,8 @@ export default function EnrolledCourses() {
   // fetch all users enrolled courses
   const getEnrolledCourses = async () => {
     try {
-      const res = await getUserEnrolledCourses(token);
-      setEnrolledCourses(res);
+      const res = await http_get_courses(token);
+      setEnrolledCourses(res["msg"]);
     } catch (error) {
       console.log("Could not fetch enrolled courses.")
     }

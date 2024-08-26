@@ -23,7 +23,7 @@ const DashboardInstructor = () => {
             <Navbar/>
             <div className={`relative flex flex-row h-[calc(100vh-64px)]`}>
                 {/*<Sidebar/>*/}
-                <div className='flex flex-col overflow-auto w-full'>
+                <div className='flex flex-col overflow-auto w-full m-4'>
                     <Outlet/>
                 </div>
             </div>

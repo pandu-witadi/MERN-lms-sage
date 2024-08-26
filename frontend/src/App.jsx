@@ -5,16 +5,13 @@ import {
 } from "react-router-dom"
 import {useSelector} from "react-redux"
 
-import {LoginUser, SignUp, Dashboard, CoursesList, DashboardInstructor, ProfileInstructor, SettingsInstructor} from "./pages";
-import About from "./pages/About";
+import {LoginUser, SignUp, Dashboard, CoursesList, DashboardInstructor, SettingsInstructor} from "./pages";
 import PageNotFound from "./pages/PageNotFound";
 import CourseDetails from './pages/CourseDetails';
 import Catalog from './pages/Catalog';
 
 import OpenRoute from "./components/core/Auth/OpenRoute"
 import ProtectedRoute from "./components/core/Auth/ProtectedRoute"
-
-import MyCourses from './components/core/Dashboard/MyCourses'
 import EditCourse from './components/core/Dashboard/EditCourse/EditCourse'
 
 import Cart from "./components/core/Dashboard/Cart/Cart"
@@ -31,13 +28,13 @@ import {
     PathDashboard,
     PathInstructorAddCourses,
     PathLogin,
-    PathProfile, PathSettings,
+    PathRoot, PathSettings,
     PathSignUp
 } from "./services/router.js";
 import {WebLoading} from "./components/base";
+import './i18n';
 
 function App() {
-
     const {user} = useSelector((state) => state.profile)
     return (
         <div data-theme={user?.theme || 'light'} className="w-screen h-screen flex flex-col">
@@ -55,7 +52,6 @@ function App() {
                         </OpenRoute>
                     }/>
 
-                    <Route path="/about" element={<About/>}/>
                     <Route path="catalog/:catalogName" element={<Catalog/>}/>
                     <Route path="courses/:courseId" element={<CourseDetails/>}/>
 
@@ -68,8 +64,7 @@ function App() {
                           </ProtectedRoute>
                       }>
                           <>
-                              <Route path={"/"} element={<CoursesList/>}/>
-                              <Route path={getRouterPath(PathProfile)} element={<ProfileInstructor/>}/>
+                              <Route path={getRouterPath(PathRoot)} element={<CoursesList/>}/>
                               <Route path={getRouterPath(PathSettings)} element={<SettingsInstructor/>}/>
                               <Route path={getRouterPath(PathDashboard)} element={<CoursesList/>}/>
                               <Route path={getRouterPath(PathInstructorAddCourses)} element={<AddCourse/>}/>
@@ -78,7 +73,7 @@ function App() {
                       </Route>
                     )}
 
-                    <Route path="/" element={<LoginUser/>}/>
+                    <Route path={getRouterPath(PathRoot)} element={<LoginUser/>}/>
 
                     {user?.accountType === ACCOUNT_TYPE.STUDENT && (
                     <Route element={

@@ -1,10 +1,12 @@
 import TemplateLogin from "./component/TemplateLogin.jsx"
-import {appLocale} from "../../locale/index.js";
+import {useTranslation} from "react-i18next";
 
 function LoginUser() {
+  const { t } = useTranslation();
+
   return (
     <TemplateLogin
-      title={appLocale['login']['titleUser']}
+      title={t('login.titleUser')}
     />
   )
 }

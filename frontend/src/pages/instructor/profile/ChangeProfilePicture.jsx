@@ -3,14 +3,15 @@ import {FiUpload} from "react-icons/fi"
 import {useDispatch, useSelector} from "react-redux"
 import {http_profile_update_image} from "../../../services/operations/SettingsAPI"
 import UserIcon from "../../../assets/linxedu/user-icon.png";
-import {appLocale} from "../../../locale/index.js";
 import {LabelError} from "../../../components/base/index.jsx";
 import {toast} from "react-hot-toast";
+import {useTranslation} from "react-i18next";
 
 export default function ChangeProfilePicture() {
     const {token} = useSelector((state) => state.auth)
     const {user} = useSelector((state) => state.profile)
     const dispatch = useDispatch()
+    const { t } = useTranslation();
 
     const [loading, setLoading] = useState(false)
     const [profileImage, setProfileImage] = useState(null)
@@ -43,7 +44,7 @@ export default function ChangeProfilePicture() {
     const handleFileUpload = () => {
         setErrorMessage("");
         if (!previewSource) {
-            setErrorMessage(appLocale["profile"]["pleaseAddImage"]);
+            setErrorMessage(t("profile.pleaseAddImage"));
             return;
         }
 
@@ -53,7 +54,7 @@ export default function ChangeProfilePicture() {
             formData.append("profileImage", profileImage)
 
             dispatch(http_profile_update_image(token, formData)).then((response) => {
-                response.status ? toast.success(appLocale["profile"]["successUpdateAvatar"]) : toast.error(response.msg);
+                response.status ? toast.success(t("profile.successUpdateAvatar")) : toast.error(response.msg);
                 setLoading(false)
             })
         } catch (error) {
@@ -71,7 +72,7 @@ export default function ChangeProfilePicture() {
     return (
         <>
             <div className="card bordered p-4">
-                <div className="my-card-title">{appLocale["profile"]["avatar"]}</div>
+                <div className="my-card-title">{t("profile.avatar")}</div>
                 <div className="flex items-center gap-x-4">
                     <div className="avatar rounded-full bg-app-yellow shadow w-[96px] bordered border-2 border-app-base mr-3">
                         <img
@@ -82,7 +83,7 @@ export default function ChangeProfilePicture() {
                     </div>
 
                     <div className="space-y-2">
-                        <div className={"my-form-label"}>{appLocale["profile"]["changePicLabel"]}</div>
+                        <div className={"my-form-label"}>{t("profile.changePicLabel")}</div>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <input
                                 type="file"
@@ -96,11 +97,11 @@ export default function ChangeProfilePicture() {
                                 onClick={handleClick}
                                 disabled={loading}
                                 className="my-btn-cancel">
-                                {appLocale["btn"]["select"]}
+                                {t("btn.select")}
                             </button>
 
                             <button onClick={handleFileUpload} className={"my-btn-confirm"}>
-                                {loading ? appLocale["btn"]["uploading"] : appLocale["btn"]["upload"]}
+                                {loading ? t("btn.uploading") : t("btn.upload")}
                                 {!loading && <FiUpload className="text-md"/>}
                             </button>
                         </div>

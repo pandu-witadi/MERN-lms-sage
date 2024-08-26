@@ -3,10 +3,11 @@ import {useForm} from "react-hook-form"
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai"
 import {useSelector} from "react-redux"
 import {http_change_password} from "../../../services/operations/SettingsAPI"
-import {appLocale} from "../../../locale/index.js";
 import {toast} from "react-hot-toast";
+import {useTranslation} from "react-i18next";
 
 export default function UpdatePassword() {
+    const { t } = useTranslation();
     const {token} = useSelector((state) => state.auth)
     const [showOldPassword, setShowOldPassword] = useState(false)
     const [showNewPassword, setShowNewPassword] = useState(false)
@@ -29,7 +30,7 @@ export default function UpdatePassword() {
         try {
             const response = await http_change_password(token, data);
             if (response.status) {
-                toast.success(appLocale["profile"]["successUpdatePassword"]);
+                toast.success(t("profile.successUpdatePassword"));
 
                 // Setting default values after form submission
                 reset({
@@ -49,11 +50,11 @@ export default function UpdatePassword() {
         <div className={"mt-4"}>
             <form onSubmit={handleSubmit(submitPasswordForm)}>
                 <div className="my-card-border">
-                    <div className="my-card-title">{appLocale["btn"]["password"]}</div>
+                    <div className="my-card-title">{t("btn.password")}</div>
                     <div className="flex flex-col gap-5 lg:flex-row">
                         {/* Current Password */}
                         <div className="relative flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="oldPassword" className="my-form-label">{appLocale["profile"]["currentPassword"]}</label>
+                            <label htmlFor="oldPassword" className="my-form-label">{t("profile.currentPassword")}</label>
                             <input
                               type={showOldPassword ? "text" : "password"}
                               name="oldPassword"
@@ -73,12 +74,12 @@ export default function UpdatePassword() {
                                 )}
                             </span>
                             {errors.oldPassword && (
-                              <span className="my-form-style-error">{appLocale["profile"]["currentPasswordError"]}</span>)}
+                              <span className="my-form-style-error">{t("profile.currentPasswordError")}</span>)}
                         </div>
 
                         {/* new password */}
                         <div className="relative flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="newPassword" className="my-form-label">{appLocale["profile"]["newPassword"]}</label>
+                            <label htmlFor="newPassword" className="my-form-label">{t("profile.newPassword")}</label>
 
                             <input
                               type={showNewPassword ? "text" : "password"}
@@ -98,12 +99,12 @@ export default function UpdatePassword() {
                             )}
                         </span>
                             {errors.newPassword && (
-                              <span className="my-form-style-error">{appLocale["profile"]["newPasswordError"]}</span>)}
+                              <span className="my-form-style-error">{t("profile.newPasswordError")}</span>)}
                         </div>
 
                         {/*confirm new password */}
                         <div className="relative flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="newPassword" className="my-form-label">{appLocale["profile"]["newPasswordConfirm"]}</label>
+                            <label htmlFor="newPassword" className="my-form-label">{t("profile.newPasswordConfirm")}</label>
 
                             <input
                               type={showConfirmNewPassword ? "text" : "password"}
@@ -123,13 +124,13 @@ export default function UpdatePassword() {
                               )}
                             </span>
                             {errors.confirmNewPassword && (
-                              <span className="my-form-style-error">{appLocale["profile"]["newPasswordConfirmError"]}</span>)}
+                              <span className="my-form-style-error">{t("profile.newPasswordConfirmError")}</span>)}
                         </div>
 
                     </div>
                     <div className="divider"/>
                     <div className="flex justify-end gap-5">
-                        <button type={"submit"} className={"my-btn-confirm"}>Save</button>
+                        <button type={"submit"} className={"my-btn-confirm"}>{t("btn.save")}</button>
                     </div>
                 </div>
             </form>

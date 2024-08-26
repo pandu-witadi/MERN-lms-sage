@@ -41,7 +41,7 @@ body {
   @apply mt-3 mb-5 sm:text-base text-sm opacity-70
 }
 .my-btn-confirm {
-  @apply btn btn-sm px-[30px] btn-warning bg-app-base border-app-base
+  @apply btn btn-sm btn-warning bg-app-base border-app-base
 }
 .my-btn-cancel {
   @apply btn btn-sm px-[30px] btn-neutral

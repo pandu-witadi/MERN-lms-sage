@@ -4,7 +4,6 @@ import {HiMenuAlt1} from 'react-icons/hi'
 import {IoMdClose} from 'react-icons/io'
 import {setOpenSideMenu, setScreenSize} from "../../../reducer/slices/sidebarSlice";
 import {WebLoading, SidebarLink} from "../../../components/base/index.jsx";
-import {appLocale} from "../../../locale/index.js";
 import {ACCOUNT_TYPE} from "../../../utils/constants.js";
 import {getRouterPath, PathDashboard, PathInstructorAddCourses} from "../../../services/router.js";
 
@@ -17,20 +16,20 @@ export default function Sidebar() {
   const {openSideMenu, screenSize} = useSelector((state) => state.sidebar)
 
   const sidebarLinks = [
-    {
-      id: 1,
-      name: appLocale["navBar"]["dashboard"],
-      path: getRouterPath(PathDashboard),
-      type: ACCOUNT_TYPE.INSTRUCTOR,
-      icon: "VscDashboard",
-    },
-    {
-      id: 3,
-      name: appLocale["navBar"]["addCourses"],
-      path: getRouterPath(PathInstructorAddCourses),
-      type: ACCOUNT_TYPE.INSTRUCTOR,
-      icon: "VscAdd",
-    },
+    // {
+    //   id: 1,
+    //   name: ["navBar"]["dashboard"],
+    //   path: getRouterPath(PathDashboard),
+    //   type: ACCOUNT_TYPE.INSTRUCTOR,
+    //   icon: "VscDashboard",
+    // },
+    // {
+    //   id: 3,
+    //   name: ["navBar"]["addCourses"],
+    //   path: getRouterPath(PathInstructorAddCourses),
+    //   type: ACCOUNT_TYPE.INSTRUCTOR,
+    //   icon: "VscAdd",
+    // },
   ];
 
   useEffect(() => {

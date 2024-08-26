@@ -1,4 +1,3 @@
-import {appLocale} from "../../../locale/index.js";
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
@@ -10,10 +9,12 @@ import PeopleHomeRight from "../../../assets/linxedu/people_home_right.png";
 import LoginLeftFailed from "../../../assets/linxedu/login_left_failed.png";
 import LoginRightFailed from "../../../assets/linxedu/login_right_failed.png";
 import {getRouterPath, PathRoot} from "../../../services/router.js";
+import {useTranslation} from "react-i18next";
 
 function TemplateLogin({title}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -37,7 +38,7 @@ function TemplateLogin({title}) {
     setLoading(true);
     dispatch(http_login(email, password)).then(response => {
       setLoading(false);
-      setApiResponse({...response, msg: appLocale["login"]["loginFailed"]});
+      setApiResponse({...response, msg: t("login.loginFailed")});
       if (response.status) {
         navigate(getRouterPath(PathRoot))
       }
@@ -60,7 +61,7 @@ function TemplateLogin({title}) {
             alt={""}
             className={'max-h-[100px]'}
           />
-          <div className="text-[1.6rem] md:text-[1.7rem] font-bold text-center mt-3">{appLocale['byCreator']}</div>
+          <div className="text-[1.6rem] md:text-[1.7rem] font-bold text-center mt-3">{t('byCreator')}</div>
           {
             apiResponse.status ?
               (<div className="text-[1.4rem] md:text-[1.6rem] font-semibold italic text-center mt-[30px] mb-[10px]">
@@ -110,7 +111,7 @@ function TemplateLogin({title}) {
         </span>
             </label>
             <div className="text-[0.9rem] md:text-[1.15rem] font-semibold text-center opacity-50 mb-4">
-              {appLocale["login"]["emailInfo"]}
+              {t("login.emailInfo")}
             </div>
 
             <button className="btn btn-lg btn-warning rounded-[1.0rem] bg-app-base border-app-base" onClick={handleOnSubmit}>

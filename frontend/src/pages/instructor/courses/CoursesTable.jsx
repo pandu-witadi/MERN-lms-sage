@@ -1,4 +1,4 @@
-import {useDispatch, useSelector} from "react-redux"
+import {useSelector} from "react-redux"
 
 import {Table, Thead, Tbody, Tr, Th, Td} from 'react-super-responsive-table'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
@@ -10,22 +10,20 @@ import {HiClock} from "react-icons/hi"
 import {RiDeleteBin6Line} from "react-icons/ri"
 import {useNavigate} from "react-router-dom"
 
-import {formatDate} from "../../../../services/formatDate"
-import {deleteCourse, fetchInstructorCourses,} from "../../../../services/operations/courseDetailsAPI"
-import {COURSE_STATUS} from "../../../../utils/constants"
-import ConfirmationModal from "../../../common/ConfirmationModal"
-import Img from './../../../common/Img';
+import {formatDate} from "../../../services/formatDate"
+import {deleteCourse, fetchInstructorCourses,} from "../../../services/operations/courseDetailsAPI"
+import {COURSE_STATUS} from "../../../utils/constants"
+import ConfirmationModal from "../../../components/base/ConfirmationModal.jsx"
 import toast from 'react-hot-toast'
-import {coinSymbol} from "../../../../constant/constant.js";
-
+import {useTranslation} from "react-i18next";
 
 export default function CoursesTable({courses, setCourses, loading, setLoading}) {
-
+    const {t} = useTranslation();
     const navigate = useNavigate()
     const {token} = useSelector((state) => state.auth)
 
     const [confirmationModal, setConfirmationModal] = useState(null)
-    const TRUNCATE_LENGTH = 25
+    const TRUNCATE_LENGTH = 35
 
     // delete course
     const handleCourseDelete = async (courseId) => {
@@ -39,73 +37,35 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
         setConfirmationModal(null)
         setLoading(false)
         toast.dismiss(toastId)
-        // console.log("All Course ", courses)
-    }
-
-
-    // Loading Skeleton
-    const skItem = () => {
-        return (
-            <div className="flex border-b border-richblack-800 px-6 py-8 w-full">
-                <div className="flex flex-1 gap-x-4 ">
-                    <div className='h-[148px] min-w-[300px] rounded-xl skeleton '></div>
-
-                    <div className="flex flex-col w-[40%]">
-                        <div className="h-5 w-[50%] rounded-xl skeleton"></div>
-                        <div className="h-20 w-[60%] rounded-xl mt-3 skeleton"></div>
-
-                        <div className="h-2 w-[20%] rounded-xl skeleton mt-3"></div>
-                        <div className="h-2 w-[20%] rounded-xl skeleton mt-2"></div>
-                    </div>
-                </div>
-            </div>
-        )
+        console.log("All Course ", courses)
     }
 
     return (
         <>
-            <Table className="rounded-2xl border border-richblack-800 ">
-                {/* heading */}
+            <Table className="rounded-2xl border border-neutral-500">
                 <Thead>
-                    <Tr className="flex gap-x-10 rounded-t-3xl border-b border-b-richblack-800 px-6 py-2">
-                        <Th className="flex-1 text-left text-sm font-medium uppercase text-richblack-100">
-                            Courses
+                    <Tr className="flex gap-x-10 rounded-t-3xl border-b border-neutral-500 px-6 py-2">
+                        <Th className="flex-1 text-left text-sm font-medium uppercase">
+                            {t("btn.courses")}
                         </Th>
-                        <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-                            Duration
+                        <Th className="text-center text-sm font-medium uppercase w-[100px]">
+                            {t("btn.duration")}
                         </Th>
-                        <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-                            Price
+                        <Th className="text-center text-sm font-medium uppercase w-[100px]">
+                            {t("btn.status")}
                         </Th>
-                        <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-                            Actions
+                        <Th className="text-center text-sm font-medium uppercase">
+                            {t("btn.actions")}
                         </Th>
                     </Tr>
                 </Thead>
 
 
-                {/* loading Skeleton */}
-                {loading &&
-                    <Tbody>
-                        <Tr>
-                            <Td>
-                                {skItem()}
-                            </Td>
-                            <Td>
-                                {skItem()}
-                            </Td>
-                            <Td>
-                                {skItem()}
-                            </Td>
-                        </Tr>
-                    </Tbody>
-                }
-
                 <Tbody>
                     {!loading && courses?.length === 0 ? (
                             <Tr>
-                                <Td className="py-10 text-center text-2xl font-medium text-richblack-100">
-                                    No courses found
+                                <Td className="py-10 text-center text-2xl font-medium">
+                                    {t("dashboard.noCoursesFound")}
                                 </Td>
                             </Tr>
                         )
@@ -113,61 +73,59 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                             courses?.map((course) => (
                                 <Tr
                                     key={course._id}
-                                    className="flex gap-x-10 border-b border-richblack-800 px-6 py-8"
+                                    className="flex gap-x-10 border-b border-neutral-500 px-4 py-4"
                                 >
                                     <Td className="flex flex-1 gap-x-4 relative">
-                                        {/* course Thumbnail */}
-                                        <Img
+                                        <img
                                             src={course?.thumbnail}
                                             alt={course?.courseName}
                                             className="h-[148px] min-w-[270px] max-w-[270px] rounded-lg object-cover"
                                         />
 
                                         <div className="flex flex-col">
-                                            <p className="text-lg font-semibold text-richblack-5 capitalize">{course.courseName}</p>
-                                            <p className="text-xs text-richblack-300 ">
+                                            <div className="text-lg font-semibold capitalize">{course.courseName}</div>
+                                            <div className="text-sm opacity-70">
                                                 {course.courseDescription.split(" ").length > TRUNCATE_LENGTH
                                                     ? course.courseDescription
                                                     .split(" ")
                                                     .slice(0, TRUNCATE_LENGTH)
                                                     .join(" ") + "..."
                                                     : course.courseDescription}
-                                            </p>
+                                            </div>
 
                                             {/* created At */}
-                                            <p className="text-[12px] text-richblack-100 mt-4">
-                                                Created: {formatDate(course?.createdAt)}
-                                            </p>
+                                            <div className="text-xs opacity-70 mt-4">
+                                                {t("btn.created")}: {formatDate(course?.createdAt)}
+                                            </div>
 
                                             {/* updated At */}
-                                            <p className="text-[12px] text-richblack-100 ">
-                                                updated: {formatDate(course?.updatedAt)}
-                                            </p>
-
-                                            {/* course status */}
-                                            {course.status === COURSE_STATUS.DRAFT ? (
-                                                    <p className="mt-2 flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-pink-100">
-                                                        <HiClock size={14}/>
-                                                        Drafted
-                                                    </p>)
-                                                :
-                                                (
-                                                    <div
-                                                        className="mt-2 flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-yellow-100">
-                                                        <p className="flex h-3 w-3 items-center justify-center rounded-full bg-yellow-100 text-richblack-700">
-                                                            <FaCheck size={8}/>
-                                                        </p>
-                                                        Published
-                                                    </div>
-                                                )}
+                                            <div className="text-xs opacity-70">
+                                                {t("btn.updated")}: {formatDate(course?.updatedAt)}
+                                            </div>
                                         </div>
                                     </Td>
 
                                     {/* course duration */}
-                                    <Td className="text-sm font-medium text-richblack-100">2hr 30min</Td>
-                                    <Td className="text-sm font-medium text-richblack-100">{coinSymbol} {course.price}</Td>
-
-                                    <Td className="text-sm font-medium text-richblack-100 ">
+                                    <Td className="text-sm font-medium text-center w-[100px]">-</Td>
+                                    {/* course status */}
+                                    <Td className="text-sm font-medium text-center w-[100px]">
+                                        {course.status === COURSE_STATUS.DRAFT ? (
+                                                <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-pink-100">
+                                                    <HiClock size={14}/>
+                                                    Drafted
+                                                </p>)
+                                            :
+                                            (
+                                                <div
+                                                    className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-yellow-100">
+                                                    <p className="flex h-3 w-3 items-center justify-center rounded-full bg-yellow-100 text-richblack-700">
+                                                        <FaCheck size={8}/>
+                                                    </p>
+                                                    Published
+                                                </div>
+                                            )}
+                                    </Td>
+                                    <Td className="text-sm font-medium text-center">
                                         {/* Edit button */}
                                         <button
                                             disabled={loading}
