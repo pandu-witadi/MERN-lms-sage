@@ -1,6 +1,6 @@
 import {toast} from "react-hot-toast"
 
-import {setUser} from "../../reducer/slices/profileSlice"
+import {setUser} from "../../reducer/slices/authSlice.js"
 import {apiConnector} from "../apiConnector"
 import {http_logout} from "./authAPI"
 import {ApiChangePassword, ApiProfileDelete, ApiProfileUpdate, ApiProfileUpdateImage, getRouterApi} from "../router.js";

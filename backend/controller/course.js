@@ -23,29 +23,26 @@ exports.createCourse = async (req, res) => {
         // extract data
         let { courseName, courseDescription, whatYouWillLearn, price, category, instructions: _instructions, status, tag: _tag } = req.body
 
-        // Convert the tag and instructions from stringified Array to Array
+        // Convert the tag and instructions from stringifies Array to Array
         const tag = JSON.parse(_tag)
         const instructions = JSON.parse(_instructions)
-        // console.log("tag = ", tag)
-        // console.log("instructions = ", instructions)
 
         // validation
         if (!courseName || !courseDescription || !whatYouWillLearn ||  !category ||
-            // !thumbnail || !price ||
             !instructions.length || !tag.length) {
             return res.status(400).json({
                 success: false,
-                message: 'All Fileds are required'
+                message: 'All Fields are required'
             })
         }
 
-        if (!status || status === undefined)
+        if (!status)
             status = "Draft"
 
-        if (!price || price === undefined)
+        if (!price)
             price = 0
 
-        // check current user is instructor or not , bcoz only instructor can create
+        // check current user is instructor or not , because only instructor can create
         // we have insert user id in req.user , (payload , while auth )
         const instructorId = req.user.id
 
@@ -79,22 +76,47 @@ exports.createCourse = async (req, res) => {
             }
         }
 
-        // create new course - entry in DB
-        const newCourse = await Course.create({
-            courseName,
-            courseDescription,
-            instructor: instructorId,
-            whatYouWillLearn,
-            price,
-            category: categoryDetails._id,
-            tag,
-            status,
-            instructions,
-            thumbnail: thumbnail_url,
-            createdAt: Date.now(),
-        })
+        // try to add the new course with unique courseId.
+        let newCourse = null;
+        let inserted = false;
+        let idxTry = 0;
+        while (!inserted) {
+            // create random unique courseId 6 character. 2 uppercase, 4 numbers
+            const courseId = `${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${Math.floor(1000 + Math.random() * 9000)}`;
 
-        // add course id to instructor courses list, this is bcoz - it will show all created courses by instructor
+            try {
+                // create new course - entry in DB
+                newCourse = await Course.create({
+                    courseId,
+                    courseName,
+                    courseDescription,
+                    instructor: instructorId,
+                    whatYouWillLearn,
+                    price,
+                    category: categoryDetails._id,
+                    tag,
+                    status,
+                    instructions,
+                    thumbnail: thumbnail_url,
+                    createdAt: Date.now(),
+                })
+                inserted = true;
+            }
+            catch (error) {
+                idxTry += 1;
+
+                // if error occurs 10 times, then return error
+                if(idxTry === 10) {
+                    return res.status(500).json({
+                        success: false,
+                        error: error.message,
+                        message: 'Error while creating new course'
+                    })
+                }
+            }
+        }
+
+        // add course id to instructor courses list, this is because - it will show all created courses by instructor
         await User.findByIdAndUpdate(instructorId,
             {
                 $push: {

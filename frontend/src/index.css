@@ -49,6 +49,15 @@ body {
 .my-card-border {
   @apply card p-4 border-[1px] border-neutral-500
 }
+.my-course-status {
+  @apply flex w-fit flex-row items-center justify-center  gap-1 rounded-full bg-neutral-700 px-2 py-1 text-sm
+}
+.my-course-draft {
+  @apply my-course-status text-red-400
+}
+.my-course-published {
+  @apply my-course-status text-app-base
+}
 /* use in homePage */
 .homepage_bg {
   background: url('./assets/Images/bghome.svg');

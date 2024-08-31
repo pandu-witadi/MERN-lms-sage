@@ -1,7 +1,6 @@
-import {setToken} from "../../reducer/slices/authSlice"
-import {setUser} from "../../reducer/slices/profileSlice"
-import {apiConnector} from "../apiConnector"
-import {ApiLogin, ApiSignUp, getRouterApi} from "../router.js";
+import {setUserLogin} from "../../reducer/slices/authSlice";
+import {apiConnector} from "../apiConnector";
+import {ApiLogin, ApiSignUp, getRouterApi, getRouterPath, PathRoot} from "../router.js";
 
 // ================ sign Up ================
 export function http_signup(accountType, firstName, lastName, email, password, confirmPassword, otp, navigate) {
@@ -41,8 +40,7 @@ export const http_login = async (email, password) => {
       if (!response.data.success) {
         return ({status: false, msg: response.data.message});
       }
-      dispatch(setToken(response.data.token));
-      dispatch(setUser(response.data.user));
+      dispatch(setUserLogin({token: response.data.token, user: response.data.user}));
       return ({status: true, msg: ""});
     } catch (error) {
       return ({status: false, msg: error.message});
@@ -53,9 +51,8 @@ export const http_login = async (email, password) => {
 // ================ Logout ================
 export function http_logout(navigate) {
   return (dispatch) => {
-    dispatch(setToken(null))
-    dispatch(setUser(null))
-    navigate("/")
+    dispatch(setUserLogin({token: "", user: null}));
+    navigate(getRouterPath(PathRoot));
   }
 }
 

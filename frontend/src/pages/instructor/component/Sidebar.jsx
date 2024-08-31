@@ -8,12 +8,11 @@ import {ACCOUNT_TYPE} from "../../../utils/constants.js";
 import {getRouterPath, PathDashboard, PathInstructorAddCourses} from "../../../services/router.js";
 
 export default function Sidebar() {
-  const {user, loading: profileLoading} = useSelector((state) => state.profile)
-  const {loading: authLoading} = useSelector((state) => state.auth)
+  const {user, loading} = useSelector((state) => state.auth)
   const dispatch = useDispatch()
 
   // to keep track of confirmation modal
-  const {openSideMenu, screenSize} = useSelector((state) => state.sidebar)
+  const {openSideMenu, screenSize} = useSelector((state) => state.auth.loading)
 
   const sidebarLinks = [
     // {
@@ -48,7 +47,7 @@ export default function Sidebar() {
   }, [screenSize])
 
 
-  if (profileLoading || authLoading) {
+  if (loading) {
     return (
       <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r-[1px]">
         <WebLoading/>

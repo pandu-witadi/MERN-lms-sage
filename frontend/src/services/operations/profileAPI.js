@@ -1,7 +1,7 @@
-import {setUser} from "../../reducer/slices/profileSlice"
 import {apiConnector} from "../apiConnector"
 import {http_logout} from "./authAPI"
 import {ApiProfileCourses, ApiProfileGet, ApiProfileInstructorData, getRouterApi} from "../router.js";
+import {setUser} from "../../reducer/slices/authSlice.js";
 
 
 // ================ get User Details  ================

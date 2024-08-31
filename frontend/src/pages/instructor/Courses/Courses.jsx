@@ -2,18 +2,17 @@ import {useEffect, useState} from "react"
 import {useSelector} from "react-redux"
 import {useNavigate} from "react-router-dom"
 
-import {fetchInstructorCourses} from "../../services/operations/courseDetailsAPI"
-import {http_get_courses} from "../../services/operations/profileAPI"
+import {fetchInstructorCourses} from "../../../services/operations/courseDetailsAPI.js"
+import {http_get_courses} from "../../../services/operations/profileAPI.js"
 import {VscAdd} from "react-icons/vsc";
-import {getRouterPath, PathInstructorAddCourses} from "../../services/router.js";
+import {getRouterPath, PathInstructorAddCourses} from "../../../services/router.js";
 import {useTranslation} from "react-i18next";
 import {BsGrid, BsPeople} from "react-icons/bs";
-import CoursesTable from "./courses/CoursesTable.jsx";
+import CoursesTable from "./CoursesTable.jsx";
 
-export default function CoursesList() {
+export default function Courses() {
     const navigate = useNavigate()
-    const {token} = useSelector((state) => state.auth)
-    const {user} = useSelector((state) => state.profile)
+    const {token, user} = useSelector((state) => state.auth)
     const {t} = useTranslation();
     const [instructorData, setInstructorData] = useState([])
     const [courses, setCourses] = useState([])

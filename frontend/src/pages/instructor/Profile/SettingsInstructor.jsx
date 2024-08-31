@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {http_get_profile} from "../../services/operations/profileAPI.js";
+import {http_get_profile} from "../../../services/operations/profileAPI.js";
 import {toast} from "react-hot-toast";
-import {setLoading} from "../../reducer/slices/profileSlice.js";
+import {setLoading} from "../../../reducer/slices/authSlice.js";
 // import ChangeProfilePicture from "./profile/ChangeProfilePicture.jsx"
-import EditProfile from "./profile/EditProfile.jsx"
-import UpdatePassword from "./profile/UpdatePassword.jsx"
-import EditTheme from "./profile/EditTheme.jsx";
+import EditProfile from "./component/EditProfile.jsx"
+import UpdatePassword from "./component/UpdatePassword.jsx"
+import EditTheme from "./component/EditTheme.jsx";
 import {useTranslation} from "react-i18next";
 // import DeleteAccount from "./profile/DeleteAccount.jsx"
 

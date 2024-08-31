@@ -10,6 +10,10 @@ const localeId = {
       title: "Apakah anda yakin ?",
       desc: "Anda akan keluar dari akun Anda."
     },
+    dialog: {
+      deleteCourseTitle: "Hapus Course",
+      deleteCourseDesc: "Anda yakin ingin menghapus course ini?"
+    },
     navBar: {
       dashboard: "Dashboard",
       myCourses: "Kelas",
@@ -22,6 +26,7 @@ const localeId = {
       cancel: "Batal",
       select: "Pilih",
       save: "Simpan",
+      delete: "Hapus",
       upload: "Upload",
       uploading: "Uploading...",
       profile: "Profile",

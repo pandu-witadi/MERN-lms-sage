@@ -1,15 +1,14 @@
 import {useEffect, useRef, useState} from "react"
 import {FiUpload} from "react-icons/fi"
 import {useDispatch, useSelector} from "react-redux"
-import {http_profile_update_image} from "../../../services/operations/SettingsAPI"
+import {http_profile_update_image} from "../../../../services/operations/SettingsAPI.js"
 import UserIcon from "../../../assets/linxedu/user-icon.png";
-import {LabelError} from "../../../components/base/index.jsx";
+import {LabelError} from "../../../../components/base/index.jsx";
 import {toast} from "react-hot-toast";
 import {useTranslation} from "react-i18next";
 
 export default function ChangeProfilePicture() {
-    const {token} = useSelector((state) => state.auth)
-    const {user} = useSelector((state) => state.profile)
+    const {token, user} = useSelector((state) => state.auth)
     const dispatch = useDispatch()
     const { t } = useTranslation();
 

@@ -13,8 +13,7 @@ const Navbar = () => {
     const { t } = useTranslation();
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {token} = useSelector((state) => state.auth);
-    const {user} = useSelector((state) => state.profile);
+    const {token, user} = useSelector((state) => state.auth);
     const [confirmationModal, setConfirmationModal] = useState(null);
 
     return (

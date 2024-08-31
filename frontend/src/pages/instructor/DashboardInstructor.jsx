@@ -8,9 +8,8 @@ import {WebLoading} from "../../components/base/index.jsx";
 const DashboardInstructor = () => {
 
     const {loading: authLoading} = useSelector((state) => state.auth);
-    const {loading: profileLoading} = useSelector((state) => state.profile);
 
-    if (profileLoading || authLoading) {
+    if (authLoading) {
         return (<WebLoading/>)
     }
     // Scroll to the top of the page when the component mounts

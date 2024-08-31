@@ -5,7 +5,7 @@ import {
 } from "react-router-dom"
 import {useSelector} from "react-redux"
 
-import {LoginUser, SignUp, Dashboard, CoursesList, DashboardInstructor, SettingsInstructor} from "./pages";
+import {LoginUser, SignUp, Dashboard, Courses, DashboardInstructor, SettingsInstructor} from "./pages";
 import PageNotFound from "./pages/PageNotFound";
 import CourseDetails from './pages/CourseDetails';
 import Catalog from './pages/Catalog';
@@ -35,7 +35,7 @@ import {WebLoading} from "./components/base";
 import './i18n';
 
 function App() {
-    const {user} = useSelector((state) => state.profile)
+    const {user} = useSelector((state) => state.auth)
     return (
         <div data-theme={user?.theme || 'light'} className="w-screen h-screen flex flex-col">
             <Suspense fallback={<WebLoading/>}>
@@ -63,9 +63,9 @@ function App() {
                           </ProtectedRoute>
                       }>
                           <>
-                              <Route path={getRouterPath(PathRoot)} element={<CoursesList/>}/>
+                              <Route path={getRouterPath(PathRoot)} element={<Courses/>}/>
                               <Route path={getRouterPath(PathSettings)} element={<SettingsInstructor/>}/>
-                              <Route path={getRouterPath(PathDashboard)} element={<CoursesList/>}/>
+                              <Route path={getRouterPath(PathDashboard)} element={<Courses/>}/>
                               <Route path={getRouterPath(PathInstructorAddCourses)} element={<AddCourse/>}/>
                               <Route path="dashboard/edit-course/:courseId" element={<EditCourse/>}/>
                           </>

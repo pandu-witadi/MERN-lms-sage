@@ -1,14 +1,13 @@
 import React, {useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
-import {http_profile_update} from "../../../services/operations/SettingsAPI"
+import {http_profile_update} from "../../../../services/operations/SettingsAPI.js"
 import {toast} from "react-hot-toast";
-import {ToggleButton} from "../../../components/base/index.jsx";
-import {setLoading} from "../../../reducer/slices/profileSlice.js";
+import {ToggleButton} from "../../../../components/base/index.jsx";
+import {setLoading} from "../../../../reducer/slices/authSlice.js";
 import {useTranslation} from "react-i18next";
 
 export default function EditTheme() {
-    const {token} = useSelector((state) => state.auth)
-    const {user} = useSelector((state) => state.profile)
+    const {token, user} = useSelector((state) => state.auth)
     const dispatch = useDispatch()
     const { t } = useTranslation();
     const [selectedLanguage, setSelectedLanguage] = useState(user["language"]);

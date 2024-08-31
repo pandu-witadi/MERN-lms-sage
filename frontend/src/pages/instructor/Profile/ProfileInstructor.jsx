@@ -1,11 +1,11 @@
-import ChangeProfilePicture from "./profile/ChangeProfilePicture.jsx"
+import ChangeProfilePicture from "./component/ChangeProfilePicture.jsx"
 import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {http_get_profile} from "../../services/operations/profileAPI.js";
+import {http_get_profile} from "../../../services/operations/profileAPI.js";
 import {toast} from "react-hot-toast";
 import {setLoading} from "../../reducer/slices/profileSlice.js";
-import EditProfile from "./profile/EditProfile.jsx"
+import EditProfile from "./component/EditProfile.jsx"
 import {useTranslation} from "react-i18next";
 
 export default function ProfileInstructor() {

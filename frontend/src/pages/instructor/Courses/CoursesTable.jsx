@@ -42,19 +42,19 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
 
     return (
         <>
-            <Table className="rounded-2xl border border-neutral-500">
+            <Table className="border border-neutral-500">
                 <Thead>
-                    <Tr className="flex gap-x-10 rounded-t-3xl border-b border-neutral-500 px-6 py-2">
-                        <Th className="flex-1 text-left text-sm font-medium uppercase">
+                    <Tr className="flex gap-x-3 border-b border-neutral-500 p-2">
+                        <Th className="flex-1 text-left font-semibold uppercase">
                             {t("btn.courses")}
                         </Th>
-                        <Th className="text-center text-sm font-medium uppercase w-[100px]">
+                        <Th className="text-center font-semibold uppercase w-[100px]">
                             {t("btn.duration")}
                         </Th>
-                        <Th className="text-center text-sm font-medium uppercase w-[100px]">
+                        <Th className="text-center font-semibold uppercase w-[100px]">
                             {t("btn.status")}
                         </Th>
-                        <Th className="text-center text-sm font-medium uppercase">
+                        <Th className="text-center font-semibold uppercase">
                             {t("btn.actions")}
                         </Th>
                     </Tr>
@@ -73,7 +73,7 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                             courses?.map((course) => (
                                 <Tr
                                     key={course._id}
-                                    className="flex gap-x-10 border-b border-neutral-500 px-4 py-4"
+                                    className="flex gap-x-3 border-b border-neutral-500 p-2"
                                 >
                                     <Td className="flex flex-1 gap-x-4 relative">
                                         <img
@@ -84,7 +84,7 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
 
                                         <div className="flex flex-col">
                                             <div className="text-lg font-semibold capitalize">{course.courseName}</div>
-                                            <div className="text-sm opacity-70">
+                                            <div className="sm:text-base text-sm text-neutral-600">
                                                 {course.courseDescription.split(" ").length > TRUNCATE_LENGTH
                                                     ? course.courseDescription
                                                     .split(" ")
@@ -94,12 +94,12 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                                             </div>
 
                                             {/* created At */}
-                                            <div className="text-xs opacity-70 mt-4">
+                                            <div className="text-xs border-neutral-500 mt-4">
                                                 {t("btn.created")}: {formatDate(course?.createdAt)}
                                             </div>
 
                                             {/* updated At */}
-                                            <div className="text-xs opacity-70">
+                                            <div className="text-xs border-neutral-500">
                                                 {t("btn.updated")}: {formatDate(course?.updatedAt)}
                                             </div>
                                         </div>
@@ -110,23 +110,19 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                                     {/* course status */}
                                     <Td className="text-sm font-medium text-center w-[100px]">
                                         {course.status === COURSE_STATUS.DRAFT ? (
-                                                <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-pink-100">
+                                                <div className="my-course-draft">
                                                     <HiClock size={14}/>
                                                     Drafted
-                                                </p>)
+                                                </div>)
                                             :
                                             (
-                                                <div
-                                                    className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-yellow-100">
-                                                    <p className="flex h-3 w-3 items-center justify-center rounded-full bg-yellow-100 text-richblack-700">
-                                                        <FaCheck size={8}/>
-                                                    </p>
+                                                <div className="my-course-published">
+                                                    <FaCheck size={8}/>
                                                     Published
                                                 </div>
                                             )}
                                     </Td>
                                     <Td className="text-sm font-medium text-center">
-                                        {/* Edit button */}
                                         <button
                                             disabled={loading}
                                             onClick={() => {
@@ -143,11 +139,10 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                                             disabled={loading}
                                             onClick={() => {
                                                 setConfirmationModal({
-                                                    text1: "Do you want to delete this course?",
-                                                    text2:
-                                                        "All the data related to this course will be deleted",
-                                                    btn1Text: !loading ? "Delete" : "Loading...  ",
-                                                    btn2Text: "Cancel",
+                                                    text1: t("dialog.deleteCourseTitle"),
+                                                    text2: t("dialog.deleteCourseDesc"),
+                                                    btn1Text: t("btn.delete"),
+                                                    btn2Text: t("btn.cancel"),
                                                     btn1Handler: !loading
                                                         ? () => handleCourseDelete(course._id)
                                                         : () => {

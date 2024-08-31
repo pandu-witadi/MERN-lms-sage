@@ -13,7 +13,8 @@ const data = getData();
 const initialState = data ? {
     loading: false,
     token: data.token,
-} : {loading: false, token: ""}
+    user: data.user,
+} : {loading: false, token: "", user: null}
 
 const authSlice = createSlice({
     name: SLICE_KEY,
@@ -26,9 +27,17 @@ const authSlice = createSlice({
             state.token = value.payload;
             setData(state);
         },
+        setUser(state, value) {
+            state.user = value.payload;
+            setData(state);
+        },
+        setUserLogin(state, value) {
+            state.token = value.payload.token;
+            state.user = value.payload.user;
+        }
     },
 })
 
-export const { setLoading, setToken } = authSlice.actions
+export const { setLoading, setToken , setUser, setUserLogin} = authSlice.actions
 
 export default authSlice.reducer

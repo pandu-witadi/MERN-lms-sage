@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import {useForm} from "react-hook-form"
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai"
 import {useSelector} from "react-redux"
-import {http_change_password} from "../../../services/operations/SettingsAPI"
+import {http_change_password} from "../../../../services/operations/SettingsAPI.js"
 import {toast} from "react-hot-toast";
 import {useTranslation} from "react-i18next";
 

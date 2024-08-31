@@ -1,13 +1,12 @@
 import {useForm} from "react-hook-form"
 import {useDispatch, useSelector} from "react-redux"
-import {http_profile_update} from "../../../services/operations/SettingsAPI";
-import {setLoading} from "../../../reducer/slices/profileSlice.js";
+import {http_profile_update} from "../../../../services/operations/SettingsAPI.js";
+import {setLoading} from "../../../../reducer/slices/authSlice.js";
 import {toast} from "react-hot-toast";
 import {useTranslation} from "react-i18next";
 
 export default function EditProfile() {
-    const {user} = useSelector((state) => state.profile)
-    const {token} = useSelector((state) => state.auth)
+    const {token, user} = useSelector((state) => state.auth)
     const dispatch = useDispatch()
     const { t } = useTranslation();
     const genders = t("profile.genderList", { returnObjects: true });
