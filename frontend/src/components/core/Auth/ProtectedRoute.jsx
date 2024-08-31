@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom';
+import {getRouterPath, PathRoot} from "../../../services/router.js";
 
 const ProtectedRoute = ({ children }) => {
 
@@ -11,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
         return children;
     }
 
-    return <Navigate to='/' />
+    return <Navigate to={getRouterPath(PathRoot)} />
 
 }
 

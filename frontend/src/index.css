@@ -116,21 +116,18 @@ body {
 }
 
 .section_heading {
-  @apply text-2xl font-bold text-richblack-5 lg:text-4xl;
+  @apply text-2xl font-bold lg:text-4xl;
 }
 
 
 /* Buttons */
 .yellowButton {
-  @apply cursor-pointer rounded-md bg-yellow-50 px-[20px] py-[8px] font-semibold text-richblack-900 hover:bg-black hover:text-yellow-50 duration-300;
+  @apply cursor-pointer rounded-md bg-yellow-50 px-[20px] py-[8px] font-semibold hover:bg-black hover:text-yellow-50 duration-300;
 }
 
 .blackButton {
-  @apply cursor-pointer rounded-md bg-richblack-800 px-[20px] py-[8px] font-semibold text-richblack-5 hover:bg-richblack-5 hover:text-richblack-800 duration-300;
+  @apply cursor-pointer rounded-md px-[20px] py-[8px] font-semibold  duration-300;
 }
-
-
-
 
 
 /* Loading skeleton */

@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom"
 import { BsFillCaretRightFill } from "react-icons/bs"
 import { FaShareSquare } from "react-icons/fa"
 
-import { addToCart } from "../../../reducer/slices/cartSlice"
 import { ACCOUNT_TYPE } from "../../../utils/constants"
 import Img from './../../common/Img';
 import {coinSymbol, courseAssets} from "../../../constant/constant.js";
@@ -36,7 +35,7 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
       return
     }
     if (token) {
-      dispatch(addToCart(course))
+      // dispatch(addToCart(course))
       return
     }
     setConfirmationModal({

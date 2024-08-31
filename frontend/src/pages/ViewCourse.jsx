@@ -12,10 +12,6 @@ import {
   setTotalNoOfLectures,
 } from "../reducer/slices/viewCourseSlice"
 
-import { setCourseViewSidebar } from "../reducer/slices/sidebarSlice"
-
-
-
 
 export default function ViewCourse() {
   const { courseId } = useParams()
@@ -42,7 +38,7 @@ export default function ViewCourse() {
 
 
   // handle sidebar for small devices
-  const { courseViewSidebar } = useSelector(state => state.sidebar)
+  // const { courseViewSidebar } = useSelector(state => state.sidebar)
   const [screenSize, setScreenSize] = useState(undefined)
 
   // set curr screen Size
@@ -55,18 +51,18 @@ export default function ViewCourse() {
   })
 
   // close / open sidebar according screen size
-  useEffect(() => {
-    if (screenSize <= 640) {
-      dispatch(setCourseViewSidebar(false))
-    } else dispatch(setCourseViewSidebar(true))
-  }, [screenSize])
+  // useEffect(() => {
+  //   if (screenSize <= 640) {
+  //     dispatch(setCourseViewSidebar(false))
+  //   } else dispatch(setCourseViewSidebar(true))
+  // }, [screenSize])
 
 
   return (
     <>
       <div className="relative flex min-h-[calc(100vh-3.5rem)] ">
         {/* view course side bar */}
-        {courseViewSidebar && <VideoDetailsSidebar setReviewModal={setReviewModal} />}
+        <VideoDetailsSidebar setReviewModal={setReviewModal} />
 
         <div className="h-[calc(100vh-3.5rem)] flex-1 overflow-auto mt-14">
           <div className="mx-6">

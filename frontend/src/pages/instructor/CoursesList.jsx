@@ -15,10 +15,9 @@ export default function CoursesList() {
     const {token} = useSelector((state) => state.auth)
     const {user} = useSelector((state) => state.profile)
     const {t} = useTranslation();
-    const [instructorData, setInstructorData] = useState(null)
+    const [instructorData, setInstructorData] = useState([])
     const [courses, setCourses] = useState([])
     const [loading, setLoading] = useState(false);
-
 
     // get Instructor Data
     useEffect(() => {
@@ -35,7 +34,7 @@ export default function CoursesList() {
             setLoading(false);
         })()
     }, [])
-    const totalStudents = (instructorData?.reduce((acc, curr) => acc + curr["totalStudentsEnrolled"], 0)) ?? 0;
+    const totalStudents = Array.isArray(instructorData) ? instructorData?.reduce((acc, curr) => acc + curr["totalStudentsEnrolled"], 0) : 0;
     return (
         <div>
             <div className={"gap-4"}>

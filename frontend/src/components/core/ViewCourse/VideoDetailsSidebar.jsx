@@ -3,8 +3,6 @@ import {useDispatch, useSelector} from "react-redux"
 import {useLocation, useNavigate, useParams} from "react-router-dom"
 
 import IconBtn from './../../common/IconBtn';
-import {setCourseViewSidebar} from "../../../reducer/slices/sidebarSlice"
-
 import {BsChevronDown} from "react-icons/bs"
 import {IoIosArrowBack} from "react-icons/io"
 
@@ -30,7 +28,7 @@ export default function VideoDetailsSidebar({setReviewModal}) {
     } = useSelector((state) => state.viewCourse)
 
 
-    const {courseViewSidebar} = useSelector(state => state.sidebar)
+    const [courseViewSidebar, setCourseViewSidebar] = useState(true)
 
 
     // set which section - subSection is selected

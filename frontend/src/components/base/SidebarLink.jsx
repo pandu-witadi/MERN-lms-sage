@@ -2,7 +2,7 @@ import * as Icons from "react-icons/vsc"
 import {useDispatch, useSelector} from "react-redux"
 import {NavLink, matchPath, useLocation} from "react-router-dom"
 import {resetCourseState} from "../../reducer/slices/courseSlice.js";
-import {setOpenSideMenu} from "../../reducer/slices/sidebarSlice.js";
+import {useState} from "react";
 
 
 export default function SidebarLink({link, iconName}) {
@@ -10,7 +10,8 @@ export default function SidebarLink({link, iconName}) {
   const location = useLocation()
   const dispatch = useDispatch()
 
-  const {openSideMenu, screenSize} = useSelector(state => state.sidebar)
+  const [openSideMenu, setOpenSideMenu] = useState(true);//useSelector(state => state.sidebar)
+  const {screenSize, setScreenSize} = useState(true);
 
   const matchRoute = (route) => {
     return matchPath({path: route}, location.pathname)

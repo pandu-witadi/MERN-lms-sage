@@ -6,8 +6,6 @@ import {useNavigate, useParams} from "react-router-dom"
 import ReactPlayer from 'react-player'
 import {markLectureAsComplete} from "../../../services/operations/courseDetailsAPI"
 import {updateCompletedLectures} from "../../../reducer/slices/viewCourseSlice"
-import {setCourseViewSidebar} from "../../../reducer/slices/sidebarSlice"
-
 import IconBtn from "../../common/IconBtn"
 
 import {HiMenuAlt1} from 'react-icons/hi'
@@ -138,12 +136,12 @@ const VideoDetails = () => {
   return (
     <div className="flex flex-col gap-5 text-white">
 
-      <div className="sm:hidden text-white absolute left-7 top-3 cursor-pointer "
-           onClick={() => dispatch(setCourseViewSidebar(!courseViewSidebar))}>
-        {
-          !courseViewSidebar && <HiMenuAlt1 size={33}/>
-        }
-      </div>
+      {/*<div className="sm:hidden text-white absolute left-7 top-3 cursor-pointer "*/}
+      {/*     onClick={() => dispatch(setCourseViewSidebar(!courseViewSidebar))}>*/}
+      {/*  {*/}
+      {/*    !courseViewSidebar && <HiMenuAlt1 size={33}/>*/}
+      {/*  }*/}
+      {/*</div>*/}
 
 
       {!videoData ? (

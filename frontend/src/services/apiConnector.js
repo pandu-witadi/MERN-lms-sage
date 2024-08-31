@@ -9,5 +9,9 @@ export const apiConnector = (method, url, bodyData, headers, params) => {
         data: bodyData ? bodyData : null,
         headers: headers ? headers : null,
         params: params ? params : null,
+    }).then(response => {
+        return response;
+    }).catch(error => {
+        return error.response;
     });
 }

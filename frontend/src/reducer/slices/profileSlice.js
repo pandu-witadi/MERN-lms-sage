@@ -1,27 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit"
+import {createSlice} from "@reduxjs/toolkit"
 
-const initialState = {
-    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+const SLICE_KEY = "profile"
+
+export function getData() {
+    return (JSON.parse(localStorage.getItem(SLICE_KEY)));
+}
+
+export function setData(data) {
+    localStorage.setItem(SLICE_KEY, JSON.stringify(data));
+}
+
+const data = getData();
+const initialState = data ? {
     loading: false,
-};
-
-// Problem occured and solved
-// initially i mark user data as nulll
-// as i refresh the page user becomes null , so login / signup buttons are not visible - In case of user not logged
-// case - User logged but as i refresh , dashboard dropdown becomes invisible
-// solution - try getting value from localStorage otherwise mark it as null
-
-
+    user: data.user,
+} : {loading: false, user: null}
 const profileSlice = createSlice({
-    name: "profile",
+    name: SLICE_KEY,
     initialState: initialState,
     reducers: {
+        setLoading(state, value) {
+            state.loading = value.payload;
+        },
         setUser(state, value) {
             state.user = value.payload;
+            setData(state);
         },
-        setLoading(state, value) {
-            state.loading = value.payload
-        }
     },
 });
 

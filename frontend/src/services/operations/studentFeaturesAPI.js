@@ -2,7 +2,6 @@ import { toast } from "react-hot-toast";
 import { studentEndpoints } from "../apis";
 import { apiConnector } from "../apiConnector";
 import { setPaymentLoading } from "../../reducer/slices/courseSlice";
-import { resetCart } from "../../reducer/slices/cartSlice";
 
 
 const { COURSE_PAYMENT_API, COURSE_VERIFY_API, SEND_PAYMENT_SUCCESS_EMAIL_API } = studentEndpoints;
@@ -123,7 +122,7 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
         }
         toast.success("You are added to the course");
         navigate("/dashboard/enrolled-courses");
-        dispatch(resetCart());
+        // dispatch(resetCart());
     }
     catch (error) {
         console.log("PAYMENT VERIFY ERROR....", error);

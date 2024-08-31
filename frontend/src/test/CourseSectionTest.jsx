@@ -1,7 +1,6 @@
 import courseTest from './data/course-test.js'
 import {BsChevronDown} from "react-icons/bs";
 import {useState} from "react";
-import {setCourseViewSidebar} from "../reducer/slices/sidebarSlice.js";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
@@ -13,7 +12,7 @@ const CourseSectionTest = () => {
     const {
         courseEntireData,
     } = useSelector((state) => state.viewCourse)
-    const {courseViewSidebar} = useSelector(state => state.sidebar);
+    const [courseViewSidebar, setCourseViewSidebar] = useState(true)
 
     return(
         <>

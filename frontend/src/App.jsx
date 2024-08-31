@@ -40,7 +40,6 @@ function App() {
         <div data-theme={user?.theme || 'light'} className="w-screen h-screen flex flex-col">
             <Suspense fallback={<WebLoading/>}>
                 <Routes>
-                    <Route path="*" element={<PageNotFound/>}/>
                     <Route path={getRouterPath(PathLogin)} element={
                         <OpenRoute>
                             <LoginUser/>
@@ -114,6 +113,7 @@ function App() {
                             </>
                         )}
                     </Route>
+                    <Route path="*" element={<PageNotFound/>}/>
                 </Routes>
             </Suspense>
         </div>

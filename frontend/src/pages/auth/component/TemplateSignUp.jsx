@@ -5,7 +5,6 @@ import {useDispatch} from "react-redux";
 import {useState} from "react";
 import {ACCOUNT_TYPE} from "../../../utils/constants.js";
 import {http_signup} from "../../../services/operations/authAPI"
-import {setSignupData} from "../../../reducer/slices/authSlice.js";
 import {getOtp} from "../../../utils/utils.js";
 import toast from "react-hot-toast";
 import {getRouterPath, PathLogin} from "../../../services/router.js";
@@ -53,10 +52,6 @@ function TemplateSignUp({title}) {
             ...formData,
             accountType,
         }
-
-        // Setting signup data to state
-        // To be used after otp verification
-        dispatch(setSignupData(signupData))
 
         setApiResponse({status: true, msg: ""});
         setLoading(true);

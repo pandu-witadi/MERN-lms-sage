@@ -1,5 +1,3 @@
-import {toast} from "react-hot-toast"
-
 import {setToken} from "../../reducer/slices/authSlice"
 import {setUser} from "../../reducer/slices/profileSlice"
 import {apiConnector} from "../apiConnector"
@@ -25,36 +23,28 @@ export function http_signup(accountType, firstName, lastName, email, password, c
 
       return ({status: true, msg: ""});
     } catch (error) {
-      toast.error(error.message)
       return ({status: false, msg: error.message});
     }
   }
 }
 
-
 // ================ Login ================
-export function http_login(email, password) {
+
+
+export const http_login = async (email, password) => {
   return async (dispatch) => {
     try {
       const response = await apiConnector("POST", getRouterApi(ApiLogin), {
         email,
         password,
       })
-
       if (!response.data.success) {
         return ({status: false, msg: response.data.message});
       }
-
-      const userImage = response.data?.user?.image
-        ? response.data.user.image
-        : ""
-      dispatch(setToken(response.data.token))
-      dispatch(setUser({...response.data.user, image: userImage}))
-      localStorage.setItem("token", JSON.stringify(response.data?.token))
-      localStorage.setItem("user", JSON.stringify({...response.data.user, image: userImage}))
+      dispatch(setToken(response.data.token));
+      dispatch(setUser(response.data.user));
       return ({status: true, msg: ""});
     } catch (error) {
-      toast.error(error.message)
       return ({status: false, msg: error.message});
     }
   }
@@ -65,8 +55,6 @@ export function http_logout(navigate) {
   return (dispatch) => {
     dispatch(setToken(null))
     dispatch(setUser(null))
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
     navigate("/")
   }
 }
