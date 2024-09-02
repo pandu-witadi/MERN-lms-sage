@@ -1,17 +1,14 @@
-import {useEffect, useState} from "react";
+import ChangeProfilePicture from "./component/ChangeProfilePicture.jsx"
+import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {http_get_profile} from "../../../services/operations/profileAPI.js";
 import {toast} from "react-hot-toast";
-import {setLoading} from "../../../reducer/slices/authSlice.js";
-// import ChangeProfilePicture from "./profile/ChangeProfilePicture.jsx"
+import {setLoading} from "src/reducer/slices/authSlice.js";
 import EditProfile from "./component/EditProfile.jsx"
-import UpdatePassword from "./component/UpdatePassword.jsx"
-import EditTheme from "./component/EditTheme.jsx";
 import {useTranslation} from "react-i18next";
-// import DeleteAccount from "./profile/DeleteAccount.jsx"
 
-export default function SettingsInstructor() {
+export default function Profile() {
     const { t } = useTranslation();
     const {token} = useSelector((state) => state.auth)
     const navigate = useNavigate();
@@ -30,22 +27,11 @@ export default function SettingsInstructor() {
     return (
         <div className={"gap-4"}>
             <h1 className="my-page-title">
-                {t("navBar.settings")}
+                {t("profile.editProfile")}
             </h1>
-            {/* Change Profile Picture */}
-            {/*<ChangeProfilePicture/>*/}
 
-            {/* Profile */}
+            <ChangeProfilePicture/>
             <EditProfile/>
-
-            {/* Password */}
-            <UpdatePassword />
-
-            {/* Edit Theme */}
-            <EditTheme />
-
-            {/*/!* Delete Account *!/*/}
-            {/*<DeleteAccount />*/}
         </div>
     )
 }

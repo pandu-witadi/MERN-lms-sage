@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react"
+import {useEffect, useState} from "react"
 
-import { MdClose } from "react-icons/md"
-import { useSelector } from "react-redux"
+import {MdClose} from "react-icons/md"
+import {useSelector} from "react-redux"
 
 // Defining a functional component ChipInput
-export default function ChipInput({ label, name, placeholder, register, errors, setValue, }) {
-  const { editCourse, course } = useSelector((state) => state.course)
+export default function ChipInput({label, name, placeholder, register, errors, setValue,}) {
+  const {editCourse, course} = useSelector((state) => state.course)
 
   // Setting up state for managing chips array
   const [chips, setChips] = useState([])
 
   useEffect(() => {
     if (editCourse) {
-      // setChips(JSON.parse(course?.tag))
-
       setChips(course?.tag)
     }
 
-    register(name, { required: true, validate: (value) => value.length > 0 }, chips);
+    register(name, {required: true, validate: (value) => value.length > 0}, chips);
   }, [])
 
   // "Updates value whenever 'chips' is modified
@@ -53,45 +51,29 @@ export default function ChipInput({ label, name, placeholder, register, errors, 
   // Render the component
   return (
     <div className="flex flex-col space-y-2">
-
-      <label className="text-sm text-richblack-5" htmlFor={name}>
-        {label} <sup className="text-pink-200">*</sup>
-      </label>
-
-      <div className="flex w-full flex-wrap gap-y-2">
+      <label className="my-form-label" htmlFor={name}>{label} <sup className="text-error">*</sup></label>
+      <div className="flex w-full flex-row flex-wrap gap-2 my-form-chip-style">
         {chips?.map((chip, index) => (
-          <div
-            key={index}
-            className="m-1 flex items-center rounded-full bg-yellow-400 px-2 py-1 text-sm text-richblack-5"
-          >
+          <div key={index} className="m-1 flex items-center justify-items-center rounded-full bg-app-base sm:px-4 px-2 text-sm">
             {chip}
-
-            {/* delete chip */}
             <button
               type="button"
               className="ml-2 focus:outline-none"
-              onClick={() => handleDeleteChip(index)}
-            >
-              <MdClose className="text-sm" />
+              onClick={() => handleDeleteChip(index)}>
+              <MdClose className="text-sm"/>
             </button>
           </div>
         ))}
-
-
         <input
           id={name}
           name={name}
           type="text"
           placeholder={placeholder}
           onKeyDown={handleKeyDown}
-          className="form-style w-full"
+          className=""
         />
       </div>
-      {errors[name] && (
-        <span className="ml-2 text-xs tracking-wide text-pink-200">
-          {label} is required
-        </span>
-      )}
+      {errors[name] && (<span className="my-form-style-error">{label} is required</span>)}
     </div>
   )
 }

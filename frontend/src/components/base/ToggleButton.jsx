@@ -7,7 +7,7 @@ export default function ToggleButton({width, label, id, value, setToggle}) {
 
     return (
         <button onClick={handleToggle}
-                className={`btn btn-sm ${width ? `w-[${width}px]` : `w-[160px]`} rounded-xl ${(value === id) ? 'btn-warning bg-app-base border-app-border' : 'btn-neutral'}`}>
+                className={`btn btn-sm ${width ? `w-[${width}px]` : `w-[160px]`} rounded-xl ${(value === id) ? 'btn-warning bg-app-base border-app-border text-neutral' : 'btn-neutral text-app-base'}`}>
             {label}
         </button>
     );

@@ -2,10 +2,7 @@
 //
 const crypto = require('crypto')
 const bcrypt = require('bcrypt')
-
-
 const User = require('../model/user')
-const mailSender = require('../util/mailSender')
 
 // ================ resetPasswordToken ================
 exports.resetPasswordToken = async (req, res) => {
@@ -32,14 +29,7 @@ exports.resetPasswordToken = async (req, res) => {
             { token: token, resetPasswordTokenExpires: Date.now() + 5 * 60 * 1000 },
             { new: true }); // by marking true, it will return updated user
 
-
-        // create url
-        const url = `https://study-notion-mern-stack.netlify.app/update-password/${token}`;
-
-        // send email containing url
-        await mailSender(email, 'Password Reset Link', `Password Reset Link : ${url}`);
-
-        // return succes response
+        // return success response
         res.status(200).json({
             success: true,
             message: 'Email sent successfully , Please check your mail box and change password'

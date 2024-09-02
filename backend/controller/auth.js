@@ -3,73 +3,11 @@
 const optGenerator = require('otp-generator')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const cookie = require('cookie')
-
 const User = require('./../model/user')
 const Profile = require('./../model/profile')
-const OTP = require('../model/OTP')
-const mailSender = require('../util/mailSender')
-const otpTemplate = require('../mail/templates/emailVerificationTemplate')
-const { passwordUpdated } = require("../mail/templates/passwordUpdate")
 
 // require('dotenv').config()
 const CF = require('../conf/conf_app')
-
-// ================ SEND-OTP For Email Verification ================
-exports.sendOTP = async (req, res) => {
-    try {
-
-        // fetch email from re.body
-        const { email } = req.body;
-
-        // check user already exist ?
-        const checkUserPresent = await User.findOne({ email })
-
-        // if exist then response
-        if (checkUserPresent) {
-            console.log('(when otp generate) User alreay registered')
-            return res.status(401).json({
-                success: false,
-                message: 'User is Already Registered'
-            })
-        }
-
-        // generate Otp
-        const otp = optGenerator.generate(6, {
-            upperCaseAlphabets: false,
-            lowerCaseAlphabets: false,
-            specialChars: false
-        })
-        console.log(' ... otp - ', otp)
-
-        const name = email.split('@')[0].split('.').map(part => part.replace(/\d+/g, '')).join(' ')
-        console.log(name)
-
-        // send otp in mail
-        await mailSender(email, 'OTP Verification Email', otpTemplate(otp, name))
-
-        // create an entry for otp in DB
-        const otpBody = await OTP.create({ email, otp })
-        // console.log('otpBody - ', otpBody)
-
-        // return response successfully
-        res.status(200).json({
-            success: true,
-            otp,
-            message: 'Otp sent successfully'
-        })
-    }
-
-    catch (error) {
-        console.log('Error while generating Otp - ', error)
-        res.status(200).json({
-            success: false,
-            message: 'Error while generating Otp',
-            error: error.mesage
-        })
-    }
-}
-
 
 // ================ SIGNUP ================
 exports.signup = async (req, res) => {
@@ -91,7 +29,7 @@ exports.signup = async (req, res) => {
         if (password !== confirmPassword) {
             return res.status(400).json({
                 success: false,
-                messgae: 'passowrd & confirm password does not match, Please try again..!'
+                message: 'password & confirm password does not match, Please try again..!'
             })
         }
 
@@ -106,35 +44,7 @@ exports.signup = async (req, res) => {
             })
         }
 
-        // find most recent otp stored for user in DB
-        const recentOtp = await OTP.findOne({ email }).sort({ createdAt: -1 }).limit(1)
-        // console.log('recentOtp ', recentOtp)
-
-        // .sort({ createdAt: -1 }):
-        // It's used to sort the results based on the createdAt field in descending order (-1 means descending).
-        // This way, the most recently created OTP will be returned first.
-
-        // .limit(1): It limits the number of documents returned to 1.
-
-
-        // if otp not found
-        if (!recentOtp || recentOtp.length == 0) {
-            // create an entry for otp in DB
-            const otpBody = await OTP.create({ email, otp })
-
-            // return res.status(400).json({
-            //     success: false,
-            //     message: 'Otp not found in DB, please try again'
-            // })
-        } else if (otp !== recentOtp.otp) {
-            // otp invalid
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid Otp'
-            })
-        }
-
-        // hash - secure passoword
+        // hash - secure password
         let hashedPassword = await bcrypt.hash(password, 10)
 
         // additionDetails
@@ -145,11 +55,8 @@ exports.signup = async (req, res) => {
             contactNumber: null
         })
 
-        // let approved = "";
-        // approved === "Instructor" ? (approved = false) : (approved = true)
-
         // create entry in DB
-        const userData = await User.create({
+        await User.create({
             firstName,
             lastName,
             email,
@@ -174,7 +81,7 @@ exports.signup = async (req, res) => {
         res.status(401).json({
             success: false,
             error: error.message,
-            messgae: 'User cannot be registered , Please try again..!'
+            message: 'User cannot be registered , Please try again..!'
         })
     }
 }
@@ -204,7 +111,7 @@ exports.login = async (req, res) => {
         }
 
 
-        // comapare given password and saved password from DB
+        // compare given password and saved password from DB
         if (await bcrypt.compare(password, user.password)) {
             const payload = {
                 email: user.email,
@@ -248,7 +155,7 @@ exports.login = async (req, res) => {
         res.status(500).json({
             success: false,
             error: error.message,
-            messgae: 'Error while Login user'
+            message: 'Error while Login user'
         })
     }
 }
@@ -264,14 +171,14 @@ exports.changePassword = async (req, res) => {
         if (!oldPassword || !newPassword || !confirmNewPassword) {
             return res.status(403).json({
                 success: false,
-                message: 'All fileds are required'
+                message: 'All fields are required'
             })
         }
 
         // get user
         const userDetails = await User.findById(req.user.id)
 
-        // validate old passowrd entered correct or not
+        // validate old password entered correct or not
         const isPasswordMatch = await bcrypt.compare(
             oldPassword,
             userDetails.password
@@ -301,43 +208,20 @@ exports.changePassword = async (req, res) => {
             { password: hashedPassword },
             { new: true })
 
-
-        // send email
-        try {
-            const emailResponse = await mailSender(
-                updatedUserDetails.email,
-                'Password for your account has been updated',
-                passwordUpdated(
-                    updatedUserDetails.email,
-                    `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
-                )
-            )
-            // console.log("Email sent successfully:", emailResponse)
-        }
-        catch (error) {
-            console.error("Error occurred while sending email:", error)
-            return res.status(500).json({
-                success: false,
-                message: "Error occurred while sending email",
-                error: error.message,
-            })
-        }
-
-
         // return success response
         res.status(200).json({
             success: true,
-            mesage: 'Password changed successfully'
+            message: 'Password changed successfully'
         })
     }
 
     catch (error) {
-        console.log('Error while changing passowrd')
+        console.log('Error while changing password')
         console.log(error)
         res.status(500).json({
             success: false,
             error: error.message,
-            messgae: 'Error while changing passowrd'
+            message: 'Error while changing password'
         })
     }
 }

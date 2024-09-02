@@ -6,20 +6,12 @@ const localeId = {
       emailInfo: "(Silakan gunakan email kantor Anda)",
       loginFailed: "Login gagal!\nPeriksa kembali Email dan Password"
     },
-    dialogLogout: {
-      title: "Apakah anda yakin ?",
-      desc: "Anda akan keluar dari akun Anda."
-    },
     dialog: {
+      logOutTitle: "Apakah anda yakin ?",
+      logOutDesc: "Anda akan keluar dari akun Anda.",
       deleteCourseTitle: "Hapus Course",
-      deleteCourseDesc: "Anda yakin ingin menghapus course ini?"
-    },
-    navBar: {
-      dashboard: "Dashboard",
-      myCourses: "Kelas",
-      addCourses: "Tambah Kelas",
-      settings: "Settings",
-      myProfile: "Profile"
+      deleteCourseDesc: "Anda yakin ingin menghapus course ini?",
+
     },
     btn: {
       logout: "Logout",
@@ -33,22 +25,30 @@ const localeId = {
       password: "Password",
       light: "Light",
       dark: "Dark",
-      addCourse: "Tambah Course",
+      addCourse: "Tambah Kelas",
       courses: "Kelas",
       duration: "Durasi",
       actions: "Actions",
       created: "Dibuat",
       updated: "Updated",
-      status: "Status"
+      status: "Status",
     },
     dashboard: {
+      title: "Dashboard",
       welcome: "Selamat datang",
       totalCourses: "Total Kelas",
       totalStudent: "Total Siswa",
-      myCourses: "My Courses",
-      noCoursesFound: "Tidak ada course"
+      myCourses: "Kelas Saya",
+      noCoursesFound: "Tidak ada kelas yang ditemukan",
+      addCourses: "Tambah Kelas",
     },
-    profile: {
+    notification: {
+      title: "Notifikasi",
+      pageList: [{key: "all", label: "Semua"}, {key: "unread", label: "Belum Dibaca"}],
+    },
+    settings: {
+      title: "Settings",
+      myProfile: "Profile",
       editTheme: "Ganti Tema",
       editLanguage: "Ganti Bahasa",
       editProfile: "Edit Profile",
@@ -81,7 +81,11 @@ const localeId = {
       languageList: [{key: "id", label: "Bahasa Indonesia"}, {key: "en", label: "Bahasa Inggris"}],
       themeList: [{key: "light", label: "Light"}, {key: "dark", label: "Dark"}],
       genderList: [{key: "male", label: "Pria"}, {key: "female", label: "Wanita"}]
-    }
+    },
+    course: {
+      addCourse: "Tambah Kelas",
+      addCourseSteps: [{id: 1, title: "Course Information"}, {id: 2, title: "Course Builder"}, {id: 3, title: "Publish"}],
+    },
   },
 }
 

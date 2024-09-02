@@ -1,7 +1,6 @@
 // AUTH , IS STUDENT , IS INSTRUCTOR , IS ADMIN
 
 const jwt = require("jsonwebtoken")
-// require('dotenv').config()
 const CF = require('../conf/conf_app')
 
 // ================ AUTH ================
@@ -19,16 +18,8 @@ exports.auth = (req, res, next) => {
             })
         }
 
-        // console.log('Token ==> ', token)
-        // console.log('From body -> ', req.body?.token)
-        // console.log('from cookies -> ', req.cookies?.token)
-        // console.log('from headers -> ', req.header('Authorization')?.replace('Bearer ', ''))
-
         // verify token
         try {
-            const decode = jwt.verify(token, CF.jwt.accessToken)
-            // console.log('verified decode token => ', decode)
-
             // *********** example from console ***********
             // verified decode token =>  {
             //     email: 'buydavumli@biyac.com',
@@ -37,7 +28,7 @@ exports.auth = (req, res, next) => {
             //     iat: 1699452446,
             //     exp: 1699538846
             //   }
-            req.user = decode
+            req.user = jwt.verify(token, CF.jwt.accessToken)
         }
         catch (error) {
             console.log('Error while decoding token')
@@ -45,7 +36,7 @@ exports.auth = (req, res, next) => {
             return res.status(401).json({
                 success: false,
                 error: error.message,
-                messgae: 'Error while decoding token'
+                message: 'Error while decoding token'
             })
         }
         // go to next middleware
@@ -56,35 +47,30 @@ exports.auth = (req, res, next) => {
         console.log(error)
         return res.status(500).json({
             success: false,
-            messgae: 'Error while token validating'
+            message: 'Error while token validating'
         })
     }
 }
 
-
-
-
-
 // ================ IS STUDENT ================
 exports.isStudent = (req, res, next) => {
     try {
-        // console.log('User data -> ', req.user)
-        if (req.user?.accountType != 'Student') {
+        if (req.user?.accountType !== 'Student') {
             return res.status(401).json({
                 success: false,
-                messgae: 'This Page is protected only for student'
+                message: 'This Page is protected only for student'
             })
         }
         // go to next middleware
         next()
     }
     catch (error) {
-        console.log('Error while cheching user validity with student accountType')
+        console.log('Error while checking user validity with student accountType')
         console.log(error)
         return res.status(500).json({
             success: false,
             error: error.message,
-            messgae: 'Error while cheching user validity with student accountType'
+            message: 'Error while checking user validity with student accountType'
         })
     }
 }
@@ -94,22 +80,22 @@ exports.isStudent = (req, res, next) => {
 exports.isInstructor = (req, res, next) => {
     try {
         // console.log('User data -> ', req.user)
-        if (req.user?.accountType != 'Instructor') {
+        if (req.user?.accountType !== 'Instructor') {
             return res.status(401).json({
                 success: false,
-                messgae: 'This Page is protected only for Instructor'
+                message: 'This Page is protected only for Instructor'
             })
         }
         // go to next middleware
         next()
     }
     catch (error) {
-        console.log('Error while cheching user validity with Instructor accountType')
+        console.log('Error while checking user validity with Instructor accountType')
         console.log(error)
         return res.status(500).json({
             success: false,
             error: error.message,
-            messgae: 'Error while cheching user validity with Instructor accountType'
+            message: 'Error while checking user validity with Instructor accountType'
         })
     }
 }
@@ -119,22 +105,22 @@ exports.isInstructor = (req, res, next) => {
 exports.isAdmin = (req, res, next) => {
     try {
         // console.log('User data -> ', req.user)
-        if (req.user.accountType != 'Admin') {
+        if (req.user.accountType !== 'Admin') {
             return res.status(401).json({
                 success: false,
-                messgae: 'This Page is protected only for Admin'
+                message: 'This Page is protected only for Admin'
             })
         }
         // go to next middleware
         next()
     }
     catch (error) {
-        console.log('Error while cheching user validity with Admin accountType')
+        console.log('Error while checking user validity with Admin accountType')
         console.log(error)
         return res.status(500).json({
             success: false,
             error: error.message,
-            messgae: 'Error while cheching user validity with Admin accountType'
+            message: 'Error while checking user validity with Admin accountType'
         })
     }
 }

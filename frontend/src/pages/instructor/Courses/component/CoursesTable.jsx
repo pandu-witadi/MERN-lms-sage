@@ -10,10 +10,10 @@ import {HiClock} from "react-icons/hi"
 import {RiDeleteBin6Line} from "react-icons/ri"
 import {useNavigate} from "react-router-dom"
 
-import {formatDate} from "../../../services/formatDate"
-import {deleteCourse, fetchInstructorCourses,} from "../../../services/operations/courseDetailsAPI"
-import {COURSE_STATUS} from "../../../utils/constants"
-import ConfirmationModal from "../../../components/base/ConfirmationModal.jsx"
+import {formatDate} from "../../../../services/formatDate.js"
+import {deleteCourse, fetchInstructorCourses,} from "../../../../services/operations/courseDetailsAPI.js"
+import {COURSE_STATUS} from "../../../../utils/constants.js"
+import ConfirmationModal from "../../../../components/base/ConfirmationModal.jsx"
 import toast from 'react-hot-toast'
 import {useTranslation} from "react-i18next";
 

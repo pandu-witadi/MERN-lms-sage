@@ -9,14 +9,14 @@ export default function EditProfile() {
     const {token, user} = useSelector((state) => state.auth)
     const dispatch = useDispatch()
     const { t } = useTranslation();
-    const genders = t("profile.genderList", { returnObjects: true });
+    const genders = t("settings.genderList", { returnObjects: true });
 
     const {register, handleSubmit, formState: {errors}} = useForm()
 
     const submitProfileForm = (data) => {
         dispatch(setLoading(true));
         dispatch(http_profile_update(token, data)).then((response) => {
-            response.status ? toast.success(t("profile.successUpdateProfile")) : toast.error(response.msg);
+            response.status ? toast.success(t("settings.successUpdateProfile")) : toast.error(response.msg);
         })
         dispatch(setLoading(false));
     }
@@ -27,20 +27,20 @@ export default function EditProfile() {
                 {/* Profile Information */}
                 <div className="my-card-border">
                     <div className="my-card-title">{t("btn.profile")}</div>
-                    <div className="flex flex-col gap-5 lg:flex-row">
+                    <div className="flex flex-col gap-4 lg:flex-row">
                         <div className="flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="firstName" className="my-form-label">{t("profile.firstName")}</label>
+                            <label htmlFor="firstName" className="my-form-label">{t("settings.firstName")}</label>
                             <input
                               type="text"
                               name="firstName"
                               id="firstName"
-                              placeholder={t("profile.firstNamePlaceholder")}
+                              placeholder={t("settings.firstNamePlaceholder")}
                               className="my-form-style"
                               {...register("firstName", {required: true})}
                               defaultValue={user?.firstName}
                             />
                             {errors.firstName && (
-                              <span className="my-form-style-error">{t("profile.firstNamePlaceholder")}</span>)}
+                              <span className="my-form-style-error">{t("settings.firstNamePlaceholder")}</span>)}
                         </div>
 
                         <div className="flex flex-col gap-2 lg:w-[50%]">
@@ -51,19 +51,19 @@ export default function EditProfile() {
                               type="text"
                               name="lastName"
                               id="lastName"
-                              placeholder={t("profile.lastNamePlaceholder")}
+                              placeholder={t("settings.lastNamePlaceholder")}
                               className="my-form-style"
-                              {...register("lastName", {required: true})}
+                              {...register("lastName", {required: false})}
                               defaultValue={user?.lastName}
                             />
                             {errors.lastName && (
-                              <span className="my-form-style-error">{t("profile.lastNamePlaceholder")}</span>)}
+                              <span className="my-form-style-error">{t("settings.lastNamePlaceholder")}</span>)}
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-5 lg:flex-row mt-4">
                         <div className="flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="dateOfBirth" className="my-form-label">{t("profile.dateOfBirth")}</label>
+                            <label htmlFor="dateOfBirth" className="my-form-label">{t("settings.dateOfBirth")}</label>
                             <input
                               type="date"
                               name="dateOfBirth"
@@ -85,7 +85,7 @@ export default function EditProfile() {
                         </div>
 
                         <div className="flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="gender" className="my-form-label">{t("profile.gender")}</label>
+                            <label htmlFor="gender" className="my-form-label">{t("settings.gender")}</label>
                             <select
                               name="gender"
                               id="gender"
@@ -107,12 +107,12 @@ export default function EditProfile() {
 
                     <div className="flex flex-col gap-5 lg:flex-row mt-4">
                         <div className="flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="contactNumber" className="my-form-label">{t("profile.contactNumber")}</label>
+                            <label htmlFor="contactNumber" className="my-form-label">{t("settings.contactNumber")}</label>
                             <input
                               type="tel"
                               name="contactNumber"
                               id="contactNumber"
-                              placeholder={t("profile.contactNumberPlaceholder")}
+                              placeholder={t("settings.contactNumberPlaceholder")}
                               className="my-form-style"
                               {...register("contactNumber", {
                                   required: {
@@ -128,7 +128,7 @@ export default function EditProfile() {
                         </div>
 
                         <div className="flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="about" className="my-form-label">{t("profile.about")}</label>
+                            <label htmlFor="about" className="my-form-label">{t("settings.about")}</label>
                             <input
                               type="text"
                               name="about"
@@ -138,19 +138,11 @@ export default function EditProfile() {
                               {...register("about", {required: false})}
                               defaultValue={user?.additionalDetails?.about}
                             />
-                            {errors.about && (<span className="my-form-style-error">{t("profile.aboutPlaceholder")}</span>)}
+                            {errors.about && (<span className="my-form-style-error">{t("settings.aboutPlaceholder")}</span>)}
                         </div>
                     </div>
                     <div className="divider"/>
                     <div className="flex justify-end gap-5">
-                        {/*<button*/}
-                        {/*    onClick={() => {*/}
-                        {/*        navigate("/dashboard/my-profile")*/}
-                        {/*    }}*/}
-                        {/*    className="my-btn-cancel"*/}
-                        {/*>*/}
-                        {/*    Cancel*/}
-                        {/*</button>*/}
                         <button type={"submit"} className={"my-btn-confirm"}>{t("btn.save")}</button>
                     </div>
                 </div>

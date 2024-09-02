@@ -1,25 +1,24 @@
-import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
-import { toast } from "react-hot-toast"
-import { HiOutlineCurrencyRupee } from "react-icons/hi"
-import { MdNavigateNext } from "react-icons/md"
-import { useDispatch, useSelector } from "react-redux"
+import {useEffect, useState} from "react"
+import {useForm} from "react-hook-form"
+import {toast} from "react-hot-toast"
+import {MdNavigateNext} from "react-icons/md"
+import {useDispatch, useSelector} from "react-redux"
 
-import { addCourseDetails, editCourseDetails, fetchCourseCategories } from "../../../../../services/operations/courseDetailsAPI"
-import { setCourse, setStep } from "../../../../../reducer/slices/courseSlice"
-import { COURSE_STATUS } from "../../../../../utils/constants"
-import IconBtn from "../../../../common/IconBtn"
+import {addCourseDetails, editCourseDetails, fetchCourseCategories} from "../../../../services/operations/courseDetailsAPI"
+import {setCourse, setStep} from "../../../../reducer/slices/courseSlice"
+import {COURSE_STATUS} from "../../../../utils/constants"
+import IconBtn from "../../../../components/common/IconBtn"
 import Upload from "../Upload"
 import ChipInput from "./ChipInput"
 import RequirementsField from "./RequirementField"
 
 export default function CourseInformationForm() {
 
-  const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm()
+  const {register, handleSubmit, setValue, getValues, formState: {errors}} = useForm()
 
   const dispatch = useDispatch()
-  const { token } = useSelector((state) => state.auth)
-  const { course, editCourse } = useSelector((state) => state.course)
+  const {token} = useSelector((state) => state.auth)
+  const {course, editCourse} = useSelector((state) => state.course)
   const [loading, setLoading] = useState(false)
   const [courseCategories, setCourseCategories] = useState([])
 
@@ -33,10 +32,8 @@ export default function CourseInformationForm() {
       }
       setLoading(false)
     }
-    // if form is in edit mode
-    // It will add value in input field
+    // if form is in edit mode, It will add value in input field
     if (editCourse) {
-      // console.log("editCourse ", editCourse)
       setValue("courseTitle", course.courseName)
       setValue("courseShortDesc", course.courseDescription)
       setValue("coursePrice", course.price)
@@ -47,37 +44,25 @@ export default function CourseInformationForm() {
       setValue("courseImage", course.thumbnail)
     }
 
-    getCategories()
+    getCategories().then(r => {})
   }, [])
-
 
 
   const isFormUpdated = () => {
     const currentValues = getValues()
-    // console.log("changes after editing form values:", currentValues)
-    if (
-      currentValues.courseTitle !== course.courseName ||
+    return currentValues.courseTitle !== course.courseName ||
       currentValues.courseShortDesc !== course.courseDescription ||
-      currentValues.coursePrice !== course.price ||
       currentValues.courseTags.toString() !== course.tag.toString() ||
       currentValues.courseBenefits !== course.whatYouWillLearn ||
       currentValues.courseCategory._id !== course.category._id ||
       currentValues.courseRequirements.toString() !== course.instructions.toString() ||
-      currentValues.courseImage !== course.thumbnail) {
-      return true
-    }
-    return false
+      currentValues.courseImage !== course.thumbnail;
+
   }
 
   //   handle next button click
   const onSubmit = async (data) => {
-    // console.log(data)
-
     if (editCourse) {
-      // const currentValues = getValues()
-      // console.log("changes after editing form values:", currentValues)
-      // console.log("now course:", course)
-      // console.log("Has Form Changed:", isFormUpdated())
       if (isFormUpdated()) {
         const currentValues = getValues()
         const formData = new FormData()
@@ -123,7 +108,7 @@ export default function CourseInformationForm() {
       return
     }
 
-    // user has visted first time to step 1
+    // user has visited first time to step 1
     const formData = new FormData()
     formData.append("courseName", data.courseTitle)
     formData.append("courseDescription", data.courseShortDesc)
@@ -144,167 +129,116 @@ export default function CourseInformationForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6 "
-    >
-      {/* Course Title */}
-      <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="courseTitle">
-          Course Title <sup className="text-pink-200">*</sup>
-        </label>
-        <input
-          id="courseTitle"
-          placeholder="Enter Course Title"
-          {...register("courseTitle", { required: true })}
-          className="form-style w-full"
-        />
-        {errors.courseTitle && (
-          <span className="ml-2 text-xs tracking-wide text-pink-200">
-            Course title is required
-          </span>
-        )}
-      </div>
-
-      {/* Course Short Description */}
-      <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="courseShortDesc">
-          Course Short Description <sup className="text-pink-200">*</sup>
-        </label>
-        <textarea
-          id="courseShortDesc"
-          placeholder="Enter Description"
-          {...register("courseShortDesc", { required: true })}
-          className="form-style resize-x-none min-h-[130px] w-full ] "
-        />
-        {errors.courseShortDesc && (
-          <span className="ml-2 text-xs tracking-wide text-pink-200">
-            Course Description is required
-          </span>
-        )}
-      </div>
-
-      {/* Course Price */}
-      <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="coursePrice">
-          Course Price <sup className="text-pink-200">*</sup>
-        </label>
-        <div className="relative">
+    <form onSubmit={handleSubmit(onSubmit)} className="my-card-border">
+      <div className="flex flex-col gap-4">
+        {/* Course Title */}
+        <div className={"flex flex-col w-full gap-2"}>
+          <label className="my-form-label" htmlFor="courseTitle">Course Title <sup className="text-error">*</sup></label>
           <input
-            id="coursePrice"
-            placeholder="Enter Course Price"
-            {...register("coursePrice", {
-              required: true,
-              valueAsNumber: true,
-              pattern: {
-                value: /^(0|[1-9]\d*)(\.\d+)?$/,
-              },
-            })}
-            className="form-style w-full !pl-12"
-
+            id="courseTitle"
+            placeholder="Enter Course Title"
+            {...register("courseTitle", {required: true})}
+            className="my-form-style"
           />
-          <HiOutlineCurrencyRupee className="absolute left-3 top-1/2 inline-block -translate-y-1/2 text-2xl text-richblack-400" />
+          {errors.courseTitle && (<span className="my-form-style-error">Course title is required</span>)}
         </div>
-        {errors.coursePrice && (
-          <span className="ml-2 text-xs tracking-wide text-pink-200">
-            Course Price is required
-          </span>
-        )}
-      </div>
 
-      {/* Course Category */}
-      <div className="flex flex-col space-y-2 ">
-        <label className="text-sm text-richblack-5" htmlFor="courseCategory">
-          Course Category <sup className="text-pink-200">*</sup>
-        </label>
-        <select
-          {...register("courseCategory", { required: true })}
-          defaultValue=""
-          id="courseCategory"
-          className="form-style w-full cursor-pointer"
-        >
-          <option value="" disabled>
-            Choose a Category
-          </option>
-          {!loading &&
-            courseCategories?.map((category, indx) => (
-              <option key={indx} value={category?._id}>
-                {category?.name}
-              </option>
-            ))}
-        </select>
-        {errors.courseCategory && (
-          <span className="ml-2 text-xs tracking-wide text-pink-200">
-            Course Category is required
-          </span>
-        )}
-      </div>
+        {/* Course Short Description */}
+        <div className={"flex flex-col w-full gap-2"}>
+          <label className="my-form-label" htmlFor="courseShortDesc">Course Short Description <sup className="text-error">*</sup></label>
+          <textarea
+            id="courseShortDesc"
+            placeholder="Enter Description"
+            {...register("courseShortDesc", {required: true})}
+            className="w-full my-form-area-style"
+          />
+          {errors.courseShortDesc && (<span className="my-form-style-error">Course Description is required</span>)}
+        </div>
 
-      {/* Course Tags */}
-      <ChipInput
-        label="Tags"
-        name="courseTags"
-        placeholder="Enter Tags and press Enter or Comma"
-        register={register}
-        errors={errors}
-        setValue={setValue}
-      />
+        {/* Benefits of the course */}
+        <div className={"flex flex-col w-full gap-2"}>
+          <label className="my-form-label" htmlFor="courseBenefits">Benefits of the course</label>
+          <textarea
+            id="courseBenefits"
+            placeholder="Enter benefits of the course"
+            {...register("courseBenefits", {required: false})}
+            className="w-full my-form-area-style"
+          />
+          {errors.courseBenefits && (<span className="ml-2 text-xs tracking-wide text-pink-200">Benefits of the course is required</span>)}
+        </div>
 
-      {/* Course Thumbnail Image */}
-      <Upload
-        name="courseImage"
-        label="Course Thumbnail"
-        register={register}
-        setValue={setValue}
-        errors={errors}
-        editData={editCourse ? course?.thumbnail : null}
-      />
+        {/* Course Category */}
+        <div className={"flex flex-col w-full gap-2"}>
+          <label className="my-form-label" htmlFor="courseCategory">Course Category <sup className="text-error">*</sup></label>
+          <select
+            {...register("courseCategory", {required: true})}
+            defaultValue=""
+            id="courseCategory"
+            className="my-form-style">
+            <option value="" disabled>
+              Choose a Category
+            </option>
+            {!loading &&
+              courseCategories?.map((category, index) => (
+                <option key={index} value={category?._id}>
+                  {category?.name}
+                </option>
+              ))}
+          </select>
+          {errors.courseCategory && (<span className="my-form-style-error">Course Category is required</span>)}
+        </div>
 
-      {/* Benefits of the course */}
-      <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="courseBenefits">
-          Benefits of the course <sup className="text-pink-200">*</sup>
-        </label>
-        <textarea
-          id="courseBenefits"
-          placeholder="Enter benefits of the course"
-          {...register("courseBenefits", { required: true })}
-          className="form-style resize-x-none min-h-[130px] w-full"
+        {/* Course Tags */}
+        <ChipInput
+          label="Tags"
+          name="courseTags"
+          placeholder="Enter Tags and press Enter or Comma"
+          register={register}
+          errors={errors}
+          setValue={setValue}
         />
-        {errors.courseBenefits && (
-          <span className="ml-2 text-xs tracking-wide text-pink-200">
-            Benefits of the course is required
-          </span>
-        )}
-      </div>
 
-      {/* Requirements/Instructions */}
-      <RequirementsField
-        name="courseRequirements"
-        label="Requirements/Instructions"
-        register={register}
-        setValue={setValue}
-        errors={errors}
-      />
+        {/* Requirements/Instructions */}
+        <RequirementsField
+          label="Requirements/Instructions"
+          name="courseRequirements"
+          register={register}
+          setValue={setValue}
+          errors={errors}
+        />
 
-      {/* Next Button */}
-      <div className="flex justify-end gap-x-2">
-        {editCourse && (
-          <button
-            onClick={() => dispatch(setStep(2))}
-            disabled={loading}
-            className={`flex cursor-pointer items-center gap-x-2 rounded-md py-[8px] px-[20px] font-semibold
+        {/* Course Thumbnail Image */}
+        <Upload
+          name="courseImage"
+          label="Course Thumbnail"
+          register={register}
+          setValue={setValue}
+          errors={errors}
+          editData={editCourse ? course?.thumbnail : null}
+        />
+
+        <div className="divider"/>
+
+        {/* Next Button */}
+        <div className="flex justify-end gap-x-2">
+          {editCourse && (
+            <button
+              onClick={() => dispatch(setStep(2))}
+              disabled={loading}
+              className={`flex cursor-pointer items-center gap-x-2 rounded-md py-[8px] px-[20px] font-semibold
               text-richblack-900 bg-richblack-300 hover:bg-richblack-900 hover:text-richblack-300 duration-300`}
+            >
+              Continue Wihout Saving
+            </button>
+          )}
+          <button
+            className={"my-btn-confirm"}
+            disabled={loading}
           >
-            Continue Wihout Saving
+            <MdNavigateNext/>
+            {!editCourse ? "Next" : "Save Changes"}
           </button>
-        )}
-        <IconBtn
-          disabled={loading}
-          text={!editCourse ? "Next" : "Save Changes"}
-        >
-          <MdNavigateNext />
-        </IconBtn>
+        </div>
       </div>
     </form>
   )

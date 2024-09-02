@@ -49,7 +49,7 @@ let src = [
     },
     {
         "name": "ChatGPT",
-        "description": "LLM Large Langeuage Model",
+        "description": "LLM Large Language Model",
         "courses": []
     }
 ]
@@ -58,7 +58,6 @@ insert_categories(client, dbase, collection, src).catch(console.dir)
 
 
 async function insert_admin(client, dbase, coll_user, coll_profile, src) {
-    console.log(src)
     try {
         const database = client.db(dbase)
 
@@ -70,15 +69,12 @@ async function insert_admin(client, dbase, coll_user, coll_profile, src) {
             contactNumber: null
         })
 
-        console.log(' .. a doc inserted _id : ' + resProfile.insertedId)
-
         let obj = database.collection(coll_user)
         let user_exist = await obj.findOne({ email: src['email'] })
         if (user_exist)
             await obj.deleteOne({ email: src['email'] })
 
-        // hash - secure passoword
-        console.log(src['email'])
+        // hash - secure password
         let hashedPassword = await bcrypt.hash(src['password'], 10)
 
         const result = await obj.insertOne({
@@ -90,7 +86,7 @@ async function insert_admin(client, dbase, coll_user, coll_profile, src) {
             additionalDetails: resProfile._id,
             // approved: approved,
             approved: true,
-            image: `https://api.dicebear.com/5.x/initials/svg?seed=${ src['firstName']} ${src['lastName']}`
+            image: ""//`https://api.dicebear.com/5.x/initials/svg?seed=${ src['firstName']} ${src['lastName']}`
          })
 
         console.log(' .. a doc inserted _id : ' + result.insertedId)

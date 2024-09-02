@@ -7,9 +7,9 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   createSubSection,
   updateSubSection,
-} from "../../../../../services/operations/courseDetailsAPI"
-import { setCourse } from "../../../../../reducer/slices/courseSlice"
-import IconBtn from "../../../../common/IconBtn"
+} from "../../../../services/operations/courseDetailsAPI"
+import { setCourse } from "../../../../reducer/slices/courseSlice"
+import IconBtn from "../../../../components/common/IconBtn"
 import Upload from "../Upload"
 
 

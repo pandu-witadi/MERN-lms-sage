@@ -15,7 +15,7 @@ export function getRouterApi(key, param = {}) {
     let routers = {
         [ApiLogin]: APP_BASE_URL + "/auth/login",
         [ApiSignUp]: APP_BASE_URL + "/auth/signup",
-        [ApiChangePassword]: APP_BASE_URL + "/auth/changepassword",
+        [ApiChangePassword]: APP_BASE_URL + "/auth/change-password",
         [ApiProfileGet]: APP_BASE_URL + "/profile/getUserDetails",
         [ApiProfileUpdate]: APP_BASE_URL + "/profile/updateProfile",
         [ApiProfileUpdateImage]: APP_BASE_URL + "/profile/updateUserProfileImage",
@@ -29,22 +29,20 @@ export function getRouterApi(key, param = {}) {
 export const PathRoot = "PathRoot";
 export const PathLogin = "PathLogin";
 export const PathSignUp = "PathSignUp";
-export const PathDashboard = "PathDashboard";
 export const PathSettings = "PathSettings";
 export const PathProfile = "PathProfile";
 export const PathNotifications = "PathNotifications";
-export const PathInstructorAddCourses = "PathInstructorAddCourses";
+export const PathAddCourse = "PathAddCourse";
 
 export function getRouterPath(key, prefix = "/", param = {}) {
     let routers = {
         [PathRoot]: prefix,
         [PathLogin]: prefix + "login",
         [PathSignUp]: prefix + "signup",
-        [PathDashboard]: prefix + "dashboard",
         [PathSettings]: prefix + "settings",
         [PathProfile]: prefix + "profile",
         [PathNotifications]: prefix + "notifications",
-        [PathInstructorAddCourses]: prefix + "courses-add",
+        [PathAddCourse]: prefix + "course-add",
     }
     return (routers[key]);
 }

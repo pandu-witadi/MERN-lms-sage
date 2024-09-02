@@ -13,6 +13,12 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+.my-contents {
+  @apply m-4 gap-4
+}
+.my-navbar-button {
+  @apply sm:text-4xl text-3xl
+}
 .my-menu {
   @apply sm:text-lg text-base
 }
@@ -23,6 +29,12 @@ body {
   @apply sm:text-base text-sm opacity-80
 }
 .my-form-style {
+  @apply input sm:input-md input-sm input-bordered sm:rounded-2xl rounded-xl
+}
+.my-form-area-style {
+  @apply input sm:input-md input-sm input-bordered sm:rounded-2xl rounded-xl min-h-[80px]
+}
+.my-form-chip-style {
   @apply input sm:input-md input-sm input-bordered sm:rounded-2xl rounded-xl
 }
 .my-form-style-error {

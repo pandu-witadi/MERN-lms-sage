@@ -30,7 +30,7 @@ export default function UpdatePassword() {
         try {
             const response = await http_change_password(token, data);
             if (response.status) {
-                toast.success(t("profile.successUpdatePassword"));
+                toast.success(t("settings.successUpdatePassword"));
 
                 // Setting default values after form submission
                 reset({
@@ -54,7 +54,7 @@ export default function UpdatePassword() {
                     <div className="flex flex-col gap-5 lg:flex-row">
                         {/* Current Password */}
                         <div className="relative flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="oldPassword" className="my-form-label">{t("profile.currentPassword")}</label>
+                            <label htmlFor="oldPassword" className="my-form-label">{t("settings.currentPassword")}</label>
                             <input
                               type={showOldPassword ? "text" : "password"}
                               name="oldPassword"
@@ -74,12 +74,12 @@ export default function UpdatePassword() {
                                 )}
                             </span>
                             {errors.oldPassword && (
-                              <span className="my-form-style-error">{t("profile.currentPasswordError")}</span>)}
+                              <span className="my-form-style-error">{t("settings.currentPasswordError")}</span>)}
                         </div>
 
                         {/* new password */}
                         <div className="relative flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="newPassword" className="my-form-label">{t("profile.newPassword")}</label>
+                            <label htmlFor="newPassword" className="my-form-label">{t("settings.newPassword")}</label>
 
                             <input
                               type={showNewPassword ? "text" : "password"}
@@ -99,12 +99,12 @@ export default function UpdatePassword() {
                             )}
                         </span>
                             {errors.newPassword && (
-                              <span className="my-form-style-error">{t("profile.newPasswordError")}</span>)}
+                              <span className="my-form-style-error">{t("settings.newPasswordError")}</span>)}
                         </div>
 
                         {/*confirm new password */}
                         <div className="relative flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="newPassword" className="my-form-label">{t("profile.newPasswordConfirm")}</label>
+                            <label htmlFor="newPassword" className="my-form-label">{t("settings.newPasswordConfirm")}</label>
 
                             <input
                               type={showConfirmNewPassword ? "text" : "password"}
@@ -124,7 +124,7 @@ export default function UpdatePassword() {
                               )}
                             </span>
                             {errors.confirmNewPassword && (
-                              <span className="my-form-style-error">{t("profile.newPasswordConfirmError")}</span>)}
+                              <span className="my-form-style-error">{t("settings.newPasswordConfirmError")}</span>)}
                         </div>
 
                     </div>

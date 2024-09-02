@@ -3,8 +3,6 @@ import { useDropzone } from "react-dropzone"
 import { FiUploadCloud } from "react-icons/fi"
 import { useSelector } from "react-redux"
 import ReactPlayer from "react-player";
-import {courseAssets} from "../../../../constant/constant.js";
-
 
 
 export default function Upload({ name, label, register, setValue, errors, video = false, viewData = null, editData = null, }) {

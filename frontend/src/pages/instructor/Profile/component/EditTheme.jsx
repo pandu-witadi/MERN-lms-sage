@@ -20,7 +20,7 @@ export default function EditTheme() {
         }
         dispatch(setLoading(true));
         dispatch(http_profile_update(token, data)).then((response) => {
-            response.status ? toast.success(t('profile.successUpdateTheme')) : toast.error(response.msg);
+            response.status ? toast.success(t('settings.successUpdateTheme')) : toast.error(response.msg);
         })
         dispatch(setLoading(false));
     }
@@ -30,10 +30,10 @@ export default function EditTheme() {
             <div className="my-card-border">
                 <div className="flex flex-col gap-5 lg:flex-row">
                     <div className="flex flex-col gap-2 lg:w-[50%]">
-                        <div className="my-card-title">{t("profile.editLanguage")}</div>
+                        <div className="my-card-title">{t("settings.editLanguage")}</div>
                         <div className={"flex flex-row gap-x-4"}>
                             {
-                                t("profile.languageList", { returnObjects: true }).map(item => (
+                                t("settings.languageList", { returnObjects: true }).map(item => (
                                   <ToggleButton label={item.label} setToggle={setSelectedLanguage} key={item.key} id={item.key}
                                                 value={selectedLanguage}/>
                                 ))
@@ -41,10 +41,10 @@ export default function EditTheme() {
                         </div>
                     </div>
                     <div className="flex flex-col gap-2 lg:w-[50%]">
-                        <div className="my-card-title">{t("profile.editTheme")}</div>
+                        <div className="my-card-title">{t("settings.editTheme")}</div>
                         <div className={"flex flex-row gap-x-4"}>
                             {
-                                t("profile.themeList", { returnObjects: true }).map(item => (
+                                t("settings.themeList", { returnObjects: true }).map(item => (
                                   <ToggleButton label={item.label} setToggle={setSelectedTheme} key={item.key} id={item.key}
                                                 value={selectedTheme}/>
                                 ))
