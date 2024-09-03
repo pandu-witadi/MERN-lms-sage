@@ -11,6 +11,11 @@ export const ApiProfileUpdateImage = "ApiProfileUpdateImage";
 export const ApiProfileDelete = "ApiProfileDelete";
 export const ApiProfileCourses = "ApiProfileCourses";
 export const ApiProfileInstructorData = "ApiProfileInstructorData";
+export const ApiCourseCategories = "ApiCourseCategories";
+export const ApiCourseAdd = "ApiCourseAdd";
+export const ApiCourseEdit = "ApiCourseEdit";
+export const ApiCourseDelete = "ApiCourseDelete";
+export const ApiInstructorCourses = "ApiInstructorCourses";
 export function getRouterApi(key, param = {}) {
     let routers = {
         [ApiLogin]: APP_BASE_URL + "/auth/login",
@@ -22,6 +27,11 @@ export function getRouterApi(key, param = {}) {
         [ApiProfileDelete]: APP_BASE_URL + "/profile/deleteProfile",
         [ApiProfileCourses]: APP_BASE_URL + "/profile/getEnrolledCourses",
         [ApiProfileInstructorData]: APP_BASE_URL + "/profile/instructorDashboard",
+        [ApiCourseCategories]: APP_BASE_URL + "/course/showAllCategories",
+        [ApiCourseAdd]: APP_BASE_URL + "/course/createCourse",
+        [ApiCourseEdit]: APP_BASE_URL + "/course/editCourse",
+        [ApiCourseDelete]: APP_BASE_URL + "/course/deleteCourse",
+        [ApiInstructorCourses]: APP_BASE_URL + "/course/getInstructorCourses",
     }
     return (routers[key]);
 }

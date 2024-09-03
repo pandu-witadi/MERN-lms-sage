@@ -1,6 +1,9 @@
 const localeId = {
   translation: {
     byCreator: "by LinxBrain Indonesia",
+    isNeeded: "Wajib diisi",
+    tagPlaceHolder: "Tuliskan text dan tekan Enter atau Comma",
+    areaUploadTitle: "Click to upload or drag and drop",
     login: {
       titleUser: "Welcome, BrainBooster!",
       emailInfo: "(Silakan gunakan email kantor Anda)",
@@ -32,6 +35,9 @@ const localeId = {
       created: "Dibuat",
       updated: "Updated",
       status: "Status",
+      next: "Lanjut",
+      nextWithoutSave: "Lanjut tanpa menyimpan",
+      saveChanged: "Simpan Perubahan"
     },
     dashboard: {
       title: "Dashboard",
@@ -63,15 +69,11 @@ const localeId = {
       avatar: "Avatar",
       profileInfo: "Informasi Profile",
       firstName: "Nama Depan",
-      firstNamePlaceholder: "Tuliskan nama depan",
       lastName: "Nama Belakang",
-      lastNamePlaceholder: "Tuliskan nama belakang",
       dateOfBirth: "Tanggal Lahir",
       gender: "Jenis Kelamin",
       contactNumber: "Nomor Kontak",
-      contactNumberPlaceholder: "Tuliskan nomor kontak",
       about: "About",
-      aboutPlaceholder: "Tuliskan informasi tambahan",
       currentPassword: "Passward Sekarang",
       newPassword: "Passward Baru",
       newPasswordConfirm: "Ulangi Passward Baru",
@@ -84,6 +86,13 @@ const localeId = {
     },
     course: {
       addCourse: "Tambah Kelas",
+      courseTitle: "Judul Course",
+      courseDescription: "Deskripsi Course",
+      courseBenefits: "Keunggulan Course",
+      courseCategory: "Kategori Course",
+      courseTags: "Tag Course",
+      courseInstructions: "Persyaratan/Petunjuk",
+      courseThumbnail: "Thumbnail Course",
       addCourseSteps: [{id: 1, title: "Course Information"}, {id: 2, title: "Course Builder"}, {id: 3, title: "Publish"}],
     },
   },

@@ -6,4 +6,5 @@ import SidebarLink from "./SidebarLink";
 import ConfirmationModal from "./ConfirmationModal";
 import LabelError from "./LabelError.jsx";
 import ToggleButton from "./ToggleButton.jsx";
-export {TabSwitch, WebLogo, WebFooter, WebLoading, SidebarLink, ConfirmationModal, LabelError, ToggleButton}
+import UploadImage from "./UploadImage.jsx"
+export {TabSwitch, WebLogo, WebFooter, WebLoading, SidebarLink, ConfirmationModal, LabelError, ToggleButton, UploadImage}

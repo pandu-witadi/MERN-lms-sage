@@ -54,7 +54,8 @@ export default function UpdatePassword() {
                     <div className="flex flex-col gap-5 lg:flex-row">
                         {/* Current Password */}
                         <div className="relative flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="oldPassword" className="my-form-label">{t("settings.currentPassword")}</label>
+                            <label htmlFor="oldPassword" className="my-form-label">{t("settings.currentPassword")}<sup
+                              className="text-error">*</sup></label>
                             <input
                               type={showOldPassword ? "text" : "password"}
                               name="oldPassword"
@@ -79,7 +80,8 @@ export default function UpdatePassword() {
 
                         {/* new password */}
                         <div className="relative flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="newPassword" className="my-form-label">{t("settings.newPassword")}</label>
+                            <label htmlFor="newPassword" className="my-form-label">{t("settings.newPassword")}<sup
+                              className="text-error">*</sup></label>
 
                             <input
                               type={showNewPassword ? "text" : "password"}
@@ -104,7 +106,8 @@ export default function UpdatePassword() {
 
                         {/*confirm new password */}
                         <div className="relative flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="newPassword" className="my-form-label">{t("settings.newPasswordConfirm")}</label>
+                            <label htmlFor="newPassword" className="my-form-label">{t("settings.newPasswordConfirm")}<sup
+                              className="text-error">*</sup></label>
 
                             <input
                               type={showConfirmNewPassword ? "text" : "password"}

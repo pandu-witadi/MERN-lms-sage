@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
-import { fetchInstructorCourses } from "../../../services/operations/courseDetailsAPI"
+import { http_instructor_courses } from "../../../services/operations/courseDetailsAPI"
 import { getInstructorData } from "../../../services/operations/profileAPI"
 import InstructorChart from "./InstructorDashboard/InstructorChart"
 import Img from './../../common/Img';
@@ -24,7 +24,7 @@ export default function Instructor() {
     ; (async () => {
       setLoading(true)
       const instructorApiData = await getInstructorData(token)
-      const result = await fetchInstructorCourses(token)
+      const result = await http_instructor_courses(token)
       // console.log('INSTRUCTOR_API_RESPONSE.....', instructorApiData)
       if (instructorApiData.length) setInstructorData(instructorApiData)
       if (result) {

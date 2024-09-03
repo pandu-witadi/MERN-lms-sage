@@ -2,7 +2,7 @@ import React from "react"
 import {useSelector} from "react-redux"
 
 import CourseBuilderForm from "./CourseBuilder/CourseBuilderForm"
-import CourseInformationForm from "./CourseInformation/CourseInformationForm"
+import InformationForm from "./AddInformation/InformationForm.jsx"
 import PublishCourse from "./PublishCourse"
 import {useTranslation} from "react-i18next";
 
@@ -23,7 +23,7 @@ export default function RenderSteps() {
       </div>
 
       {/* Render specific component based on current step */}
-      {step === 1 && <CourseInformationForm/>}
+      {step === 1 && <InformationForm/>}
       {step === 2 && <CourseBuilderForm/>}
       {step === 3 && <PublishCourse/>}
     </div>

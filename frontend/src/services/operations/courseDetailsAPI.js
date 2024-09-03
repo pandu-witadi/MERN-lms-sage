@@ -1,9 +1,10 @@
-import { toast } from "react-hot-toast"
+import {toast} from "react-hot-toast"
 
-import { updateCompletedLectures } from "../../reducer/slices/viewCourseSlice"
+import {updateCompletedLectures} from "../../reducer/slices/viewCourseSlice"
 // import { setLoading } from "../../slices/profileSlice";
-import { apiConnector } from "../apiConnector"
-import { courseEndpoints } from "../apis"
+import {apiConnector} from "../apiConnector"
+import {courseEndpoints} from "../apis"
+import {ApiCourseAdd, ApiCourseCategories, ApiCourseDelete, ApiCourseEdit, ApiInstructorCourses, getRouterApi} from "../router.js";
 
 const {
   COURSE_DETAILS_API,
@@ -23,7 +24,6 @@ const {
   CREATE_RATING_API,
   LECTURE_COMPLETION_API,
 } = courseEndpoints
-
 
 
 // ================ get All Courses ================
@@ -53,7 +53,7 @@ export const fetchCourseDetails = async (courseId) => {
   let result = null;
 
   try {
-    const response = await apiConnector("POST", COURSE_DETAILS_API, { courseId, })
+    const response = await apiConnector("POST", COURSE_DETAILS_API, {courseId,})
     console.log("COURSE_DETAILS_API API RESPONSE............", response)
 
     if (!response.data.success) {
@@ -71,12 +71,11 @@ export const fetchCourseDetails = async (courseId) => {
 }
 
 // ================ fetch Course Categories ================
-export const fetchCourseCategories = async () => {
+export const http_get_categories = async () => {
   let result = []
 
   try {
-    const response = await apiConnector("GET", COURSE_CATEGORIES_API)
-    console.log("COURSE_CATEGORIES_API RESPONSE............", response)
+    const response = await apiConnector("GET", getRouterApi(ApiCourseCategories))
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch Course Categories")
     }
@@ -90,17 +89,15 @@ export const fetchCourseCategories = async () => {
 
 
 // ================ add Course Details ================
-export const addCourseDetails = async (data, token) => {
+export const http_add_course_details = async (data, token) => {
   const toastId = toast.loading("Loading...")
   let result = null;
 
   try {
-    const response = await apiConnector("POST", CREATE_COURSE_API, data, {
+    const response = await apiConnector("POST", getRouterApi(ApiCourseAdd), data, {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     })
-    console.log("CREATE COURSE API RESPONSE............", response)
-
     if (!response?.data?.success) {
       throw new Error("Could Not Add Course Details")
     }
@@ -117,16 +114,15 @@ export const addCourseDetails = async (data, token) => {
 
 
 // ================ edit Course Details ================
-export const editCourseDetails = async (data, token) => {
+export const http_edit_course_details = async (data, token) => {
   let result = null
   const toastId = toast.loading("Loading...")
 
   try {
-    const response = await apiConnector("POST", EDIT_COURSE_API, data, {
+    const response = await apiConnector("POST", getRouterApi(ApiCourseEdit), data, {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     })
-    console.log("EDIT COURSE API RESPONSE............", response)
 
     if (!response?.data?.success) {
       throw new Error("Could Not Update Course Details")
@@ -296,12 +292,12 @@ export const deleteSubSection = async (data, token) => {
 }
 
 // ================ fetch Instructor Courses ================
-export const fetchInstructorCourses = async (token) => {
+export const http_instructor_courses = async (token) => {
   let result = []
   try {
     const response = await apiConnector(
       "GET",
-      GET_ALL_INSTRUCTOR_COURSES_API,
+      getRouterApi(ApiInstructorCourses),
       null,
       {
         Authorization: `Bearer ${token}`,
@@ -320,13 +316,12 @@ export const fetchInstructorCourses = async (token) => {
 
 
 // ================ delete Course ================
-export const deleteCourse = async (data, token) => {
-  // const toastId = toast.loading("Loading...")
+export const http_delete_course = async (data, token) => {
   try {
-    const response = await apiConnector("DELETE", DELETE_COURSE_API, data, {
+    const response = await apiConnector("DELETE", getRouterApi(ApiCourseDelete), data, {
       Authorization: `Bearer ${token}`,
     })
-    console.log("DELETE COURSE API RESPONSE............", response)
+
     if (!response?.data?.success) {
       throw new Error("Could Not Delete Course")
     }
@@ -335,7 +330,6 @@ export const deleteCourse = async (data, token) => {
     console.log("DELETE COURSE API ERROR............", error)
     toast.error(error.message)
   }
-  // toast.dismiss(toastId)
 }
 
 

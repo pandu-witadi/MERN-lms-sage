@@ -3,7 +3,7 @@ import {Link, matchPath, useLocation} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 
 import {NavbarLinks} from "../../../data/navbar-links"
-import {fetchCourseCategories} from './../../services/operations/courseDetailsAPI';
+import {http_get_categories} from './../../services/operations/courseDetailsAPI';
 
 import ProfileDropDown from '../core/Auth/ProfileDropDown'
 import MobileProfileDropDown from '../core/Auth/MobileProfileDropDown'
@@ -25,7 +25,7 @@ const Navbar = () => {
   const fetchSublinks = async () => {
     try {
       setLoading(true)
-      const res = await fetchCourseCategories();
+      const res = await http_get_categories();
       // const result = await apiConnector("GET", categories.CATEGORIES_API);
       // const result = await apiConnector('GET', 'http://localhost:4000/api/v1/course/showAllCategories');
       // console.log("Printing Sublinks result:", result);

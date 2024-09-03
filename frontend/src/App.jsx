@@ -41,7 +41,11 @@ function App() {
   const {user} = useSelector((state) => state.auth)
   return (
     <div data-theme={user?.theme || 'light'} className="w-screen h-screen flex flex-col">
-      <Suspense fallback={<WebLoading/>}>
+      <Suspense fallback={
+        <div className={"flex h-screen items-center justify-center"}>
+          <WebLoading/>
+        </div>
+      }>
         <Routes>
           <Route path={getRouterPath(PathLogin)} element={
             <OpenRoute>

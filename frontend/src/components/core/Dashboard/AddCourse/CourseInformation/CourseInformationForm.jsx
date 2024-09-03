@@ -5,7 +5,7 @@ import { HiOutlineCurrencyRupee } from "react-icons/hi"
 import { MdNavigateNext } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 
-import { addCourseDetails, editCourseDetails, fetchCourseCategories } from "../../../../../services/operations/courseDetailsAPI"
+import {http_add_course_details, http_edit_course_details, http_get_categories,} from "../../../../../services/operations/courseDetailsAPI"
 import { setCourse, setStep } from "../../../../../reducer/slices/courseSlice"
 import { COURSE_STATUS } from "../../../../../utils/constants"
 import IconBtn from "../../../../common/IconBtn"
@@ -26,7 +26,7 @@ export default function CourseInformationForm() {
   useEffect(() => {
     const getCategories = async () => {
       setLoading(true)
-      const categories = await fetchCourseCategories();
+      const categories = await http_get_categories();
       if (categories.length > 0) {
         // console.log("categories", categories)
         setCourseCategories(categories)
@@ -111,7 +111,7 @@ export default function CourseInformationForm() {
 
         // send data to backend
         setLoading(true)
-        const result = await editCourseDetails(formData, token)
+        const result = await http_edit_course_details(formData, token)
         setLoading(false)
         if (result) {
           dispatch(setStep(2))
@@ -135,7 +135,7 @@ export default function CourseInformationForm() {
     formData.append("instructions", JSON.stringify(data.courseRequirements))
     formData.append("thumbnailImage", data.courseImage)
     setLoading(true)
-    const result = await addCourseDetails(formData, token)
+    const result = await http_add_course_details(formData, token)
     if (result) {
       dispatch(setStep(2))
       dispatch(setCourse(result))

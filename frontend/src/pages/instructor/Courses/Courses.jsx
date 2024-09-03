@@ -2,7 +2,7 @@ import {useEffect, useState} from "react"
 import {useSelector} from "react-redux"
 import {useNavigate} from "react-router-dom"
 
-import {fetchInstructorCourses} from "../../../services/operations/courseDetailsAPI.js"
+import {http_instructor_courses} from "../../../services/operations/courseDetailsAPI.js"
 import {http_get_courses} from "../../../services/operations/profileAPI.js"
 import {VscAdd} from "react-icons/vsc";
 import {getRouterPath, PathAddCourse} from "../../../services/router.js";
@@ -24,7 +24,7 @@ export default function Courses({showHome}) {
     (async () => {
       setLoading(true);
       const instructorApiData = await http_get_courses(token)
-      const result = await fetchInstructorCourses(token)
+      const result = await http_instructor_courses(token)
       if (instructorApiData["msg"].length) {
         setInstructorData(instructorApiData["msg"])
       }

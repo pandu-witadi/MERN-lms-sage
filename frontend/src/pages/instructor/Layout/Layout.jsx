@@ -5,22 +5,26 @@ import {WebLoading} from "../../../components/base/index.jsx";
 
 const Layout = () => {
 
-    const {loading: authLoading} = useSelector((state) => state.auth);
+  const {loading: authLoading} = useSelector((state) => state.auth);
 
-    if (authLoading) {
-        return (<WebLoading/>)
-    }
-
-    // Scroll to the top of the page when the component mounts
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [])
-
+  if (authLoading) {
     return (
-      <div className={"h-screen"}>
-          <Outlet/>
+      <div className={"flex h-screen items-center justify-center"}>
+        <WebLoading/>
       </div>
     )
+  }
+
+  // Scroll to the top of the page when the component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
+
+  return (
+    <div className={"h-screen overflow-auto"}>
+      <Outlet/>
+    </div>
+  )
 }
 
 export default Layout

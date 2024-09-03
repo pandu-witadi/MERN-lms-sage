@@ -3,7 +3,7 @@ import { VscAdd } from "react-icons/vsc"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { fetchInstructorCourses } from "../../../services/operations/courseDetailsAPI"
+import { http_instructor_courses } from "../../../services/operations/courseDetailsAPI"
 import IconBtn from "../../common/IconBtn"
 import CoursesTable from "./InstructorCourses/CoursesTable"
 
@@ -18,7 +18,7 @@ export default function MyCourses() {
   useEffect(() => {
     const fetchCourses = async () => {
       setLoading(true);
-      const result = await fetchInstructorCourses(token)
+      const result = await http_instructor_courses(token)
       // console.log('Instructors all courses  ', result);
       setLoading(false);
       if (result) {

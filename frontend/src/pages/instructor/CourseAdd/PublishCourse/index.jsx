@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { editCourseDetails } from "../../../../services/operations/courseDetailsAPI"
+import { http_edit_course_details } from "../../../../services/operations/courseDetailsAPI"
 import { resetCourseState, setStep } from "../../../../reducer/slices/courseSlice"
 import { COURSE_STATUS } from "../../../../utils/constants"
 import IconBtn from "../../../../components/common/IconBtn"
@@ -51,7 +51,7 @@ export default function PublishCourse() {
       : COURSE_STATUS.DRAFT
     formData.append("status", courseStatus)
     setLoading(true)
-    const result = await editCourseDetails(formData, token)
+    const result = await http_edit_course_details(formData, token)
     if (result) {
       goToCourses()
     }

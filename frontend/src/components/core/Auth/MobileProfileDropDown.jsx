@@ -13,7 +13,6 @@ import { AiOutlineCaretDown, AiOutlineHome } from "react-icons/ai"
 import { MdOutlineContactPhone } from "react-icons/md"
 import { TbMessage2Plus } from "react-icons/tb"
 import { PiNotebook } from "react-icons/pi"
-import { fetchCourseCategories } from './../../../services/operations/courseDetailsAPI';
 
 
 // const CatalogDropDown = ({ subLinks }) => {
@@ -47,7 +46,7 @@ export default function MobileProfileDropDown() {
     const fetchSublinks = async () => {
         try {
             setLoading(true)
-            const res = await fetchCourseCategories();
+            // const res = await fetchCourseCategories();
             // const result = await apiConnector("GET", categories.CATEGORIES_API);
             // const result = await apiConnector('GET', 'http://localhost:4000/api/v1/course/showAllCategories');
             // console.log("Printing Sublinks result:", result);

@@ -11,7 +11,7 @@ import {RiDeleteBin6Line} from "react-icons/ri"
 import {useNavigate} from "react-router-dom"
 
 import {formatDate} from "../../../../services/formatDate.js"
-import {deleteCourse, fetchInstructorCourses,} from "../../../../services/operations/courseDetailsAPI.js"
+import {http_delete_course, http_instructor_courses} from "../../../../services/operations/courseDetailsAPI.js"
 import {COURSE_STATUS} from "../../../../utils/constants.js"
 import ConfirmationModal from "../../../../components/base/ConfirmationModal.jsx"
 import toast from 'react-hot-toast'
@@ -29,15 +29,14 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
     const handleCourseDelete = async (courseId) => {
         setLoading(true)
         const toastId = toast.loading('Deleting...');
-        await deleteCourse({courseId: courseId}, token)
-        const result = await fetchInstructorCourses(token)
+        await http_delete_course({courseId: courseId}, token)
+        const result = await http_instructor_courses(token)
         if (result) {
             setCourses(result)
         }
         setConfirmationModal(null)
         setLoading(false)
         toast.dismiss(toastId)
-        console.log("All Course ", courses)
     }
 
     return (
@@ -48,9 +47,9 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                         <Th className="flex-1 text-left font-semibold uppercase">
                             {t("btn.courses")}
                         </Th>
-                        <Th className="text-center font-semibold uppercase w-[100px]">
-                            {t("btn.duration")}
-                        </Th>
+                        {/*<Th className="text-center font-semibold uppercase w-[100px]">*/}
+                        {/*    {t("btn.duration")}*/}
+                        {/*</Th>*/}
                         <Th className="text-center font-semibold uppercase w-[100px]">
                             {t("btn.status")}
                         </Th>
@@ -106,7 +105,7 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                                     </Td>
 
                                     {/* course duration */}
-                                    <Td className="text-sm font-medium text-center w-[100px]">-</Td>
+                                    {/*<Td className="text-sm font-medium text-center w-[100px]">-</Td>*/}
                                     {/* course status */}
                                     <Td className="text-sm font-medium text-center w-[100px]">
                                         {course.status === COURSE_STATUS.DRAFT ? (

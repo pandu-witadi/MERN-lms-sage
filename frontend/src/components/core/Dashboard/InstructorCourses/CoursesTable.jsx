@@ -11,7 +11,7 @@ import {RiDeleteBin6Line} from "react-icons/ri"
 import {useNavigate} from "react-router-dom"
 
 import {formatDate} from "../../../../services/formatDate"
-import {deleteCourse, fetchInstructorCourses,} from "../../../../services/operations/courseDetailsAPI"
+import {deleteCourse, http_instructor_courses,} from "../../../../services/operations/courseDetailsAPI"
 import {COURSE_STATUS} from "../../../../utils/constants"
 import ConfirmationModal from "../../../common/ConfirmationModal"
 import Img from './../../../common/Img';
@@ -32,7 +32,7 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
         setLoading(true)
         const toastId = toast.loading('Deleting...');
         await deleteCourse({courseId: courseId}, token)
-        const result = await fetchInstructorCourses(token)
+        const result = await http_instructor_courses(token)
         if (result) {
             setCourses(result)
         }

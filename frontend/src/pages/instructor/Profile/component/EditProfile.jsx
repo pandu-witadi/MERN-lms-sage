@@ -29,12 +29,13 @@ export default function EditProfile() {
                     <div className="my-card-title">{t("btn.profile")}</div>
                     <div className="flex flex-col gap-4 lg:flex-row">
                         <div className="flex flex-col gap-2 lg:w-[50%]">
-                            <label htmlFor="firstName" className="my-form-label">{t("settings.firstName")}</label>
+                            <label htmlFor="firstName" className="my-form-label">{t("settings.firstName")}<sup
+                              className="text-error">*</sup></label>
                             <input
                               type="text"
                               name="firstName"
                               id="firstName"
-                              placeholder={t("settings.firstNamePlaceholder")}
+                              // placeholder={t("settings.firstNamePlaceholder")}
                               className="my-form-style"
                               {...register("firstName", {required: true})}
                               defaultValue={user?.firstName}
@@ -51,7 +52,7 @@ export default function EditProfile() {
                               type="text"
                               name="lastName"
                               id="lastName"
-                              placeholder={t("settings.lastNamePlaceholder")}
+                              // placeholder={t("settings.lastNamePlaceholder")}
                               className="my-form-style"
                               {...register("lastName", {required: false})}
                               defaultValue={user?.lastName}
@@ -112,7 +113,7 @@ export default function EditProfile() {
                               type="tel"
                               name="contactNumber"
                               id="contactNumber"
-                              placeholder={t("settings.contactNumberPlaceholder")}
+                              // placeholder={t("settings.contactNumberPlaceholder")}
                               className="my-form-style"
                               {...register("contactNumber", {
                                   required: {
@@ -133,7 +134,7 @@ export default function EditProfile() {
                               type="text"
                               name="about"
                               id="about"
-                              placeholder="Enter Bio Details"
+                              // placeholder="Enter Bio Details"
                               className="my-form-style"
                               {...register("about", {required: false})}
                               defaultValue={user?.additionalDetails?.about}

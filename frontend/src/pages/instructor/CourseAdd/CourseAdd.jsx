@@ -3,7 +3,6 @@ import RenderSteps from "./RenderSteps"
 import Navbar from "../Layout/component/Navbar.jsx";
 import {useTranslation} from "react-i18next";
 
-
 export default function CourseAdd({showHome}) {
   const {t} = useTranslation();
 

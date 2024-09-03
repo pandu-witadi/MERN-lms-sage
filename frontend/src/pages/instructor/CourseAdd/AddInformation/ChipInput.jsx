@@ -1,21 +1,19 @@
 import {useEffect, useState} from "react"
 
 import {MdClose} from "react-icons/md"
-import {useSelector} from "react-redux"
+import {useTranslation} from "react-i18next";
 
 // Defining a functional component ChipInput
-export default function ChipInput({label, name, placeholder, register, errors, setValue,}) {
-  const {editCourse, course} = useSelector((state) => state.course)
+export default function ChipInput({label, name, placeholder, register, errors, setValue, getValues, required}) {
+  const {t} = useTranslation();
 
   // Setting up state for managing chips array
   const [chips, setChips] = useState([])
 
   useEffect(() => {
-    if (editCourse) {
-      setChips(course?.tag)
-    }
-
-    register(name, {required: true, validate: (value) => value.length > 0}, chips);
+    setChips(getValues(name) || [])
+    setValue(name, chips)
+    register(name, {required: required, validate: (value) => value.length > 0}, chips);
   }, [])
 
   // "Updates value whenever 'chips' is modified
@@ -51,7 +49,7 @@ export default function ChipInput({label, name, placeholder, register, errors, s
   // Render the component
   return (
     <div className="flex flex-col space-y-2">
-      <label className="my-form-label" htmlFor={name}>{label} <sup className="text-error">*</sup></label>
+      <label className="my-form-label" htmlFor={name}>{label} <sup className="text-error">{required ? "*" : ""}</sup></label>
       <div className="flex w-full flex-row flex-wrap gap-2 my-form-chip-style">
         {chips?.map((chip, index) => (
           <div key={index} className="m-1 flex items-center justify-items-center rounded-full bg-app-base sm:px-4 px-2 text-sm">
@@ -68,12 +66,13 @@ export default function ChipInput({label, name, placeholder, register, errors, s
           id={name}
           name={name}
           type="text"
-          placeholder={placeholder}
+          // placeholder={placeholder}
           onKeyDown={handleKeyDown}
           className=""
         />
       </div>
-      {errors[name] && (<span className="my-form-style-error">{label} is required</span>)}
+      <span className={"text-xs opacity-75"}>{placeholder}</span>
+      {errors[name] && (<span className="my-form-style-error"> {required ? (label + " " + t("isNeeded")) : (errors[name].message)}</span>)}
     </div>
   )
 }

@@ -9,7 +9,7 @@ import Course_Slider from "../components/core/Catalog/Course_Slider"
 import Loading from './../components/common/Loading';
 
 import { getCatalogPageData } from '../services/operations/pageAndComponentData'
-import { fetchCourseCategories } from './../services/operations/courseDetailsAPI';
+import { http_get_categories } from './../services/operations/courseDetailsAPI';
 import HighlightText from "../components/core/HomePage/HighlightText.jsx";
 
 
@@ -27,7 +27,7 @@ function Catalog() {
   useEffect(() => {
     ; (async () => {
       try {
-        const res = await fetchCourseCategories();
+        const res = await http_get_categories();
         const category_id = res.filter(
           (ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName
         )[0]._id
