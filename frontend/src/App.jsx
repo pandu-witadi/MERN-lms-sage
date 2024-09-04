@@ -11,7 +11,8 @@ import {
   CoursesInstructor,
   SettingsInstructor,
   NotificationInstructor,
-  CourseAddInstructor
+  CourseAddInstructor,
+  CourseEditInstructor
 } from "./pages/instructor";
 import PageNotFound from "./pages/PageNotFound";
 import CourseDetails from './pages/CourseDetails';
@@ -29,7 +30,7 @@ import VideoDetails from './components/core/ViewCourse/VideoDetails'
 import {ACCOUNT_TYPE} from './utils/constants'
 import CourseSectionPlayerTest from "./test/CourseSectionPlayerTest.jsx";
 import {
-  getRouterPath, PathAddCourse,
+  getRouterPath, PathAddCourse, PathEditCourse,
   PathLogin, PathNotifications,
   PathRoot, PathSettings,
   PathSignUp
@@ -72,7 +73,7 @@ function App() {
               <Route path={getRouterPath(PathSettings)} element={<SettingsInstructor showHome={true}/>}/>
               <Route path={getRouterPath(PathNotifications)} element={<NotificationInstructor showHome={true}/>}/>
               <Route path={getRouterPath(PathAddCourse)} element={<CourseAddInstructor showHome={true}/>}/>
-              <Route path="dashboard/edit-course/:courseId" element={<EditCourse/>}/>
+              <Route path={getRouterPath(PathEditCourse)} element={<CourseEditInstructor showHome={true}/>}/>
             </Route>
           )}
 

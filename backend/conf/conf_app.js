@@ -18,7 +18,8 @@ let CF = {
     },
     path: {
         image: '/upload/image',
-        video: '/upload/video'
+        video: '/upload/video',
+        course: '/upload/course',
     },
     // mongodb setting
     mongoose: {
@@ -51,6 +52,7 @@ CF.jwt.refreshTokenLife =  process.env.REFRESH_TOKEN_LIFE || CF.jwt.refreshToken
 
 CF.server.path_image = CF.server.host + ':' + CF.server.PORT.toString() + CF.path.image
 CF.server.path_video = CF.server.host + ':' + CF.server.PORT.toString() + CF.path.video
+CF.server.path_course = CF.server.host + ':' + CF.server.PORT.toString() + CF.path.course
 
 
 

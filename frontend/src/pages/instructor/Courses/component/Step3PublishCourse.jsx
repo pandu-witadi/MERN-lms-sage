@@ -8,7 +8,7 @@ import { resetCourseState, setStep } from "../../../../reducer/slices/courseSlic
 import { COURSE_STATUS } from "../../../../utils/constants"
 import IconBtn from "../../../../components/common/IconBtn"
 
-export default function PublishCourse() {
+export default function Step3PublishCourse() {
   const { register, handleSubmit, setValue, getValues } = useForm()
 
   const dispatch = useDispatch()

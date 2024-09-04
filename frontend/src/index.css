@@ -31,11 +31,14 @@ body {
 .my-form-style {
   @apply input sm:input-md input-sm input-bordered sm:rounded-2xl rounded-xl
 }
+.my-form-select-style {
+  @apply select sm:select-md select-sm select-bordered sm:rounded-2xl rounded-xl
+}
 .my-form-area-style {
-  @apply input sm:input-md input-sm input-bordered sm:rounded-2xl rounded-xl min-h-[80px]
+  @apply textarea input-bordered sm:rounded-2xl rounded-xl min-h-[80px]
 }
 .my-form-chip-style {
-  @apply input sm:input-md input-sm input-bordered sm:rounded-2xl rounded-xl
+  @apply flex w-full flex-row flex-wrap border input-bordered sm:rounded-2xl rounded-xl sm:py-2 p-1 gap-1
 }
 .my-form-style-error {
   @apply -mt-1 text-[12px] text-error
@@ -69,6 +72,18 @@ body {
 }
 .my-course-published {
   @apply my-course-status text-app-base
+}
+.my-chip-input {
+  @apply flex flex-row items-center justify-center rounded-full bg-base-300 sm:px-4 px-2 text-base
+}
+.my-course-cover-image {
+  @apply h-[150px] w-[200px] max-w-[200px] rounded-lg object-cover border p-3
+}
+.my-big-label-for-info {
+  @apply py-10 text-center text-2xl font-medium
+}
+.my-child-loading-container {
+  @apply flex flex-row h-[300px] items-center justify-center
 }
 /* use in homePage */
 .homepage_bg {

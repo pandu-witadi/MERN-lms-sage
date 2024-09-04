@@ -13,7 +13,9 @@ export default function ChipInput({label, name, placeholder, register, errors, s
   useEffect(() => {
     setChips(getValues(name) || [])
     setValue(name, chips)
-    register(name, {required: required, validate: (value) => value.length > 0}, chips);
+    register(name, {required: required, validate: (value) => {
+      return(required ? (value.length > 0) : true)
+      }}, chips);
   }, [])
 
   // "Updates value whenever 'chips' is modified
@@ -50,16 +52,15 @@ export default function ChipInput({label, name, placeholder, register, errors, s
   return (
     <div className="flex flex-col space-y-2">
       <label className="my-form-label" htmlFor={name}>{label} <sup className="text-error">{required ? "*" : ""}</sup></label>
-      <div className="flex w-full flex-row flex-wrap gap-2 my-form-chip-style">
+      <div className="my-form-chip-style">
         {chips?.map((chip, index) => (
-          <div key={index} className="m-1 flex items-center justify-items-center rounded-full bg-app-base sm:px-4 px-2 text-sm">
-            {chip}
-            <button
-              type="button"
-              className="ml-2 focus:outline-none"
+          <div key={index} className="my-chip-input">
+            <div className={"mb-1"}>{chip}</div>
+            <div
+              className="ml-2 focus:outline-none cursor-pointer"
               onClick={() => handleDeleteChip(index)}>
               <MdClose className="text-sm"/>
-            </button>
+            </div>
           </div>
         ))}
         <input
@@ -68,7 +69,7 @@ export default function ChipInput({label, name, placeholder, register, errors, s
           type="text"
           // placeholder={placeholder}
           onKeyDown={handleKeyDown}
-          className=""
+          className="ml-2 flex-1 focus:outline-none bg-transparent"
         />
       </div>
       <span className={"text-xs opacity-75"}>{placeholder}</span>

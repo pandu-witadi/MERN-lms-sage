@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import RenderSteps from "./RenderSteps"
+import StepsRender from "./component/StepsRender.jsx"
 import Navbar from "../Layout/component/Navbar.jsx";
 import {useTranslation} from "react-i18next";
 
@@ -20,7 +20,7 @@ export default function CourseAdd({showHome}) {
           </div>
         </div>
 
-        <RenderSteps/>
+        <StepsRender/>
       </div>
     </div>
   )

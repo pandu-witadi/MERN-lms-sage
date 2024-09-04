@@ -90,7 +90,7 @@ export default function EditProfile() {
                             <select
                               name="gender"
                               id="gender"
-                              className="my-form-style"
+                              className="my-form-select-style"
                               {...register("gender", {required: false})}
                               defaultValue={user?.additionalDetails?.gender}
                             >

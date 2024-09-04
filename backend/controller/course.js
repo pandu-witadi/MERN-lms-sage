@@ -14,25 +14,23 @@ const CF = require('../conf/conf_app')
 const {createRandomId, checkDirectoryExists, createDirectory, cleanFileName, moveFileToPath, deleteDirectory} = require("../util/utils");
 
 
+function getCourseThumbnail(course) {
+  return (CF.server.path_course + '/' + course['courseId'] + '/' + course['thumbnail'])
+}
+
 // ================ create new course ================
 exports.createCourse = async (req, res) => {
-  return res.status(500).json({
-    success: false,
-    error: "Error",
-    message: 'DEBUGGGGGG'
-  })
-
   try {
     // extract data
-    let {courseName, courseDescription, whatYouWillLearn, price, category, instructions: _instructions, status, tag: _tag} = req.body
+    let {courseName, courseDescription, whatYouWillLearn, category, instructions: _instructions, status, tag: _tag} = req.body
+    let price = 0;
 
     // Convert the tag and instructions from stringifies Array to Array
     const tag = JSON.parse(_tag)
     const instructions = JSON.parse(_instructions)
 
     // validation
-    if (!courseName || !courseDescription || !whatYouWillLearn || !category ||
-      !instructions.length || !tag.length) {
+    if (!courseName || !courseDescription || !whatYouWillLearn || !category || !tag.length) {
       return res.status(400).json({
         success: false,
         message: 'All Fields are required'
@@ -41,9 +39,6 @@ exports.createCourse = async (req, res) => {
 
     if (!status)
       status = "Draft"
-
-    // if (price === undefined || price === null)
-    price = 0
 
     // check current user is instructor or not , because only instructor can create
     // we have insert user id in req.user , (payload , while auth )
@@ -67,7 +62,7 @@ exports.createCourse = async (req, res) => {
       courseId = createRandomId({totalChar: 2, totalNumber: 4});
       // check of course id is unique or not
       try {
-        const directoryPath = path.join(__dirname, "..", CF.path.image, courseId);
+        const directoryPath = path.join(__dirname, "..", CF.path.course, courseId);
         isDirectoryExists = await checkDirectoryExists(directoryPath);
         if (!isDirectoryExists) {
           createDirectory(directoryPath);
@@ -169,7 +164,6 @@ exports.getAllCourses = async (req, res) => {
       {
         courseName: true,
         courseDescription: true,
-        price: true,
         thumbnail: true,
         instructor: true,
         ratingAndReviews: true,
@@ -252,7 +246,7 @@ exports.getCourseDetails = async (req, res) => {
     const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
 
 
-    courseDetails['thumbnail'] = CF.server.path_image + '/' + courseDetails['thumbnail']
+    courseDetails['thumbnail'] = getCourseThumbnail(courseDetails);
 
     //return response
     return res.status(200).json({
@@ -300,7 +294,7 @@ exports.getFullCourseDetails = async (req, res) => {
       .exec()
 
     if (courseDetails) {
-      courseDetails['thumbnail'] = CF.server.path_image + '/' + courseDetails['thumbnail']
+      courseDetails['thumbnail'] = getCourseThumbnail(courseDetails);
       for (let i = 0; i < courseDetails['courseContent'].length; i++) {
         for (let j = 0; j < courseDetails['courseContent'][i]['subSection'].length; j++) {
           courseDetails['courseContent'][i]['subSection'][j]['videoUrl'] = CF.server.path_video + '/' + courseDetails['courseContent'][i]['subSection'][j]['videoUrl']
@@ -320,13 +314,6 @@ exports.getFullCourseDetails = async (req, res) => {
         message: `Could not find course with id: ${courseId}`,
       })
     }
-
-    // if (courseDetails.status === "Draft") {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message: `Accessing a draft course is forbidden`,
-    //   })
-    // }
 
     //   count total time duration of course
     let totalDurationInSeconds = 0
@@ -358,9 +345,9 @@ exports.getFullCourseDetails = async (req, res) => {
 // ================ Edit Course Details ================
 exports.editCourse = async (req, res) => {
   try {
-    const {courseId} = req.body
+    const {currentCourseId} = req.body
     const updates = req.body
-    const course = await Course.findById(courseId)
+    const course = await Course.findById(currentCourseId)
 
     if (!course) {
       return res.status(404).json({error: "Course not found"})
@@ -368,23 +355,14 @@ exports.editCourse = async (req, res) => {
 
     // If Thumbnail Image is found, update it
     if (req.files) {
-      // console.log("thumbnail update")
-      const thumbnail = req.files.thumbnailImage
-      // const thumbnailImage = await uploadImageToCloudinary(
-      //     thumbnail,
-      //     process.env.FOLDER_NAME
-      // )
-      let thumbnail_filename = "thumbnail-" + short.generate() + '-' + thumbnail.name
-      const uploadPath = path.join(__dirname, "..", CF.path.image, thumbnail_filename)
-      thumbnail.mv(uploadPath, function (err) {
-        if (err) {
-          console.log(err)
-        } else {
-          console.log("... successfully uploaded ... " + thumbnail_url)
-        }
-      })
-      // course.thumbnail = thumbnailImage.secure_url
-      course.thumbnail = thumbnailImage.thumbnail_filename
+      let thumbnail_url = "";
+      const directoryPath = path.join(__dirname, "..", CF.path.course, course["courseId"]);
+      const temp_file = req.files?.thumbnailImage;
+      if (temp_file) {
+        thumbnail_url = cleanFileName(temp_file.name);
+        moveFileToPath(path.join(directoryPath, thumbnail_url), temp_file);
+      }
+      course.thumbnail = thumbnail_url
     }
 
     // Update only the fields that are present in the request body
@@ -404,7 +382,7 @@ exports.editCourse = async (req, res) => {
     //   save data
     await course.save()
 
-    const updatedCourse = await Course.findOne({_id: courseId})
+    const updatedCourse = await Course.findOne({_id: currentCourseId})
       .populate({
         path: "instructor",
         populate: {
@@ -448,7 +426,7 @@ exports.getInstructorCourses = async (req, res) => {
     const instructorCourses = await Course.find({instructor: instructorId,}).sort({createdAt: -1})
     if (instructorCourses && instructorCourses.length > 0) {
       for (let i = 0; i < instructorCourses.length; i++) {
-        instructorCourses[i]['thumbnail'] = CF.server.path_image + '/' + instructorCourses[i]['thumbnail']
+        instructorCourses[i]['thumbnail'] = getCourseThumbnail(instructorCourses[i]);
       }
     }
 
@@ -490,7 +468,7 @@ exports.deleteCourse = async (req, res) => {
     }
 
     // delete course data path
-    const directoryPath = path.join(__dirname, "..", CF.path.image, course.courseId);
+    const directoryPath = path.join(__dirname, "..", CF.path.course, course.courseId);
     await deleteDirectory(directoryPath);
 
     // Delete sections and sub-sections
@@ -512,6 +490,11 @@ exports.deleteCourse = async (req, res) => {
       // Delete the section
       await Section.findByIdAndDelete(sectionId)
     }
+
+    // Delete course ID from categories
+    const category = await Category.findById(course["category"]);
+    category["courses"].remove(courseId)
+    await category.save();
 
     // Delete the course
     await Course.findByIdAndDelete(courseId)

@@ -34,9 +34,11 @@ app.use( fileUpload({
 
 console.log( '__dirname   :  ' + __dirname)
 console.log( '[map image] :  ' + CF.server.path_image + ' -> ' + path.join(__dirname, CF.path.image) )
-app.use( '/upload/image', express.static( path.join(__dirname, CF.path.image) ) )
 console.log( '[map video] :  ' + CF.server.path_video + ' -> ' + path.join(__dirname, CF.path.video) )
+console.log( '[map course] :  ' + CF.server.path_course + ' -> ' + path.join(__dirname, CF.path.course) )
+app.use( '/upload/image', express.static( path.join(__dirname, CF.path.image) ) )
 app.use( '/upload/video', express.static( path.join(__dirname, CF.path.video) ) )
+app.use( '/upload/course', express.static( path.join(__dirname, CF.path.course) ) )
 
 
 // connections

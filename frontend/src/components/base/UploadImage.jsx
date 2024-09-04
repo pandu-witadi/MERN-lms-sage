@@ -5,18 +5,30 @@ import {useTranslation} from "react-i18next";
 
 export default function UploadImage({
                                       name, label, register, setValue, getValues,
-                                      errors, editData = null, fileExtension = [".jpeg", ".jpg", ".png"], height
+                                      errors, fileExtension = [".jpeg", ".jpg", ".png"], height
                                     }) {
   const {t} = useTranslation();
   const [selectedFile, setSelectedFile] = useState(null)
   const [previewSource, setPreviewSource] = useState(null)
   const inputRef = useRef(null)
 
+  const previewFile = (file) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onloadend = () => {
+      setPreviewSource(reader.result)
+    }
+  }
+
   useEffect(() => {
-    console.log(getValues(name))
-    console.log(typeof getValues(name))
     setSelectedFile(getValues(name) || null)
-    if(typeof getValues(name) === 'object'){
+    let objType = typeof getValues(name);
+    if(objType === 'object'){
+      if(getValues(name) !== null){
+        previewFile(getValues(name));
+      }
+    }
+    else if(objType === 'string'){
       setPreviewSource(getValues(name))
     }
     register(name, {required: true})
@@ -47,14 +59,6 @@ export default function UploadImage({
     accept: {"image/*": fileExtension},
     onDrop,
   })
-
-  const previewFile = (file) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onloadend = () => {
-      setPreviewSource(reader.result)
-    }
-  }
 
   return (
     <div className={"flex flex-col w-full gap-2"}>

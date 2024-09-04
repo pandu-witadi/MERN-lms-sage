@@ -86,6 +86,8 @@ const localeId = {
     },
     course: {
       addCourse: "Tambah Kelas",
+      editCourse: "Edit Kelas",
+      courseNotFound: "Kelas tidak ditemukan",
       courseTitle: "Judul Course",
       courseDescription: "Deskripsi Course",
       courseBenefits: "Keunggulan Course",
@@ -93,6 +95,7 @@ const localeId = {
       courseTags: "Tag Course",
       courseInstructions: "Persyaratan/Petunjuk",
       courseThumbnail: "Thumbnail Course",
+      courseSelectCategory: "Pilih Kategori",
       addCourseSteps: [{id: 1, title: "Course Information"}, {id: 2, title: "Course Builder"}, {id: 3, title: "Publish"}],
     },
   },

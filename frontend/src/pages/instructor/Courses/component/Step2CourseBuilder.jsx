@@ -5,16 +5,16 @@ import { IoAddCircleOutline } from "react-icons/io5"
 import { MdNavigateNext } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 
-import { createSection, updateSection } from "../../../../services/operations/courseDetailsAPI"
-import { setCourse, setEditCourse, setStep, } from "../../../../reducer/slices/courseSlice"
+import { createSection, updateSection } from "../../../../services/operations/courseDetailsAPI.js"
+import { setCourse, setEditCourse, setStep, } from "../../../../reducer/slices/courseSlice.js"
 
-import IconBtn from "../../../../components/common/IconBtn"
-import NestedView from "./NestedView"
-
-
+import IconBtn from "../../../../components/common/IconBtn.jsx"
+import NestedView from "./NestedView.jsx"
 
 
-export default function CourseBuilderForm() {
+
+
+export default function Step2CourseBuilder() {
   const { register, handleSubmit, setValue, formState: { errors }, } = useForm()
 
   const { course } = useSelector((state) => state.course)

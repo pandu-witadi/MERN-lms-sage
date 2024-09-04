@@ -1,12 +1,12 @@
 import React from "react"
 import {useSelector} from "react-redux"
 
-import CourseBuilderForm from "./CourseBuilder/CourseBuilderForm"
-import InformationForm from "./AddInformation/InformationForm.jsx"
-import PublishCourse from "./PublishCourse"
+import Step2CourseBuilder from "./Step2CourseBuilder.jsx"
+import Step1CourseForm from "./Step1CourseForm.jsx"
+import Step3PublishCourse from "./Step3PublishCourse.jsx"
 import {useTranslation} from "react-i18next";
 
-export default function RenderSteps() {
+export default function StepsRender() {
   const {t} = useTranslation();
   const {step} = useSelector((state) => state.course);
   const steps = t("course.addCourseSteps", {returnObjects: true});
@@ -23,9 +23,9 @@ export default function RenderSteps() {
       </div>
 
       {/* Render specific component based on current step */}
-      {step === 1 && <InformationForm/>}
-      {step === 2 && <CourseBuilderForm/>}
-      {step === 3 && <PublishCourse/>}
+      {step === 1 && <Step1CourseForm/>}
+      {step === 2 && <Step2CourseBuilder/>}
+      {step === 3 && <Step3PublishCourse/>}
     </div>
   )
 }

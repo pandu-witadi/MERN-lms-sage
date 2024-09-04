@@ -7,14 +7,14 @@ import {useDispatch, useSelector} from "react-redux"
 import {
   http_add_course_details, http_edit_course_details,
   http_get_categories
-} from "../../../../services/operations/courseDetailsAPI"
-import {setCourse, setStep} from "../../../../reducer/slices/courseSlice"
-import {COURSE_STATUS} from "../../../../utils/constants"
-import ChipInput from "./ChipInput"
+} from "../../../../services/operations/courseDetailsAPI.js"
+import {setCourse, setStep} from "../../../../reducer/slices/courseSlice.js"
+import {COURSE_STATUS} from "../../../../utils/constants.js"
+import ChipInput from "./ChipInput.jsx"
 import {useTranslation} from "react-i18next";
 import {UploadImage, WebLoading} from "../../../../components/base/index.jsx";
 
-export default function InformationForm() {
+export default function Step1CourseForm() {
   const {t} = useTranslation();
   const {register, handleSubmit, setValue, getValues, formState: {errors}} = useForm()
 
@@ -39,14 +39,13 @@ export default function InformationForm() {
       setValue("courseTitle", course.courseName)
       setValue("courseShortDesc", course.courseDescription)
       setValue("courseBenefits", course.whatYouWillLearn)
-      setValue("courseCategory", course.category)
+      setValue("courseCategory", course.category._id)
       setValue("courseTags", course.tag)
       setValue("courseRequirements", course.instructions);
       setValue("courseImage", course.thumbnail);
     }
 
-    getCategories().then(r => {
-    })
+    getCategories().then(() => {});
   }, [])
 
 
@@ -68,8 +67,7 @@ export default function InformationForm() {
       if (isFormUpdated()) {
         const currentValues = getValues()
         const formData = new FormData()
-        // console.log('data -> ',data)
-        formData.append("courseId", course._id)
+        formData.append("currentCourseId", course._id)
         if (currentValues.courseTitle !== course.courseName) {
           formData.append("courseName", data.courseTitle)
         }
@@ -110,7 +108,6 @@ export default function InformationForm() {
     const formData = new FormData()
     formData.append("courseName", data.courseTitle)
     formData.append("courseDescription", data.courseShortDesc)
-    formData.append("price", data.coursePrice)
     formData.append("tag", JSON.stringify(data.courseTags))
     formData.append("whatYouWillLearn", data.courseBenefits)
     formData.append("category", data.courseCategory)
@@ -119,7 +116,6 @@ export default function InformationForm() {
     formData.append("thumbnailImage", data.courseImage)
     setLoading(true)
     const result = await http_add_course_details(formData, token)
-    console.log(getValues())
     if (result) {
       dispatch(setStep(2))
       dispatch(setCourse(result))
@@ -127,7 +123,7 @@ export default function InformationForm() {
     setLoading(false)
   }
 
-  return (loading ? <div className={"flex flex-row h-[300px] items-center justify-center"}><WebLoading/></div> :
+  return (loading ? <div className={"my-child-loading-container"}><WebLoading/></div> :
       <form onSubmit={handleSubmit(onSubmit)} className="my-card-border">
         <div className="flex flex-col gap-4">
           {/* Course Title */}
@@ -172,12 +168,13 @@ export default function InformationForm() {
             <label className="my-form-label" htmlFor="courseCategory">{t("course.courseCategory")} <sup
               className="text-error">*</sup></label>
             <select
-              {...register("courseCategory", {required: true})}
-              defaultValue=""
               id="courseCategory"
-              className="my-form-style">
+              {...register("courseCategory", {required: true})}
+              defaultValue={""}
+              className="my-form-select-style"
+            >
               <option value="" disabled>
-                Choose a Category
+                {t("course.courseSelectCategory")}
               </option>
               {!loading &&
                 courseCategories?.map((category, index) => (
@@ -221,7 +218,6 @@ export default function InformationForm() {
             setValue={setValue}
             getValues={getValues}
             errors={errors}
-            editData={editCourse ? course?.thumbnail : null}
           />
 
           <div className="divider"/>

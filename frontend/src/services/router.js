@@ -15,6 +15,7 @@ export const ApiCourseCategories = "ApiCourseCategories";
 export const ApiCourseAdd = "ApiCourseAdd";
 export const ApiCourseEdit = "ApiCourseEdit";
 export const ApiCourseDelete = "ApiCourseDelete";
+export const ApiCourseDetails = "ApiCourseDetails";
 export const ApiInstructorCourses = "ApiInstructorCourses";
 export function getRouterApi(key, param = {}) {
     let routers = {
@@ -31,6 +32,7 @@ export function getRouterApi(key, param = {}) {
         [ApiCourseAdd]: APP_BASE_URL + "/course/createCourse",
         [ApiCourseEdit]: APP_BASE_URL + "/course/editCourse",
         [ApiCourseDelete]: APP_BASE_URL + "/course/deleteCourse",
+        [ApiCourseDetails]: APP_BASE_URL + "/course/getFullCourseDetails",
         [ApiInstructorCourses]: APP_BASE_URL + "/course/getInstructorCourses",
     }
     return (routers[key]);
@@ -43,6 +45,7 @@ export const PathSettings = "PathSettings";
 export const PathProfile = "PathProfile";
 export const PathNotifications = "PathNotifications";
 export const PathAddCourse = "PathAddCourse";
+export const PathEditCourse = "PathEditCourse";
 
 export function getRouterPath(key, prefix = "/", param = {}) {
     let routers = {
@@ -53,6 +56,7 @@ export function getRouterPath(key, prefix = "/", param = {}) {
         [PathProfile]: prefix + "profile",
         [PathNotifications]: prefix + "notifications",
         [PathAddCourse]: prefix + "course-add",
+        [PathEditCourse]: prefix + "edit-course/" + (("courseId" in param) ? `${param["courseId"]}` : ":courseId"),
     }
     return (routers[key]);
 }

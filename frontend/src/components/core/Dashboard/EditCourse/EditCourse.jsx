@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 
-import { getFullDetailsOfCourse, } from "../../../../services/operations/courseDetailsAPI"
+import { http_get_full_course_details, } from "../../../../services/operations/courseDetailsAPI"
 import { setCourse, setEditCourse } from "../../../../reducer/slices/courseSlice"
 import RenderSteps from "../AddCourse/RenderSteps"
 import Loading from './../../../common/Loading';
@@ -23,7 +23,7 @@ export default function EditCourse() {
   useEffect(() => {
     const fetchFullCourseDetails = async () => {
       setLoading(true)
-      const result = await getFullDetailsOfCourse(courseId, token);
+      const result = await http_get_full_course_details(courseId, token);
       // console.log('Data from edit course file = ', result)
       if (result?.courseDetails) {
         dispatch(setEditCourse(true))

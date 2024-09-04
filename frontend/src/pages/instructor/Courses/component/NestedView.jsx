@@ -6,11 +6,11 @@ import { RiDeleteBin6Line } from "react-icons/ri"
 import { RxDropdownMenu } from "react-icons/rx"
 import { useDispatch, useSelector } from "react-redux"
 
-import { deleteSection, deleteSubSection } from "../../../../services/operations/courseDetailsAPI"
-import { setCourse } from "../../../../reducer/slices/courseSlice"
+import { deleteSection, deleteSubSection } from "../../../../services/operations/courseDetailsAPI.js"
+import { setCourse } from "../../../../reducer/slices/courseSlice.js"
 
-import ConfirmationModal from "../../../../components/base/ConfirmationModal"
-import SubSectionModal from "./SubSectionModal"
+import ConfirmationModal from "../../../../components/base/ConfirmationModal.jsx"
+import SubSectionModal from "./SubSectionModal.jsx"
 
 
 

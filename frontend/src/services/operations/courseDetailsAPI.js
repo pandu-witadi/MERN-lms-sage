@@ -4,7 +4,15 @@ import {updateCompletedLectures} from "../../reducer/slices/viewCourseSlice"
 // import { setLoading } from "../../slices/profileSlice";
 import {apiConnector} from "../apiConnector"
 import {courseEndpoints} from "../apis"
-import {ApiCourseAdd, ApiCourseCategories, ApiCourseDelete, ApiCourseEdit, ApiInstructorCourses, getRouterApi} from "../router.js";
+import {
+  ApiCourseAdd,
+  ApiCourseCategories,
+  ApiCourseDelete,
+  ApiCourseDetails,
+  ApiCourseEdit,
+  ApiInstructorCourses,
+  getRouterApi
+} from "../router.js";
 
 const {
   COURSE_DETAILS_API,
@@ -334,14 +342,12 @@ export const http_delete_course = async (data, token) => {
 
 
 // ================ get Full Details Of Course ================
-export const getFullDetailsOfCourse = async (courseId, token) => {
-  // const toastId = toast.loading("Loading...")
-  //   dispatch(setLoading(true));
+export const http_get_full_course_details = async (courseId, token) => {
   let result = null
   try {
     const response = await apiConnector(
       "POST",
-      GET_FULL_COURSE_DETAILS_AUTHENTICATED,
+      getRouterApi(ApiCourseDetails),
       {
         courseId,
       },
@@ -349,19 +355,15 @@ export const getFullDetailsOfCourse = async (courseId, token) => {
         Authorization: `Bearer ${token}`,
       }
     )
-    console.log("COURSE_FULL_DETAILS_API API RESPONSE............", response)
 
     if (!response.data.success) {
       throw new Error(response.data.message)
     }
     result = response?.data?.data
   } catch (error) {
-    console.log("COURSE_FULL_DETAILS_API API ERROR............", error)
-    result = error.response.data
-    // toast.error(error.response.data.message);
+    console.log("COURSE_FULL_DETAILS_API API ERROR............", error.message)
+    result = error.message
   }
-  // toast.dismiss(toastId)
-  //   dispatch(setLoading(false));
   return result
 }
 

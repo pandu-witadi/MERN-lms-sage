@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   createSubSection,
   updateSubSection,
-} from "../../../../services/operations/courseDetailsAPI"
-import { setCourse } from "../../../../reducer/slices/courseSlice"
-import IconBtn from "../../../../components/common/IconBtn"
-import Upload from "../Upload"
+} from "../../../../services/operations/courseDetailsAPI.js"
+import { setCourse } from "../../../../reducer/slices/courseSlice.js"
+import IconBtn from "../../../../components/common/IconBtn.jsx"
+import Upload from "../../../../components/core/Dashboard/AddCourse/Upload.jsx";
 
 
 

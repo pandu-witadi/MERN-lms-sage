@@ -16,6 +16,7 @@ import {COURSE_STATUS} from "../../../../utils/constants.js"
 import ConfirmationModal from "../../../../components/base/ConfirmationModal.jsx"
 import toast from 'react-hot-toast'
 import {useTranslation} from "react-i18next";
+import {getRouterPath, PathEditCourse} from "../../../../services/router.js";
 
 export default function CoursesTable({courses, setCourses, loading, setLoading}) {
     const {t} = useTranslation();
@@ -63,7 +64,7 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                 <Tbody>
                     {!loading && courses?.length === 0 ? (
                             <Tr>
-                                <Td className="py-10 text-center text-2xl font-medium">
+                                <Td className="my-big-label-for-info">
                                     {t("dashboard.noCoursesFound")}
                                 </Td>
                             </Tr>
@@ -78,7 +79,7 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                                         <img
                                             src={course?.thumbnail}
                                             alt={course?.courseName}
-                                            className="h-[148px] min-w-[270px] max-w-[270px] rounded-lg object-cover"
+                                            className="my-course-cover-image"
                                         />
 
                                         <div className="flex flex-col">
@@ -125,7 +126,7 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                                         <button
                                             disabled={loading}
                                             onClick={() => {
-                                                navigate(`/dashboard/edit-course/${course._id}`)
+                                                navigate(getRouterPath(PathEditCourse, "/", {courseId: course._id}))
                                             }}
                                             title="Edit"
                                             className="px-2 transition-all duration-200 hover:scale-110 hover:text-caribbeangreen-300"

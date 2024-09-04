@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react"
-import {useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import {useNavigate} from "react-router-dom"
 
 import {http_instructor_courses} from "../../../services/operations/courseDetailsAPI.js"
@@ -10,9 +10,11 @@ import {useTranslation} from "react-i18next";
 import {BsGrid, BsPeople} from "react-icons/bs";
 import CoursesTable from "./component/CoursesTable.jsx";
 import Navbar from "../Layout/component/Navbar.jsx";
+import {resetCourseState} from "../../../reducer/slices/courseSlice.js";
 
 export default function Courses({showHome}) {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const {token, user} = useSelector((state) => state.auth)
   const {t} = useTranslation();
   const [instructorData, setInstructorData] = useState([])
@@ -22,6 +24,7 @@ export default function Courses({showHome}) {
   // get Instructor Data
   useEffect(() => {
     (async () => {
+      dispatch(resetCourseState())
       setLoading(true);
       const instructorApiData = await http_get_courses(token)
       const result = await http_instructor_courses(token)
