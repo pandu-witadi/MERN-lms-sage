@@ -313,7 +313,8 @@ export const http_instructor_courses = async (token) => {
     )
 
     if (!response?.data?.success) {
-      throw new Error("Could Not Fetch Instructor Courses")
+      // throw new Error("Could Not Fetch Instructor Courses")
+      throw new Error(response?.data?.message);
     }
     result = response?.data?.data
   } catch (error) {

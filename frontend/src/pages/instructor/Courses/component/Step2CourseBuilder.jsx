@@ -6,21 +6,22 @@ import { MdNavigateNext } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 
 import { createSection, updateSection } from "../../../../services/operations/courseDetailsAPI.js"
-import { setCourse, setEditCourse, setStep, } from "../../../../reducer/slices/courseSlice.js"
 
 import IconBtn from "../../../../components/common/IconBtn.jsx"
 import NestedView from "./NestedView.jsx"
+import {useNavigate} from "react-router-dom";
+import {getRouterPath, PathEditCourseBySteps, StepForm, StepPublish} from "../../../../services/router.js";
+import {useTranslation} from "react-i18next";
 
 
 
 
-export default function Step2CourseBuilder() {
+export default function Step2CourseBuilder({course, isEditCourse = false}) {
+  const navigate = useNavigate();
+  const {t} = useTranslation();
   const { register, handleSubmit, setValue, formState: { errors }, } = useForm()
-
-  const { course } = useSelector((state) => state.course)
   const { token } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
-
   const [loading, setLoading] = useState(false)
   const [editSectionName, setEditSectionName] = useState(null) // stored section ID
 
@@ -38,9 +39,9 @@ export default function Step2CourseBuilder() {
       result = await createSection(
         { sectionName: data.sectionName, courseId: course._id, }, token)
     }
-    // console.log("section result = ", result)
+
     if (result) {
-      dispatch(setCourse(result))
+      // dispatch(setCourse(result))
       setEditSectionName(null)
       setValue("sectionName", "")
     }
@@ -75,13 +76,12 @@ export default function Step2CourseBuilder() {
     }
 
     // all set go ahead
-    dispatch(setStep(3))
+    navigate(getRouterPath(PathEditCourseBySteps,"/", {courseId: course._id, stepMode: StepPublish})) // navigate to next step
   }
 
   // go Back
   const goBack = () => {
-    dispatch(setStep(1))
-    dispatch(setEditCourse(true))
+    navigate(getRouterPath(PathEditCourseBySteps,"/", {courseId: course._id, stepMode: StepForm})) // navigate to next step
   }
 
   return (

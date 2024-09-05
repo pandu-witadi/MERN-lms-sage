@@ -1,63 +1,90 @@
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import React, {useEffect, useState} from "react"
+import {useSelector} from "react-redux"
+import {useParams} from "react-router-dom"
 
 import {http_get_full_course_details,} from "../../../services/operations/courseDetailsAPI.js"
-import { setCourse, setEditCourse } from "../../../reducer/slices/courseSlice"
 import {WebLoading} from "../../../components/base/index.jsx";
-import StepsRender from "./component/StepsRender.jsx";
 import Navbar from "../Layout/component/Navbar.jsx";
 import {useTranslation} from "react-i18next";
+import Step1CourseForm from "./component/Step1CourseForm.jsx";
+import Step2CourseBuilder from "./component/Step2CourseBuilder.jsx";
+import Step3PublishCourse from "./component/Step3PublishCourse.jsx";
+import {StepBuilder, StepForm, StepPublish} from "../../../services/router.js";
 
 export default function CourseEdit({showHome}) {
-  const {t} = useTranslation();
-  const dispatch = useDispatch()
-  const { courseId } = useParams()
-  const { token } = useSelector((state) => state.auth)
-  const { course } = useSelector((state) => state.course)
+    const {t} = useTranslation();
+    const {courseId, stepMode} = useParams();
+    const {token} = useSelector((state) => state.auth);
+    const [course, setCourse] = useState(null);
 
-  const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [step, setStep] = useState(1);
+    const steps = t("course.addCourseSteps", {returnObjects: true});
 
+    useEffect(() => {
+        const fetchFullCourseDetails = async () => {
+            setLoading(true)
+            const result = await http_get_full_course_details(courseId, token);
+            if (result?.courseDetails) {
+                setCourse(result?.courseDetails);
+            }
+            setLoading(false)
+        }
 
-  useEffect(() => {
-    const fetchFullCourseDetails = async () => {
-      setLoading(true)
-      const result = await http_get_full_course_details(courseId, token);
-      if (result?.courseDetails) {
-        dispatch(setEditCourse(true))
-        dispatch(setCourse(result?.courseDetails))
-      }
-      setLoading(false)
+        fetchFullCourseDetails().then(r => {
+        });
+
+        if(stepMode === StepPublish) {
+            setStep(3);
+        }
+        else if(stepMode === StepBuilder) {
+            setStep(2);
+        }
+        else {
+            setStep(1);
+        }
+    }, [])
+
+    // Loading
+    if (loading) {
+        return (<div className={"flex justify-center items-center h-screen"}><WebLoading/></div>)
     }
 
-    fetchFullCourseDetails().then(r => {});
-  }, [])
+    return (
+        <div className={"h-full"}>
+            <Navbar showHome={showHome}/>
+            <div className={"my-contents"}>
+                <div className={"gap-4"}>
+                    <div className="my-page-title">
+                        {t('course.editCourse')}
+                    </div>
+                </div>
 
-  // Loading
-  if (loading) {
-    return (<div className={"flex justify-center items-center h-screen"}><WebLoading /></div>)
-  }
+                <div className={"mb-4"}>
+                    <ul className={"w-full steps"}>
+                        {steps.map((item) => (
+                            <li key={item.id} className={`step ${step >= item.id ? "step-warning" : "step-neutral"}`}>
+                                {item.title}
+                            </li>))}
+                    </ul>
+                </div>
 
-  return (
-    <div className={"h-full"}>
-      <Navbar showHome={showHome}/>
-      <div className={"my-contents"}>
-        <div className={"gap-4"}>
-          <div className="my-page-title">
-            {t('course.editCourse')}
-          </div>
+                {loading ? <div className={"my-child-loading-container"}><WebLoading/></div>
+                    :
+                    (<div>
+                        {course ?
+                            <>
+                                {stepMode === StepForm && <Step1CourseForm course={course} isEditCourse={true}/>}
+                                {stepMode === StepBuilder && <Step2CourseBuilder course={course}/>}
+                                {stepMode === StepPublish && <Step3PublishCourse/>}
+                            </>
+                            :
+                            (<p className="my-big-label-for-info">
+                                {t("course.courseNotFound")}
+                            </p>)
+                        }
+                    </div>)}
+            </div>
         </div>
-        {loading ? <div className={"my-child-loading-container"}><WebLoading/></div>
-          :
-          (<div>
-            {course ? <StepsRender/>
-              :
-              (<p className="my-big-label-for-info">
-                {t("course.courseNotFound")}
-              </p>)
-            }
-          </div>)}
-      </div>
-    </div>
-  )
+    )
 }

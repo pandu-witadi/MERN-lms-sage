@@ -2,25 +2,24 @@ import {useEffect, useState} from "react"
 import {useForm} from "react-hook-form"
 import {toast} from "react-hot-toast"
 import {MdNavigateNext} from "react-icons/md"
-import {useDispatch, useSelector} from "react-redux"
+import {useSelector} from "react-redux"
 
 import {
   http_add_course_details, http_edit_course_details,
   http_get_categories
 } from "../../../../services/operations/courseDetailsAPI.js"
-import {setCourse, setStep} from "../../../../reducer/slices/courseSlice.js"
 import {COURSE_STATUS} from "../../../../utils/constants.js"
 import ChipInput from "./ChipInput.jsx"
 import {useTranslation} from "react-i18next";
 import {UploadImage, WebLoading} from "../../../../components/base/index.jsx";
+import {useNavigate} from "react-router-dom";
+import {getRouterPath, PathAddCourseBySteps, PathRoot, StepBuilder} from "../../../../services/router.js";
 
-export default function Step1CourseForm() {
+export default function Step1CourseForm({course, isEditCourse = false}) {
+  const navigate = useNavigate();
   const {t} = useTranslation();
+  const { token } = useSelector((state) => state.auth)
   const {register, handleSubmit, setValue, getValues, formState: {errors}} = useForm()
-
-  const dispatch = useDispatch()
-  const {token} = useSelector((state) => state.auth)
-  const {course, editCourse} = useSelector((state) => state.course)
   const [loading, setLoading] = useState(false)
   const [courseCategories, setCourseCategories] = useState([])
 
@@ -35,13 +34,13 @@ export default function Step1CourseForm() {
     }
 
     // if form is in edit mode, It will add value in input field
-    if (editCourse) {
+    if (isEditCourse) {
       setValue("courseTitle", course.courseName)
       setValue("courseShortDesc", course.courseDescription)
       setValue("courseBenefits", course.whatYouWillLearn)
       setValue("courseCategory", course.category._id)
       setValue("courseTags", course.tag)
-      setValue("courseRequirements", course.instructions);
+      // setValue("courseRequirements", course.instructions);
       setValue("courseImage", course.thumbnail);
     }
 
@@ -56,14 +55,14 @@ export default function Step1CourseForm() {
       currentValues.courseTags.toString() !== course.tag.toString() ||
       currentValues.courseBenefits !== course.whatYouWillLearn ||
       currentValues.courseCategory._id !== course.category._id ||
-      currentValues.courseRequirements.toString() !== course.instructions.toString() ||
+      // currentValues.courseRequirements.toString() !== course.instructions.toString() ||
       currentValues.courseImage !== course.thumbnail;
 
   }
 
   //   handle next button click
   const onSubmit = async (data) => {
-    if (editCourse) {
+    if (isEditCourse) {
       if (isFormUpdated()) {
         const currentValues = getValues()
         const formData = new FormData()
@@ -83,9 +82,10 @@ export default function Step1CourseForm() {
         if (currentValues.courseTags.toString() !== course.tag.toString()) {
           formData.append("tag", JSON.stringify(data.courseTags))
         }
-        if (currentValues.courseRequirements.toString() !== course.instructions.toString()) {
-          formData.append("instructions", JSON.stringify(data.courseRequirements))
-        }
+        formData.append("instructions", "[]");
+        // if (currentValues.courseRequirements.toString() !== course.instructions.toString()) {
+        //   formData.append("instructions", JSON.stringify(data.courseRequirements))
+        // }
         if (currentValues.courseImage !== course.thumbnail) {
           formData.append("thumbnailImage", data.courseImage)
         }
@@ -95,8 +95,7 @@ export default function Step1CourseForm() {
         const result = await http_edit_course_details(formData, token)
         setLoading(false)
         if (result) {
-          dispatch(setStep(2))
-          dispatch(setCourse(result))
+          navigate(getRouterPath(PathAddCourseBySteps,"/", {courseId: course._id, stepMode: StepBuilder})) // navigate to next step
         }
       } else {
         toast.error("No changes made to the form")
@@ -112,13 +111,12 @@ export default function Step1CourseForm() {
     formData.append("whatYouWillLearn", data.courseBenefits)
     formData.append("category", data.courseCategory)
     formData.append("status", COURSE_STATUS.DRAFT)
-    formData.append("instructions", JSON.stringify(data.courseRequirements))
+    formData.append("instructions", JSON.stringify([]))
     formData.append("thumbnailImage", data.courseImage)
     setLoading(true)
     const result = await http_add_course_details(formData, token)
     if (result) {
-      dispatch(setStep(2))
-      dispatch(setCourse(result))
+      navigate(getRouterPath(PathAddCourseBySteps,"/", {courseId: result._id, stepMode: StepBuilder})) // navigate to next step
     }
     setLoading(false)
   }
@@ -198,17 +196,17 @@ export default function Step1CourseForm() {
             required={true}
           />
 
-          {/* Course Tags */}
-          <ChipInput
-            label={t("course.courseInstructions")}
-            name="courseRequirements"
-            placeholder={t("tagPlaceHolder")}
-            register={register}
-            errors={errors}
-            setValue={setValue}
-            getValues={getValues}
-            required={false}
-          />
+          {/*/!* Course Tags *!/*/}
+          {/*<ChipInput*/}
+          {/*  label={t("course.courseInstructions")}*/}
+          {/*  name="courseRequirements"*/}
+          {/*  placeholder={t("tagPlaceHolder")}*/}
+          {/*  register={register}*/}
+          {/*  errors={errors}*/}
+          {/*  setValue={setValue}*/}
+          {/*  getValues={getValues}*/}
+          {/*  required={false}*/}
+          {/*/>*/}
 
           {/* Course Thumbnail Image */}
           <UploadImage
@@ -224,9 +222,9 @@ export default function Step1CourseForm() {
 
           {/* Next Button */}
           <div className="flex justify-end gap-x-2">
-            {editCourse && (
+            {isEditCourse && (
               <button
-                onClick={() => dispatch(setStep(2))}
+                onClick={() => navigate(getRouterPath(PathAddCourseBySteps,"/", {courseId: course._id, stepMode: StepBuilder}))}
                 disabled={loading}
                 className={"my-btn-cancel"}>
                 {t("btn.nextWithoutSave")}
@@ -237,7 +235,7 @@ export default function Step1CourseForm() {
               disabled={loading}
             >
               <MdNavigateNext/>
-              {!editCourse ? t("btn.next") : t("btn.saveChanged")}
+              {!isEditCourse ? t("btn.next") : t("btn.saveChanged")}
             </button>
           </div>
         </div>

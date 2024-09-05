@@ -30,15 +30,17 @@ import VideoDetails from './components/core/ViewCourse/VideoDetails'
 import {ACCOUNT_TYPE} from './utils/constants'
 import CourseSectionPlayerTest from "./test/CourseSectionPlayerTest.jsx";
 import {
-  getRouterPath, PathAddCourse, PathEditCourse,
+  getRouterPath, PathAddCourse, PathAddCourseBySteps, PathEditCourseBySteps,
   PathLogin, PathNotifications,
   PathRoot, PathSettings,
   PathSignUp
 } from "./services/router.js";
 import {WebLoading} from "./components/base";
 import './i18n';
+import {useTranslation} from "react-i18next";
 
 function App() {
+  const {t} = useTranslation();
   const {user} = useSelector((state) => state.auth)
   return (
     <div data-theme={user?.theme || 'light'} className="w-screen h-screen flex flex-col">
@@ -73,7 +75,8 @@ function App() {
               <Route path={getRouterPath(PathSettings)} element={<SettingsInstructor showHome={true}/>}/>
               <Route path={getRouterPath(PathNotifications)} element={<NotificationInstructor showHome={true}/>}/>
               <Route path={getRouterPath(PathAddCourse)} element={<CourseAddInstructor showHome={true}/>}/>
-              <Route path={getRouterPath(PathEditCourse)} element={<CourseEditInstructor showHome={true}/>}/>
+              <Route path={getRouterPath(PathAddCourseBySteps)} element={<CourseAddInstructor showHome={true}/>}/>
+              <Route path={getRouterPath(PathEditCourseBySteps)} element={<CourseEditInstructor showHome={true}/>}/>
             </Route>
           )}
 

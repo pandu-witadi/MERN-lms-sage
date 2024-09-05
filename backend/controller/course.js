@@ -468,8 +468,11 @@ exports.deleteCourse = async (req, res) => {
     }
 
     // delete course data path
-    const directoryPath = path.join(__dirname, "..", CF.path.course, course.courseId);
-    await deleteDirectory(directoryPath);
+    // testCourse is just a temporary name to delete the course when the courseId is null
+    const directoryPath = path.join(__dirname, "..", CF.path.course, course.courseId ?? "testCourse");
+    if(checkDirectoryExists(directoryPath)) {
+      await deleteDirectory(directoryPath);
+    }
 
     // Delete sections and sub-sections
     const courseSections = course.courseContent
