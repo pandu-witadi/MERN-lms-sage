@@ -43,7 +43,6 @@ export default function Step1CourseForm({course, isEditCourse = false}) {
       // setValue("courseRequirements", course.instructions);
       setValue("courseImage", course.thumbnail);
     }
-
     getCategories().then(() => {});
   }, [])
 

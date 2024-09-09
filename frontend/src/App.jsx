@@ -39,6 +39,9 @@ import {WebLoading} from "./components/base";
 import './i18n';
 import {useTranslation} from "react-i18next";
 
+import { pdfjs } from 'react-pdf';
+pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
+
 function App() {
   const {t} = useTranslation();
   const {user} = useSelector((state) => state.auth)

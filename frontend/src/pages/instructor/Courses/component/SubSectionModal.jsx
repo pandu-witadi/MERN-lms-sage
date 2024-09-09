@@ -8,7 +8,7 @@ import {
   http_subsection_create, http_subsection_update,
 } from "../../../../services/operations/courseDetailsAPI.js"
 import {useTranslation} from "react-i18next";
-import UploadFile from "../../../../components/base/UploadFile.jsx";
+import UploadPdf from "../../../../components/base/UploadPdf.jsx";
 
 export default function SubSectionModal({course, setCourse, modalData, setModalData, add = false, view = false, edit = false, }) {
   const {t} = useTranslation();
@@ -26,13 +26,20 @@ export default function SubSectionModal({course, setCourse, modalData, setModalD
 
 
   useEffect(() => {
+    setLoading(true);
     if (view || edit) {
-      setValue("lectureTitle", modalData.title ?? "");
-      setValue("lectureDesc", modalData.description ?? "");
-      setValue("lectureType", modalData.lectureType ?? "");
-      setValue("lectureUrl", modalData.lectureUrl ?? "");
-      setValue("lectureContent", modalData.lectureContent ?? "");
+      setValue("lectureTitle", modalData.title);
+      setValue("lectureDesc", modalData.description);
+      setValue("lectureType", modalData.lectureType);
+      setValue("lectureUrl", modalData.lectureUrl);
+      setValue("lectureContent", modalData.lectureContent);
     }
+
+    // Simulate an asynchronous operation (e.g., fetching data)
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000); // Delay for 1 second before setting loading to false
+    return () => clearTimeout(timer); // Cleanup the timer
   }, [])
 
   // detect whether form is updated or not
@@ -67,7 +74,7 @@ export default function SubSectionModal({course, setCourse, modalData, setModalD
       formData.append("lectureUrl", currentValues.lectureUrl)
     }
     if (currentValues.lectureContent !== modalData.lectureContent) {
-      formData.append("lectureContent", currentValues.lectureContent)
+      formData.append("lectureContent", currentValues.lectureContent ?? "")
     }
     setLoading(true)
 
@@ -102,8 +109,8 @@ export default function SubSectionModal({course, setCourse, modalData, setModalD
     formData.append("title", data.lectureTitle);
     formData.append("description", data.lectureDesc);
     formData.append("lectureType", data.lectureType);
-    formData.append("lectureUrl", data.lectureUrl);
-    formData.append("lectureContent", data.lectureContent);
+    formData.append("lectureUrl", data.lectureUrl ?? "");
+    formData.append("lectureContent", data.lectureContent ?? "");
     setLoading(true)
     const result = await http_subsection_create(formData, token)
     if (result) {
@@ -178,13 +185,14 @@ export default function SubSectionModal({course, setCourse, modalData, setModalD
           </div>
 
           {/* Lecture File Upload */}
-          <UploadFile
+          <UploadPdf
             name="lectureUrl"
             label={t("course.lectureAttachment")}
             register={register}
             setValue={setValue}
             getValues={getValues}
             errors={errors}
+            loading={loading}
           />
 
           {!view && (

@@ -131,6 +131,7 @@ exports.updateSubSection = async (req, res) => {
                 if (temp_file) {
                     lecture_url = cleanFileName(temp_file.name);
                     moveFileToPath(path.join(directoryPath, lecture_url), temp_file);
+                    subSection.lectureUrl = lecture_url;
                 }
             }
         }
@@ -144,9 +145,13 @@ exports.updateSubSection = async (req, res) => {
 
         // save data to DB
         await subSection.save();
-
-        const updatedSection = await Section.findById(sectionId).populate("subSection")
-
+        const updatedSection = await Section.findById(sectionId).populate("subSection");
+        for (let j = 0; j < updatedSection['subSection'].length; j++) {
+            updatedSection['subSection'][j]['lectureUrl'] = CF.server.path_course + '/' + courseId + '/' + updatedSection['subSection'][j]['lectureUrl']
+        }
+        if(updatedSection.lectureUrl !== "") {
+            updatedSection.lectureUrl = directoryPath + "/" + updatedSection.lectureUrl;
+        }
         return res.json({
             success: true,
             data: updatedSection,

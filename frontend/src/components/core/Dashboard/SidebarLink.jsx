@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { NavLink, matchPath, useLocation } from "react-router-dom"
 
 import { resetCourseState } from "../../../reducer/slices/courseSlice"
-import { setOpenSideMenu } from "../../../reducer/slices/sidebarSlice"
+// import { setOpenSideMenu } from "../../../reducer/slices/sidebarSlice"
 
 
 
@@ -12,15 +12,15 @@ export default function SidebarLink({ link, iconName }) {
   const location = useLocation()
   const dispatch = useDispatch()
 
-  const { openSideMenu, screenSize } = useSelector(state => state.sidebar)
+  // const { openSideMenu, screenSize } = useSelector(state => state.sidebar)
 
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname)
   }
 
   const handleClick = () => {
-    dispatch(resetCourseState())
-    if (openSideMenu && screenSize <= 640) dispatch(setOpenSideMenu(false))
+  //   dispatch(resetCourseState())
+  //   if (openSideMenu && screenSize <= 640) dispatch(setOpenSideMenu(false))
   }
 
   return (

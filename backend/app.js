@@ -25,7 +25,7 @@ app.use( cookieParser() )
 app.use( cors({
     // origin: 'http://localhost:5173', // frontend link
     origin: "*",
-    credentials: true
+    credentials: false
 }))
 app.use( fileUpload({
     useTempFiles: true,

@@ -297,7 +297,8 @@ exports.getFullCourseDetails = async (req, res) => {
       courseDetails['thumbnail'] = getCourseThumbnail(courseDetails);
       for (let i = 0; i < courseDetails['courseContent'].length; i++) {
         for (let j = 0; j < courseDetails['courseContent'][i]['subSection'].length; j++) {
-          courseDetails['courseContent'][i]['subSection'][j]['videoUrl'] = CF.server.path_video + '/' + courseDetails['courseContent'][i]['subSection'][j]['videoUrl']
+          courseDetails['courseContent'][i]['subSection'][j]['lectureUrl'] = CF.server.path_course + '/' +
+              courseDetails['courseId'] + '/' + courseDetails['courseContent'][i]['subSection'][j]['lectureUrl']
         }
       }
     }
@@ -306,7 +307,6 @@ exports.getFullCourseDetails = async (req, res) => {
       courseID: courseId,
       userId: userId,
     })
-    //   console.log("courseProgressCount : ", courseProgressCount)
 
     if (!courseDetails) {
       return res.status(404).json({
@@ -315,15 +315,16 @@ exports.getFullCourseDetails = async (req, res) => {
       })
     }
 
-    //   count total time duration of course
-    let totalDurationInSeconds = 0
-    courseDetails.courseContent.forEach((content) => {
-      content.subSection.forEach((subSection) => {
-        const timeDurationInSeconds = parseInt(subSection.timeDuration)
-        totalDurationInSeconds += timeDurationInSeconds
-      })
-    })
-    const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+    // //   count total time duration of course
+    // let totalDurationInSeconds = 0
+    // courseDetails.courseContent.forEach((content) => {
+    //   content.subSection.forEach((subSection) => {
+    //     const timeDurationInSeconds = parseInt(subSection.timeDuration)
+    //     totalDurationInSeconds += timeDurationInSeconds
+    //   })
+    // })
+    // const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+    const totalDuration = "0";
 
     return res.status(200).json({
       success: true,
