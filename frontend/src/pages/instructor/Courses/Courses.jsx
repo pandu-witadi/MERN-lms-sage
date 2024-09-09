@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom"
 import {http_instructor_courses} from "../../../services/operations/courseDetailsAPI.js"
 import {http_get_courses} from "../../../services/operations/profileAPI.js"
 import {VscAdd} from "react-icons/vsc";
-import {getRouterPath, PathAddCourse} from "../../../services/router.js";
+import {getRouterPath, PathCourseAdd} from "../../../services/router.js";
 import {useTranslation} from "react-i18next";
 import {BsGrid, BsPeople} from "react-icons/bs";
 import CoursesTable from "./component/CoursesTable.jsx";
@@ -50,7 +50,7 @@ export default function Courses({showHome}) {
 
 
         <div className={"flex sm:flex-row flex-col gap-4"}>
-          <div className="stats shadow">
+          <div className="stats shadow border border-neutral-300">
             <div className="stat">
               <div className="stat-title">{t("dashboard.totalCourses")}</div>
               <div className="stat-value">{courses.length}</div>
@@ -59,7 +59,7 @@ export default function Courses({showHome}) {
               </div>
             </div>
           </div>
-          <div className="stats shadow">
+          <div className="stats shadow border border-neutral-300">
             <div className="stat">
               <div className="stat-title">{t("dashboard.totalStudent")}</div>
               <div className="stat-value">{(isNaN(totalStudents)) ? 0 : totalStudents}</div>
@@ -72,7 +72,7 @@ export default function Courses({showHome}) {
 
         <div className="mt-5 flex justify-between">
           <div className="my-card-title">{t("dashboard.myCourses")}</div>
-          <button className={"my-btn-confirm pl-1 pr-1"} onClick={() => navigate(getRouterPath(PathAddCourse))}>
+          <button className={"my-btn-confirm pl-1 pr-1"} onClick={() => navigate(getRouterPath(PathCourseAdd))}>
             <VscAdd/> {t("btn.addCourse")}
           </button>
         </div>

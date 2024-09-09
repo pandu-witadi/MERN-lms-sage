@@ -5,7 +5,7 @@ import { IoAddCircleOutline } from "react-icons/io5"
 import { MdNavigateNext } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 
-import { createSection, updateSection } from "../../../../../services/operations/courseDetailsAPI"
+import {http_section_create, http_section_update} from "../../../../../services/operations/courseDetailsAPI"
 import { setCourse, setEditCourse, setStep, } from "../../../../../reducer/slices/courseSlice"
 
 import IconBtn from "../../../../common/IconBtn"
@@ -32,10 +32,10 @@ export default function CourseBuilderForm() {
     let result
 
     if (editSectionName) {
-      result = await updateSection({ sectionName: data.sectionName, sectionId: editSectionName, courseId: course._id, }, token)
+      result = await http_section_update({ sectionName: data.sectionName, sectionId: editSectionName, courseId: course._id, }, token)
       // console.log("edit = ", result)
     } else {
-      result = await createSection(
+      result = await http_section_create(
         { sectionName: data.sectionName, courseId: course._id, }, token)
     }
     // console.log("section result = ", result)

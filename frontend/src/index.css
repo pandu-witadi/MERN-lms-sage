@@ -56,10 +56,13 @@ body {
   @apply mt-3 mb-5 sm:text-base text-sm opacity-70
 }
 .my-btn-confirm {
-  @apply btn btn-sm btn-warning bg-app-base border-app-base
+  @apply btn btn-sm btn-warning bg-app-base border-app-base min-w-[80px]
+}
+.my-btn-confirm-outline {
+  @apply btn btn-sm btn-outline btn-warning min-w-[80px]
 }
 .my-btn-cancel {
-  @apply btn btn-sm px-[30px] btn-neutral
+  @apply btn btn-sm btn-neutral min-w-[80px]
 }
 .my-card-border {
   @apply card p-4 border-[1px] border-neutral-500
@@ -77,7 +80,7 @@ body {
   @apply flex flex-row items-center justify-center rounded-full bg-base-300 sm:px-4 px-2 text-base
 }
 .my-course-cover-image {
-  @apply h-[150px] w-[200px] max-w-[200px] rounded-lg object-cover border p-3
+  @apply h-[150px] w-[200px] max-w-[200px] rounded-lg object-cover border-neutral-500
 }
 .my-big-label-for-info {
   @apply py-10 text-center text-2xl font-medium

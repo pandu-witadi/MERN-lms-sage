@@ -13,7 +13,7 @@ import ChipInput from "./ChipInput.jsx"
 import {useTranslation} from "react-i18next";
 import {UploadImage, WebLoading} from "../../../../components/base/index.jsx";
 import {useNavigate} from "react-router-dom";
-import {getRouterPath, PathAddCourseBySteps, PathRoot, StepBuilder} from "../../../../services/router.js";
+import {getRouterPath, PathCourseEdit, StepBuilder} from "../../../../services/router.js";
 
 export default function Step1CourseForm({course, isEditCourse = false}) {
   const navigate = useNavigate();
@@ -95,7 +95,7 @@ export default function Step1CourseForm({course, isEditCourse = false}) {
         const result = await http_edit_course_details(formData, token)
         setLoading(false)
         if (result) {
-          navigate(getRouterPath(PathAddCourseBySteps,"/", {courseId: course._id, stepMode: StepBuilder})) // navigate to next step
+          navigate(getRouterPath(PathCourseEdit,"/", {courseId: course._id, stepMode: StepBuilder})) // navigate to next step
         }
       } else {
         toast.error("No changes made to the form")
@@ -116,7 +116,7 @@ export default function Step1CourseForm({course, isEditCourse = false}) {
     setLoading(true)
     const result = await http_add_course_details(formData, token)
     if (result) {
-      navigate(getRouterPath(PathAddCourseBySteps,"/", {courseId: result._id, stepMode: StepBuilder})) // navigate to next step
+      navigate(getRouterPath(PathCourseEdit,"/", {courseId: result._id, stepMode: StepBuilder})) // navigate to next step
     }
     setLoading(false)
   }
@@ -224,18 +224,14 @@ export default function Step1CourseForm({course, isEditCourse = false}) {
           <div className="flex justify-end gap-x-2">
             {isEditCourse && (
               <button
-                onClick={() => navigate(getRouterPath(PathAddCourseBySteps,"/", {courseId: course._id, stepMode: StepBuilder}))}
+                onClick={() => navigate(getRouterPath(PathCourseEdit,"/", {courseId: course._id, stepMode: StepBuilder}))}
                 disabled={loading}
                 className={"my-btn-cancel"}>
                 {t("btn.nextWithoutSave")}
               </button>
             )}
-            <button
-              className={"my-btn-confirm"}
-              disabled={loading}
-            >
-              <MdNavigateNext/>
-              {!isEditCourse ? t("btn.next") : t("btn.saveChanged")}
+            <button className={"my-btn-confirm"} disabled={loading}>
+              {!isEditCourse ? t("btn.next") : t("btn.saveChanged")}<MdNavigateNext/>
             </button>
           </div>
         </div>

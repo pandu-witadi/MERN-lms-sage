@@ -2,20 +2,17 @@
 //
 const Section = require('../model/section')
 const SubSection = require('../model/subSection')
-// const { uploadImageToCloudinary } = require('../util/imageUploader')
-
 const path = require('path')
 const short = require('short-uuid')
 const CF = require('../conf/conf_app')
-
-const { getVideoDurationInSeconds } = require('get-video-duration')
+const {cleanFileName, moveFileToPath} = require("../util/utils");
 
 
 // ================ create SubSection ================
 exports.createSubSection = async (req, res) => {
     try {
         // extract data
-        const { title, description, sectionId } = req.body;
+        const { courseId, title, description, sectionId, lectureType, lectureContent } = req.body;
 
         // validation
         if (!title || !description ||
@@ -27,48 +24,38 @@ exports.createSubSection = async (req, res) => {
             })
         }
 
-        // upload video to cloudinary
-        // const videoFileDetails = await uploadImageToCloudinary(videoFile, process.env.FOLDER_NAME);
-
-        let obj_url = null
-
         // When a file has been uploaded
-        if (req.files && Object.keys(req.files).length !== 0) {
-            // extract video file
-            const videoFile = req.files.video
-            console.log('videoFile ', videoFile)
-            if (videoFile) {
-
-                // getVideoDurationInSeconds(videoFile.data).then((duration) => {
-                //     console.log('duration : ' + duration)
-                // })
-
-                let video_filename = "vid-" + short.generate() + '-' + videoFile.name
-                // Upload path
-                const uploadPath = path.join(__dirname, "..", CF.path.video, video_filename)
-                console.log(uploadPath)
-                obj_url = video_filename
-                videoFile.mv(uploadPath, function (err) {
-                    if (err) {
-                        console.log(err)
-                    } else {
-                        obj_url = video_filename
-                        console.log("... successfully uploaded ... " + obj_url)
-                    }
-                })
+        let lecture_url = null;
+        const directoryPath = path.join(__dirname, "..", CF.path.course, courseId);
+        try {
+            if (req.files && Object.keys(req.files).length !== 0) {
+                const temp_file = req.files?.lectureUrl;
+                if (temp_file) {
+                    lecture_url = cleanFileName(temp_file.name);
+                    moveFileToPath(path.join(directoryPath, lecture_url), temp_file);
+                }
             }
+        }
+        catch (error) {
+            return res.status(500).json({
+                success: false,
+                error: error.message,
+                message: 'Error while saving attachment file'
+            })
         }
 
         // create entry in DB
         const SubSectionDetails = await SubSection.create({
             title,
-            timeDuration: 200,
+            timeDuration: "0",
             description,
-            videoUrl: obj_url
+            lectureType,
+            lectureUrl: lecture_url,
+            lectureContent
         })
 
         // link subsection id to section
-        // Update the corresponding section with the newly created sub-section
+        // Update the corresponding section with the newly created subsection
         const updatedSection = await Section.findByIdAndUpdate(
             { _id: sectionId },
             { $push: { subSection: SubSectionDetails._id } },
@@ -98,7 +85,7 @@ exports.createSubSection = async (req, res) => {
 // ================ Update SubSection ================
 exports.updateSubSection = async (req, res) => {
     try {
-        const { sectionId, subSectionId, title, description } = req.body;
+        const {courseId, sectionId, subSectionId, title, description, lectureType, lectureContent } = req.body;
 
         // validation
         if (!subSectionId) {
@@ -127,26 +114,32 @@ exports.updateSubSection = async (req, res) => {
             subSection.description = description;
         }
 
-        // upload video to cloudinary
-        if (req.files && req.files.videoFile !== undefined) {
-            const video = req.files.videoFile;
-            // const uploadDetails = await uploadImageToCloudinary(video, process.env.FOLDER_NAME);
-            if (video) {
-                let video_filename = "vid-" + short.generate() + '-' + video.name
-                const uploadPath = path.join(__dirname, "..", CF.path.video, video_filename)
-                video.mv(uploadPath, function (err) {
-                    if (err) {
-                        console.log(err)
-                    } else {
-                        console.log("... successfully uploaded ... " + video_filename)
-                    }
-                })
-                subSection.videoUrl = video_filename
-            }
-            // subSection.videoUrl = uploadDetails.secure_url;
+        if (lectureType) {
+            subSection.lectureType = lectureType;
+        }
 
-            // subSection.timeDuration = uploadDetails.duration;
-            subSection.timeDuration = 200
+        if (lectureContent) {
+            subSection.lectureContent = lectureContent;
+        }
+
+        // When a file has been uploaded
+        let lecture_url = null;
+        const directoryPath = path.join(__dirname, "..", CF.path.course, courseId);
+        try {
+            if (req.files && Object.keys(req.files).length !== 0) {
+                const temp_file = req.files?.lectureUrl;
+                if (temp_file) {
+                    lecture_url = cleanFileName(temp_file.name);
+                    moveFileToPath(path.join(directoryPath, lecture_url), temp_file);
+                }
+            }
+        }
+        catch (error) {
+            return res.status(500).json({
+                success: false,
+                error: error.message,
+                message: 'Error while saving attachment file'
+            })
         }
 
         // save data to DB

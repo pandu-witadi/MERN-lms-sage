@@ -1,11 +1,12 @@
+
 import React, {useEffect, useRef, useState} from "react"
 import {useDropzone} from "react-dropzone"
 import {FiUploadCloud} from "react-icons/fi"
 import {useTranslation} from "react-i18next";
 
-export default function UploadImage({
+export default function UploadFile({
                                       name, label, register, setValue, getValues,
-                                      errors, fileExtension = [".jpeg", ".jpg", ".png"], height
+                                      errors, fileExtension = [".pdf"], height
                                     }) {
   const {t} = useTranslation();
   const [selectedFile, setSelectedFile] = useState(null)
@@ -56,7 +57,7 @@ export default function UploadImage({
   };
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
-    accept: {"image/*": fileExtension},
+    accept: {"pdf/*": fileExtension},
     onDrop,
   })
 
@@ -102,7 +103,7 @@ export default function UploadImage({
                 className="hidden"
               />
               <FiUploadCloud className="text-4xl"/>
-              <div className={"text-lg"}>
+              <div>
                 {t("areaUploadTitle")}
               </div>
               <div className={"text-sm text-neutral-700"}>

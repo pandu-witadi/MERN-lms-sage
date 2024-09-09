@@ -17,6 +17,12 @@ export const ApiCourseEdit = "ApiCourseEdit";
 export const ApiCourseDelete = "ApiCourseDelete";
 export const ApiCourseDetails = "ApiCourseDetails";
 export const ApiInstructorCourses = "ApiInstructorCourses";
+export const ApiSectionAdd = "ApiSectionAdd";
+export const ApiSectionUpdate = "ApiSectionUpdate";
+export const ApiSectionDelete = "ApiSectionDelete";
+export const ApiSubSectionAdd = "ApiSubSectionAdd";
+export const ApiSubSectionUpdate = "ApiSubSectionUpdate";
+export const ApiSubSectionDelete = "ApiSubSectionDelete";
 
 export function getRouterApi(key, param = {}) {
     let routers = {
@@ -35,6 +41,12 @@ export function getRouterApi(key, param = {}) {
         [ApiCourseDelete]: APP_BASE_URL + "/course/deleteCourse",
         [ApiCourseDetails]: APP_BASE_URL + "/course/getFullCourseDetails",
         [ApiInstructorCourses]: APP_BASE_URL + "/course/getInstructorCourses",
+        [ApiSectionAdd]: APP_BASE_URL + "/course/addSection",
+        [ApiSectionUpdate]: APP_BASE_URL + "/course/updateSection",
+        [ApiSectionDelete]: APP_BASE_URL + "/course/deleteSection",
+        [ApiSubSectionAdd]: APP_BASE_URL + "/course/addSubSection",
+        [ApiSubSectionUpdate]: APP_BASE_URL + "/course/updateSubSection",
+        [ApiSubSectionDelete]: APP_BASE_URL + "/course/deleteSubSection",
     }
     return (routers[key]);
 }
@@ -49,9 +61,8 @@ export const PathSignUp = "PathSignUp";
 export const PathSettings = "PathSettings";
 export const PathProfile = "PathProfile";
 export const PathNotifications = "PathNotifications";
-export const PathAddCourse = "PathAddCourse";
-export const PathAddCourseBySteps = "PathAddCourseBySteps";
-export const PathEditCourseBySteps = "PathEditCourseBuilder"; // [form, builder, publish]
+export const PathCourseAdd = "PathCourseAdd";
+export const PathCourseEdit = "PathCourseEdit"; // [form, builder, publish]
 
 export function getRouterPath(key, prefix = "/", param = {}) {
     let routers = {
@@ -61,10 +72,8 @@ export function getRouterPath(key, prefix = "/", param = {}) {
         [PathSettings]: prefix + "settings",
         [PathProfile]: prefix + "profile",
         [PathNotifications]: prefix + "notifications",
-        [PathAddCourse]: prefix + "course-add",
-        [PathAddCourseBySteps]: prefix + "course-add/" + (("courseId" in param) ? `${param["courseId"]}` : ":courseId") +
-        (("stepMode" in param) ? `/${param["stepMode"]}` : "/:stepMode"),
-        [PathEditCourseBySteps]: prefix + "course-edit/" + (("courseId" in param) ? `${param["courseId"]}` : ":courseId") +
+        [PathCourseAdd]: prefix + "course-add",
+        [PathCourseEdit]: prefix + "course-edit/" + (("courseId" in param) ? `${param["courseId"]}` : ":courseId") +
         (("stepMode" in param) ? `/${param["stepMode"]}` : "/:stepMode"),
     }
     return (routers[key]);

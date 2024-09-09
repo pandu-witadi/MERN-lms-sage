@@ -10,10 +10,15 @@ const subSectionSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    videoUrl: {
+    lectureType: {
+        type: String
+    },
+    lectureUrl: {
+        type: String
+    },
+    lectureContent: {
         type: String
     }
-
 });
 
-module.exports = mongoose.model('SubSection', subSectionSchema) 
+module.exports = mongoose.model('SubSection', subSectionSchema)

@@ -30,7 +30,7 @@ import VideoDetails from './components/core/ViewCourse/VideoDetails'
 import {ACCOUNT_TYPE} from './utils/constants'
 import CourseSectionPlayerTest from "./test/CourseSectionPlayerTest.jsx";
 import {
-  getRouterPath, PathAddCourse, PathAddCourseBySteps, PathEditCourseBySteps,
+  getRouterPath, PathCourseAdd, PathCourseEdit,
   PathLogin, PathNotifications,
   PathRoot, PathSettings,
   PathSignUp
@@ -74,9 +74,8 @@ function App() {
               <Route path={getRouterPath(PathRoot)} element={<CoursesInstructor showHome={false}/>}/>
               <Route path={getRouterPath(PathSettings)} element={<SettingsInstructor showHome={true}/>}/>
               <Route path={getRouterPath(PathNotifications)} element={<NotificationInstructor showHome={true}/>}/>
-              <Route path={getRouterPath(PathAddCourse)} element={<CourseAddInstructor showHome={true}/>}/>
-              <Route path={getRouterPath(PathAddCourseBySteps)} element={<CourseAddInstructor showHome={true}/>}/>
-              <Route path={getRouterPath(PathEditCourseBySteps)} element={<CourseEditInstructor showHome={true}/>}/>
+              <Route path={getRouterPath(PathCourseAdd)} element={<CourseAddInstructor showHome={true}/>}/>
+              <Route path={getRouterPath(PathCourseEdit)} element={<CourseEditInstructor showHome={true}/>}/>
             </Route>
           )}
 

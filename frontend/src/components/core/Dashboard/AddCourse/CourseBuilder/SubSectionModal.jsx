@@ -5,8 +5,7 @@ import { RxCross2 } from "react-icons/rx"
 import { useDispatch, useSelector } from "react-redux"
 
 import {
-  createSubSection,
-  updateSubSection,
+  http_subsection_create, http_subsection_update,
 } from "../../../../../services/operations/courseDetailsAPI"
 import { setCourse } from "../../../../../reducer/slices/courseSlice"
 import IconBtn from "../../../../common/IconBtn"
@@ -73,7 +72,7 @@ export default function SubSectionModal({ modalData, setModalData, add = false, 
       formData.append("video", currentValues.lectureVideo)
     }
     setLoading(true)
-    const result = await updateSubSection(formData, token)
+    const result = await http_subsection_update(formData, token)
     if (result) {
       // console.log("result", result)
       // update the structure of course
@@ -106,7 +105,7 @@ export default function SubSectionModal({ modalData, setModalData, add = false, 
     formData.append("description", data.lectureDesc)
     formData.append("video", data.lectureVideo)
     setLoading(true)
-    const result = await createSubSection(formData, token)
+    const result = await http_subsection_create(formData, token)
     if (result) {
       // update the structure of course
       const updatedCourseContent = course.courseContent.map((section) =>

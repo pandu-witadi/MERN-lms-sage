@@ -6,7 +6,7 @@ import { RiDeleteBin6Line } from "react-icons/ri"
 import { RxDropdownMenu } from "react-icons/rx"
 import { useDispatch, useSelector } from "react-redux"
 
-import { deleteSection, deleteSubSection } from "../../../../../services/operations/courseDetailsAPI"
+import {http_section_delete, http_subsection_delete} from "../../../../../services/operations/courseDetailsAPI"
 import { setCourse } from "../../../../../reducer/slices/courseSlice"
 
 import ConfirmationModal from "../../../../common/ConfirmationModal"
@@ -30,7 +30,7 @@ export default function NestedView({ handleChangeEditSectionName }) {
 
   // Delele Section
   const handleDeleleSection = async (sectionId) => {
-    const result = await deleteSection({ sectionId, courseId: course._id, token, })
+    const result = await http_section_delete({ sectionId, courseId: course._id, token, })
     if (result) {
       dispatch(setCourse(result))
     }
@@ -39,7 +39,7 @@ export default function NestedView({ handleChangeEditSectionName }) {
 
   // Delete SubSection
   const handleDeleteSubSection = async (subSectionId, sectionId) => {
-    const result = await deleteSubSection({ subSectionId, sectionId, token })
+    const result = await http_subsection_delete({ subSectionId, sectionId, token })
     if (result) {
       // update the structure of course - As we have got only updated section details
       const updatedCourseContent = course.courseContent.map((section) =>

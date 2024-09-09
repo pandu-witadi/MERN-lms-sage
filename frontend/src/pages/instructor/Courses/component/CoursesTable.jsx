@@ -16,7 +16,7 @@ import {COURSE_STATUS} from "../../../../utils/constants.js"
 import ConfirmationModal from "../../../../components/base/ConfirmationModal.jsx"
 import toast from 'react-hot-toast'
 import {useTranslation} from "react-i18next";
-import {getRouterPath, PathEditCourseBySteps, StepForm} from "../../../../services/router.js";
+import {getRouterPath, PathCourseEdit, StepForm} from "../../../../services/router.js";
 
 export default function CoursesTable({courses, setCourses, loading, setLoading}) {
     const {t} = useTranslation();
@@ -126,7 +126,7 @@ export default function CoursesTable({courses, setCourses, loading, setLoading})
                                         <button
                                             disabled={loading}
                                             onClick={() => {
-                                                navigate(getRouterPath(PathEditCourseBySteps, "/", {courseId: course._id, stepMode: StepForm}))
+                                                navigate(getRouterPath(PathCourseEdit, "/", {courseId: course._id, stepMode: StepForm}))
                                             }}
                                             title="Edit"
                                             className="px-2 transition-all duration-200 hover:scale-110 hover:text-caribbeangreen-300"
