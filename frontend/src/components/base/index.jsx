@@ -6,6 +6,8 @@ import SidebarLink from "./SidebarLink";
 import ConfirmationModal from "./ConfirmationModal";
 import LabelError from "./LabelError.jsx";
 import ToggleButton from "./ToggleButton.jsx";
-import UploadImage from "./UploadImage.jsx"
-import UploadPdf from "./UploadPdf.jsx"
-export {TabSwitch, WebLogo, WebFooter, WebLoading, SidebarLink, ConfirmationModal, LabelError, ToggleButton, UploadImage, UploadPdf}
+import UploadImage from "./UploadImage.jsx";
+import UploadPdf from "./UploadPdf.jsx";
+import UploadYoutube from "./UploadYoutube.jsx";
+export {TabSwitch, WebLogo, WebFooter, WebLoading, SidebarLink, ConfirmationModal, LabelError, ToggleButton, UploadImage,
+  UploadPdf, UploadYoutube}

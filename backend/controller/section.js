@@ -8,7 +8,6 @@ exports.createSection = async (req, res) => {
     try {
         // extract data
         const { sectionName, courseId } = req.body;
-        // console.log('sectionName, courseId = ', sectionName, ",  = ", courseId)
 
         // validation
         if (!sectionName || !courseId) {
@@ -109,7 +108,6 @@ exports.updateSection = async (req, res) => {
 exports.deleteSection = async (req, res) => {
     try {
         const { sectionId, courseId } = req.body;
-        // console.log('sectionId = ', sectionId);
 
         // delete section by id from DB
         await Section.findByIdAndDelete(sectionId);

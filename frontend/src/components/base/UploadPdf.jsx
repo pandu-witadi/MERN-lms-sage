@@ -10,9 +10,9 @@ import {defaultLayoutPlugin} from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 const UploadPdf = ({
-                       loading,
+                       loading, setLoading,
                        name, label, register, setValue, getValues,
-                       errors, fileExtension = [".pdf"]
+                       errors, fileExtension = [".pdf"], disabled=false
                    }) => {
     const {t} = useTranslation();
     const [selectedFile, setSelectedFile] = useState(null)
@@ -47,34 +47,36 @@ const UploadPdf = ({
     }, [selectedFile, setValue])
 
     const onDrop = (acceptedFiles) => {
+        // setLoading(true);
         const file = acceptedFiles[0]
         if (file) {
             previewFile(file)
             setSelectedFile(file)
         }
+        // setLoading(false);
     }
 
     const handleFileChange = (event) => {
+        // setLoading(true);
         const file = event.target.files[0];
         if (file) {
             previewFile(file)
             setSelectedFile(file)
         }
+        // setLoading(false);
     };
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
-        accept: {"pdf/*": fileExtension},
+        accept: {"application/pdf": fileExtension},
         onDrop,
     })
 
     return (
         <div className={"flex flex-col w-full gap-2"}>
             <label className="my-form-label" htmlFor={name}>{label} <sup className="text-error">*</sup></label>
-
             <div className={`flex items-center justify-center w-full  border-2 border-dashed rounded-lg `}>
                 {previewSource ? (
-                    <div className="flex w-full h-full flex-col pt-2 pb-2">
-
+                    <div className="flex w-full h-full flex-col">
                         <div
                             style={{
                                 height: '450px',
@@ -87,12 +89,17 @@ const UploadPdf = ({
                                 <Viewer
                                     fileUrl={previewSource}
                                     plugins={[defaultLayoutPluginInstance]}
+                                    renderLoader={(percentages) => (
+                                      <div className={"w-[240px]"}>
+                                          <progress className={"progress progress-info w-56"} value={Math.round(percentages)} max={"100"}/>
+                                      </div>
+                                    )}
                                 />
                             </Worker>
 
                         </div>
 
-                        {previewSource && (
+                        {(previewSource && disabled===false) && (
                             <button
                                 type="button"
                                 onClick={() => {
@@ -100,7 +107,7 @@ const UploadPdf = ({
                                     setSelectedFile(null)
                                     setValue(name, null)
                                 }}
-                                className="mt-3 underline"
+                                className="my-3 underline text-error"
                             >
                                 {t("btn.delete")}
                             </button>

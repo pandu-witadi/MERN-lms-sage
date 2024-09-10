@@ -49,11 +49,18 @@ function deleteDirectory(directoryPath) {
   }
 }
 
+function isSubsectionHasAttachment (lectureType) {
+  // const listLectureType = ["youtube", "attachment", "test"];
+  const listLectureTypeWithAttachment = ["attachment"];
+  return(listLectureTypeWithAttachment.includes(lectureType));
+}
+
 module.exports = {
   createRandomId,
   checkDirectoryExists,
   createDirectory,
   moveFileToPath,
   cleanFileName,
-  deleteDirectory
+  deleteDirectory,
+  isSubsectionHasAttachment
 }

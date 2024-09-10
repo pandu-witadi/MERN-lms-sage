@@ -3,6 +3,7 @@ import {useForm} from "react-hook-form"
 import {toast} from "react-hot-toast"
 import {MdNavigateNext} from "react-icons/md"
 import {useSelector} from "react-redux"
+import {IoHomeOutline} from "react-icons/io5";
 
 import {
   http_add_course_details, http_edit_course_details,
@@ -13,7 +14,7 @@ import ChipInput from "./ChipInput.jsx"
 import {useTranslation} from "react-i18next";
 import {UploadImage, WebLoading} from "../../../../components/base/index.jsx";
 import {useNavigate} from "react-router-dom";
-import {getRouterPath, PathCourseEdit, StepBuilder} from "../../../../services/router.js";
+import {getRouterPath, PathCourseEdit, PathRoot, StepBuilder} from "../../../../services/router.js";
 
 export default function Step1CourseForm({course, isEditCourse = false}) {
   const navigate = useNavigate();
@@ -220,18 +221,24 @@ export default function Step1CourseForm({course, isEditCourse = false}) {
           <div className="divider"/>
 
           {/* Next Button */}
-          <div className="flex justify-end gap-x-2">
-            {isEditCourse && (
-              <button
-                onClick={() => navigate(getRouterPath(PathCourseEdit,"/", {courseId: course._id, stepMode: StepBuilder}))}
-                disabled={loading}
-                className={"my-btn-cancel"}>
-                {t("btn.nextWithoutSave")}
-              </button>
-            )}
-            <button className={"my-btn-confirm"} disabled={loading}>
-              {!isEditCourse ? t("btn.next") : t("btn.saveChanged")}<MdNavigateNext/>
+          <div className={"flex flex-row justify-between"}>
+            <button className={"my-btn-home"} disabled={loading} onClick={() => navigate(getRouterPath(PathRoot))}>
+              <IoHomeOutline/> {t("btn.cancel")}
             </button>
+
+            <div className="flex justify-end gap-x-2">
+              {isEditCourse && (
+                <button
+                  onClick={() => navigate(getRouterPath(PathCourseEdit, "/", {courseId: course._id, stepMode: StepBuilder}))}
+                  disabled={loading}
+                  className={"my-btn-cancel"}>
+                  {t("btn.nextWithoutSave")}
+                </button>
+              )}
+              <button className={"my-btn-confirm"} disabled={loading}>
+                {!isEditCourse ? t("btn.next") : t("btn.saveChanged")}<MdNavigateNext/>
+              </button>
+            </div>
           </div>
         </div>
       </form>

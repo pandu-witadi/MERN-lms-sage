@@ -1,9 +1,12 @@
+import {LectureTypeAttachment, LectureTypeTest, LectureTypeYoutube} from "../constant/constant.js";
+
 const localeId = {
   translation: {
     byCreator: "by LinxBrain Indonesia",
     isNeeded: "Wajib diisi",
     tagPlaceHolder: "Tuliskan text dan tekan Enter atau Comma",
     areaUploadTitle: "Click to upload or drag and drop",
+    underDevelopment: "Saat ini sedang dalam tahap pengembangan",
     login: {
       titleUser: "Welcome, BrainBooster!",
       emailInfo: "(Silakan gunakan email kantor Anda)",
@@ -16,8 +19,8 @@ const localeId = {
       deleteCourseDesc: "Anda yakin ingin menghapus course ini?",
       deleteSectionTitle: "Hapus Modul",
       deleteSectionDesc: "Anda yakin ingin menghapus modul ini?",
-      deleteSubSectionTitle: "Hapus Sub Section",
-      deleteSubSectionDesc: "Anda yakin ingin menghapus sub section ini?",
+      deleteSubSectionTitle: "Hapus Pelajaran",
+      deleteSubSectionDesc: "Anda yakin ingin menghapus pelajaran ini?",
     },
     btn: {
       logout: "Logout",
@@ -110,18 +113,25 @@ const localeId = {
       sectionNamePlaceholder: "Masukkan judul modul untuk kelas ini",
       lectureAdd: "Tambah Pelajaran",
       lectureEdit: "Edit Pelajaran",
-      lectureView: "View Pelajaran",
+      lectureView: "Informasi Pelajaran",
       lectureTitle: "Judul Pelajaran",
       lectureDesc: "Deskripsi Pelajaran",
-      lectureType: "Tipe Pelajaran",
+      lectureType: "Jenis Pelajaran",
       lectureVideo: "Video Pelajaran",
+      lectureVideoYoutube: "Video Pelajaran di Youtube",
       lectureAttachment: "Attachment Pelajaran",
       lectureTest: "Test Pelajaran",
       lectureData: "Data Pelajaran",
       lectureSelectType: "Pilih tipe pelajaran",
-      addCourseSteps: [{id: 1, title: "Course Information"}, {id: 2, title: "Course Builder"}, {id: 3, title: "Publish"}],
-      lectureTypeList: [{id: "video", title: "Video"}, {id: "attachment", title: "Attachment"}, {id: "test", title: "Test"}],
+      lecturePublishSettings: "Publish Settings",
+      lectureSetAsPublic: "Terbitkan kelas ini sebagai publik",
+      addCourseSteps: [{id: 1, title: "Informasi Kelas"}, {id: 2, title: "Modul Builder"}, {id: 3, title: "Publish"}],
+      lectureTypeList: [{id: LectureTypeYoutube, title: "Youtube"}, {id: LectureTypeAttachment, title: "Attachment"}, {id: LectureTypeTest, title: "Test"}],
     },
+    toast: {
+      minimumModuleNotFulfilled: "Silahkan tambahkan minimal satu modul",
+      minimumLectureNotFulfilled: "Silahkan tambahkan minimal satu pelajaran pada setiap modul",
+    }
   },
 }
 

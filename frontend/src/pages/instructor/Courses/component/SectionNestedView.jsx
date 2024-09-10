@@ -71,6 +71,7 @@ export default function SectionNestedView({course, setCourse, handleChangeEditSe
                       section.sectionName
                     )
                   }
+                  className={"btn btn-sm btn-ghost rounded-full"}
                 >
                   <CiEdit className="text-xl" />
                 </button>
@@ -86,6 +87,7 @@ export default function SectionNestedView({course, setCourse, handleChangeEditSe
                       btn2Handler: () => setConfirmationModal(null),
                     })
                   }
+                  className={"btn btn-sm btn-ghost rounded-full"}
                 >
                   <CiTrash className="text-xl" />
                 </button>
@@ -111,11 +113,9 @@ export default function SectionNestedView({course, setCourse, handleChangeEditSe
                     onClick={(e) => e.stopPropagation()}
                     className="flex items-center gap-x-3"
                   >
-                    <button
-                      onClick={() =>
+                    <button onClick={() =>
                         setEditSubSection({ ...data, sectionId: section._id })
-                      }
-                    >
+                      } className={"btn btn-sm btn-ghost rounded-full"}>
                       <MdEdit className="text-xl" />
                     </button>
                     <button
@@ -130,7 +130,7 @@ export default function SectionNestedView({course, setCourse, handleChangeEditSe
                           btn2Handler: () => setConfirmationModal(null),
                         })
                       }
-                    >
+                      className={"btn btn-sm btn-ghost rounded-full"}>
                       <RiDeleteBin6Line className="text-xl" />
                     </button>
                   </div>

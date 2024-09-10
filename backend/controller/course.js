@@ -11,8 +11,7 @@ const path = require('path')
 const short = require('short-uuid')
 
 const CF = require('../conf/conf_app')
-const {createRandomId, checkDirectoryExists, createDirectory, cleanFileName, moveFileToPath, deleteDirectory} = require("../util/utils");
-
+const {createRandomId, checkDirectoryExists, createDirectory, cleanFileName, moveFileToPath, deleteDirectory, isSubsectionHasAttachment} = require("../util/utils");
 
 function getCourseThumbnail(course) {
   return (CF.server.path_course + '/' + course['courseId'] + '/' + course['thumbnail'])
@@ -118,26 +117,26 @@ exports.createCourse = async (req, res) => {
       })
     }
 
-    // add course id to instructor courses list, this is because - it will show all created courses by instructor
-    await User.findByIdAndUpdate(instructorId,
-      {
-        $push: {
-          courses: newCourse._id
-        }
-      },
-      {new: true}
-    )
+    // // add course id to instructor courses list, this is because - it will show all created courses by instructor
+    // await User.findByIdAndUpdate(instructorId,
+    //   {
+    //     $push: {
+    //       courses: newCourse._id
+    //     }
+    //   },
+    //   {new: true}
+    // )
 
-    // Add the new course to the Categories
-    await Category.findByIdAndUpdate(
-      {_id: category},
-      {
-        $push: {
-          courses: newCourse._id,
-        },
-      },
-      {new: true}
-    )
+    // // Add the new course to the Categories
+    // await Category.findByIdAndUpdate(
+    //   {_id: category},
+    //   {
+    //     $push: {
+    //       courses: newCourse._id,
+    //     },
+    //   },
+    //   {new: true}
+    // )
 
     // return response
     res.status(200).json({
@@ -297,8 +296,10 @@ exports.getFullCourseDetails = async (req, res) => {
       courseDetails['thumbnail'] = getCourseThumbnail(courseDetails);
       for (let i = 0; i < courseDetails['courseContent'].length; i++) {
         for (let j = 0; j < courseDetails['courseContent'][i]['subSection'].length; j++) {
-          courseDetails['courseContent'][i]['subSection'][j]['lectureUrl'] = CF.server.path_course + '/' +
-              courseDetails['courseId'] + '/' + courseDetails['courseContent'][i]['subSection'][j]['lectureUrl']
+          let item_ = courseDetails['courseContent'][i]['subSection'][j];
+          if(isSubsectionHasAttachment(item_.lectureType)) {
+            item_['lectureUrl'] = CF.server.path_course + '/' + courseDetails['courseId'] + '/' + item_['lectureUrl'];
+          }
         }
       }
     }
@@ -475,10 +476,10 @@ exports.deleteCourse = async (req, res) => {
       await deleteDirectory(directoryPath);
     }
 
-    // Delete sections and sub-sections
+    // Delete sections and subsections
     const courseSections = course.courseContent
     for (const sectionId of courseSections) {
-      // Delete sub-sections of the section
+      // Delete subsections of the section
       const section = await Section.findById(sectionId)
       if (section) {
         const subSections = section.subSection
@@ -495,10 +496,10 @@ exports.deleteCourse = async (req, res) => {
       await Section.findByIdAndDelete(sectionId)
     }
 
-    // Delete course ID from categories
-    const category = await Category.findById(course["category"]);
-    category["courses"].remove(courseId)
-    await category.save();
+    // // Delete course ID from categories
+    // const category = await Category.findById(course["category"]);
+    // category["courses"].remove(courseId)
+    // await category.save();
 
     // Delete the course
     await Course.findByIdAndDelete(courseId)

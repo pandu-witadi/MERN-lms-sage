@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { RxCross2 } from "react-icons/rx"
@@ -9,6 +9,8 @@ import {
 } from "../../../../services/operations/courseDetailsAPI.js"
 import {useTranslation} from "react-i18next";
 import UploadPdf from "../../../../components/base/UploadPdf.jsx";
+import {LectureTypeAttachment, LectureTypeTest, LectureTypeYoutube} from "../../../../constant/constant.js";
+import {UploadYoutube} from "../../../../components/base";
 
 export default function SubSectionModal({course, setCourse, modalData, setModalData, add = false, view = false, edit = false, }) {
   const {t} = useTranslation();
@@ -23,34 +25,33 @@ export default function SubSectionModal({course, setCourse, modalData, setModalD
   const [loading, setLoading] = useState(false)
   const { token } = useSelector((state) => state.auth)
   const lectureTypeList = t("course.lectureTypeList", { returnObjects: true });
-
+  const [selectedLectureType, setSelectedLectureType] = useState("");
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     if (view || edit) {
       setValue("lectureTitle", modalData.title);
       setValue("lectureDesc", modalData.description);
       setValue("lectureType", modalData.lectureType);
       setValue("lectureUrl", modalData.lectureUrl);
       setValue("lectureContent", modalData.lectureContent);
+      setSelectedLectureType(modalData.lectureType);
     }
 
     // Simulate an asynchronous operation (e.g., fetching data)
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000); // Delay for 1 second before setting loading to false
-    return () => clearTimeout(timer); // Cleanup the timer
+    // const timer = setTimeout(() => {
+    //   setLoading(false);
+    // }, 1000); // Delay for 1 second before setting loading to false
+    // return () => clearTimeout(timer); // Cleanup the timer
   }, [])
 
   // detect whether form is updated or not
   const isFormUpdated = () => {
     const currentValues = getValues()
-
     return currentValues.lectureTitle !== modalData.title ||
       currentValues.lectureDesc !== modalData.description ||
       currentValues.lectureType !== modalData.lectureType ||
       currentValues.lectureUrl !== modalData.lectureUrl;
-
   }
 
   // handle the editing of subsection
@@ -92,8 +93,6 @@ export default function SubSectionModal({course, setCourse, modalData, setModalD
   }
 
   const onSubmit = async (data) => {
-    if (view) return
-
     if (edit) {
       if (!isFormUpdated()) {
         toast.error("No changes made to the form")
@@ -125,11 +124,51 @@ export default function SubSectionModal({course, setCourse, modalData, setModalD
     setLoading(false)
   }
 
+  const ShowLectureTypeContainer = () => {
+    if(selectedLectureType === LectureTypeYoutube) {
+      return(
+        <>
+          <UploadYoutube
+            name="lectureUrl"
+            label={t("course.lectureVideoYoutube")}
+            register={register}
+            setValue={setValue}
+            getValues={getValues}
+            errors={errors}
+            loading={loading}
+            setLoading={setLoading}
+            disabled={view || loading}
+          />
+        </>);
+    } else if (selectedLectureType === LectureTypeAttachment) {
+      return (
+        <>
+          <UploadPdf
+            name="lectureUrl"
+            label={t("course.lectureAttachment")}
+            register={register}
+            setValue={setValue}
+            getValues={getValues}
+            errors={errors}
+            loading={loading}
+            setLoading={setLoading}
+            disabled={view || loading}
+          />
+        </>);
+    }
+    if (selectedLectureType === LectureTypeTest) {
+      return (<div className={"text-lg text-error"}>{t("underDevelopment")}</div>);
+    }
+    else {
+      return(<></>);
+    }
+  }
+
   return (
-    <div className="fixed inset-0 z-[1000] !mt-0 grid h-screen w-screen place-items-center overflow-auto bg-white bg-opacity-95 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[1000] !mt-0 grid h-full w-screen place-items-center overflow-auto bg-white bg-opacity-95 backdrop-blur-sm">
       <div className="my-10 w-11/12 max-w-[700px] rounded-lg border border-neutral-400 bg-base">
         {/* Modal Header */}
-        <div className="flex items-center justify-between rounded-t-lg bg-gray-200 p-5">
+        <div className={`flex items-center justify-between rounded-t-lg bg-gray-200 px-5 py-3 ${edit && "bg-warning"}`}>
           <div className="text-xl font-semibold">{view && t("course.lectureView")} {add && t("course.lectureAdd")} {edit && t("course.lectureEdit")}</div>
           <button onClick={() => (!loading ? setModalData(null) : {})}>
             <RxCross2 className="text-2xl" />
@@ -167,8 +206,10 @@ export default function SubSectionModal({course, setCourse, modalData, setModalD
           <div className="flex flex-col space-y-2">
             <label className="my-form-label">{t("course.lectureType")}</label>
             <select
+              disabled={view || edit || loading}
               id="lectureType"
               {...register("lectureType", {required: true})}
+              onChange={(e) => setSelectedLectureType(e.target.value)}
               defaultValue={""}
               className="my-form-select-style"
             >
@@ -184,16 +225,10 @@ export default function SubSectionModal({course, setCourse, modalData, setModalD
             {errors.lectureType && (<span className="my-form-style-error">{t("course.lectureType")} {t("isNeeded")}</span>)}
           </div>
 
-          {/* Lecture File Upload */}
-          <UploadPdf
-            name="lectureUrl"
-            label={t("course.lectureAttachment")}
-            register={register}
-            setValue={setValue}
-            getValues={getValues}
-            errors={errors}
-            loading={loading}
-          />
+          {/* Lecture Input Container */}
+          <ShowLectureTypeContainer/>
+
+          <div className="divider"/>
 
           {!view && (
             <div className="flex justify-end">

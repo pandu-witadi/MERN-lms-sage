@@ -3,21 +3,17 @@
 const Section = require('../model/section')
 const SubSection = require('../model/subSection')
 const path = require('path')
-const short = require('short-uuid')
 const CF = require('../conf/conf_app')
-const {cleanFileName, moveFileToPath} = require("../util/utils");
-
+const {cleanFileName, moveFileToPath, isSubsectionHasAttachment} = require("../util/utils");
 
 // ================ create SubSection ================
 exports.createSubSection = async (req, res) => {
     try {
         // extract data
-        const { courseId, title, description, sectionId, lectureType, lectureContent } = req.body;
+        const { courseId, title, description, sectionId, lectureType, lectureUrl, lectureContent } = req.body;
 
         // validation
-        if (!title || !description ||
-            // !videoFile ||
-            !sectionId) {
+        if (!title || !description || !sectionId) {
             return res.status(400).json({
                 success: false,
                 message: 'All fields are required'
@@ -26,22 +22,26 @@ exports.createSubSection = async (req, res) => {
 
         // When a file has been uploaded
         let lecture_url = null;
-        const directoryPath = path.join(__dirname, "..", CF.path.course, courseId);
-        try {
-            if (req.files && Object.keys(req.files).length !== 0) {
-                const temp_file = req.files?.lectureUrl;
-                if (temp_file) {
-                    lecture_url = cleanFileName(temp_file.name);
-                    moveFileToPath(path.join(directoryPath, lecture_url), temp_file);
+        if(isSubsectionHasAttachment(lectureType)) {
+            try {
+                if (req.files && Object.keys(req.files).length !== 0) {
+                    const directoryPath = path.join(__dirname, "..", CF.path.course, courseId);
+                    const temp_file = req.files?.lectureUrl;
+                    if (temp_file) {
+                        lecture_url = cleanFileName(temp_file.name);
+                        moveFileToPath(path.join(directoryPath, lecture_url), temp_file);
+                    }
                 }
+            } catch (error) {
+                return res.status(500).json({
+                    success: false,
+                    error: error.message,
+                    message: 'Error while saving attachment file'
+                })
             }
         }
-        catch (error) {
-            return res.status(500).json({
-                success: false,
-                error: error.message,
-                message: 'Error while saving attachment file'
-            })
+        else {
+            lecture_url = lectureUrl;
         }
 
         // create entry in DB
@@ -61,6 +61,14 @@ exports.createSubSection = async (req, res) => {
             { $push: { subSection: SubSectionDetails._id } },
             { new: true }
         ).populate("subSection")
+
+        // add url for attachment
+        for (let j = 0; j < updatedSection['subSection'].length; j++) {
+            let item_ = updatedSection['subSection'][j];
+            if(isSubsectionHasAttachment(item_.lectureType)) {
+                item_['lectureUrl'] = CF.server.path_course  + "/" + courseId + "/" + item_['lectureUrl'];
+            }
+        }
 
         // return response
         res.status(200).json({
@@ -85,7 +93,7 @@ exports.createSubSection = async (req, res) => {
 // ================ Update SubSection ================
 exports.updateSubSection = async (req, res) => {
     try {
-        const {courseId, sectionId, subSectionId, title, description, lectureType, lectureContent } = req.body;
+        const {courseId, sectionId, subSectionId, title, description, lectureType, lectureUrl, lectureContent } = req.body;
 
         // validation
         if (!subSectionId) {
@@ -123,35 +131,44 @@ exports.updateSubSection = async (req, res) => {
         }
 
         // When a file has been uploaded
-        let lecture_url = null;
-        const directoryPath = path.join(__dirname, "..", CF.path.course, courseId);
-        try {
-            if (req.files && Object.keys(req.files).length !== 0) {
-                const temp_file = req.files?.lectureUrl;
-                if (temp_file) {
-                    lecture_url = cleanFileName(temp_file.name);
-                    moveFileToPath(path.join(directoryPath, lecture_url), temp_file);
-                    subSection.lectureUrl = lecture_url;
+        if(isSubsectionHasAttachment(lectureType)) {
+            let lecture_url = null;
+            try {
+                if (req.files && Object.keys(req.files).length !== 0) {
+                    const directoryPath = path.join(__dirname, "..", CF.path.course, courseId);
+                    const temp_file = req.files?.lectureUrl;
+                    if (temp_file) {
+                        lecture_url = cleanFileName(temp_file.name);
+                        moveFileToPath(path.join(directoryPath, lecture_url), temp_file);
+                        subSection.lectureUrl = lecture_url;
+                    }
                 }
+            } catch (error) {
+                return res.status(500).json({
+                    success: false,
+                    error: error.message,
+                    message: 'Error while saving attachment file'
+                })
             }
         }
-        catch (error) {
-            return res.status(500).json({
-                success: false,
-                error: error.message,
-                message: 'Error while saving attachment file'
-            })
+        else {
+            if(lectureUrl) {
+                subSection.lectureUrl = lectureUrl;
+            }
         }
 
         // save data to DB
         await subSection.save();
         const updatedSection = await Section.findById(sectionId).populate("subSection");
+
+        // add url for attachment
         for (let j = 0; j < updatedSection['subSection'].length; j++) {
-            updatedSection['subSection'][j]['lectureUrl'] = CF.server.path_course + '/' + courseId + '/' + updatedSection['subSection'][j]['lectureUrl']
+            let item_ = updatedSection['subSection'][j];
+            if(isSubsectionHasAttachment(item_.lectureType)) {
+                item_['lectureUrl'] = CF.server.path_course  + "/" + courseId + "/" + item_['lectureUrl'];
+            }
         }
-        if(updatedSection.lectureUrl !== "") {
-            updatedSection.lectureUrl = directoryPath + "/" + updatedSection.lectureUrl;
-        }
+
         return res.json({
             success: true,
             data: updatedSection,
@@ -195,7 +212,7 @@ exports.deleteSubSection = async (req, res) => {
 
         const updatedSection = await Section.findById(sectionId).populate('subSection')
 
-        // In frontned we have to take care - when subsection is deleted we are sending ,
+        // In fronted we have to take care - when subsection is deleted we are sending ,
         // only section data not full course details as we do in others
 
         // success response

@@ -1,20 +1,21 @@
-import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
-import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import {useEffect, useState} from "react"
+import {useForm} from "react-hook-form"
+import {useSelector} from "react-redux"
+import {useNavigate} from "react-router-dom"
 
-import { http_edit_course_details } from "../../../../services/operations/courseDetailsAPI"
-import { resetCourseState, setStep } from "../../../../reducer/slices/courseSlice"
-import { COURSE_STATUS } from "../../../../utils/constants"
-import IconBtn from "../../../../components/common/IconBtn"
+import {http_edit_course_details} from "../../../../services/operations/courseDetailsAPI"
+import {COURSE_STATUS} from "../../../../utils/constants"
+import {useTranslation} from "react-i18next";
+import {MdNavigateBefore} from "react-icons/md";
+import {getRouterPath, PathCourseEdit, PathRoot, StepBuilder} from "../../../../services/router.js";
+import {IoHomeOutline} from "react-icons/io5";
 
-export default function Step3PublishCourse() {
-  const { register, handleSubmit, setValue, getValues } = useForm()
+export default function Step3PublishCourse({course}) {
+  const {t} = useTranslation();
+  const {register, handleSubmit, setValue, getValues} = useForm()
 
-  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { token } = useSelector((state) => state.auth)
-  const { course } = useSelector((state) => state.course)
+  const {token} = useSelector((state) => state.auth)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -24,12 +25,11 @@ export default function Step3PublishCourse() {
   }, [])
 
   const goBack = () => {
-    dispatch(setStep(2))
+    navigate(getRouterPath(PathCourseEdit, "/", {courseId: course._id, stepMode: StepBuilder})) // navigate to next step
   }
 
   const goToCourses = () => {
-    dispatch(resetCourseState())
-    navigate("/dashboard/my-courses")
+    navigate(getRouterPath(PathRoot));
   }
 
   const handleCoursePublish = async () => {
@@ -45,7 +45,7 @@ export default function Step3PublishCourse() {
       return
     }
     const formData = new FormData()
-    formData.append("courseId", course._id)
+    formData.append("currentCourseId", course._id)
     const courseStatus = getValues("public")
       ? COURSE_STATUS.PUBLISHED
       : COURSE_STATUS.DRAFT
@@ -60,41 +60,37 @@ export default function Step3PublishCourse() {
 
   const onSubmit = (data) => {
     // console.log(data)
-    handleCoursePublish()
+    handleCoursePublish().then(r => {
+    })
   }
 
   return (
-    <div className="rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6">
-      <p className="text-2xl font-semibold text-richblack-5">
-        Publish Settings
-      </p>
+    <div className="my-card-border">
+      <div className="text-2xl font-semibold">{t("course.lecturePublishSettings")}</div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Checkbox */}
-        <div className="my-6 mb-8">
+        <div className="my-4 mb-8">
           <label htmlFor="public" className="inline-flex items-center text-lg">
             <input
               type="checkbox"
               id="public"
               {...register("public")}
-              className="border-gray-300 h-4 w-4 rounded bg-richblack-500 text-richblack-400 focus:ring-2 focus:ring-richblack-5"
+              className="h-4 w-4 rounded"
             />
-            <span className="ml-2 text-richblack-400">
-              Make this course as public
-            </span>
+            <span className="ml-2"> {t("course.lectureSetAsPublic")}</span>
           </label>
         </div>
 
+        <div className="divider"/>
+
         {/* Next Prev Button */}
-        <div className="ml-auto flex max-w-max items-center gap-x-4">
-          <button
-            disabled={loading}
-            type="button"
-            onClick={goBack}
-            className="flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900"
-          >
-            Back
+        <div className={"flex flex-row justify-between"}>
+          <button className={"my-btn-home"} disabled={loading} onClick={() => navigate(getRouterPath(PathRoot))}>
+            <IoHomeOutline/> {t("btn.cancel")}
           </button>
-          <IconBtn disabled={loading} text="Save Changes" />
+          <div className="flex justify-end gap-x-3">
+            <button onClick={goBack} className={"my-btn-cancel"}><MdNavigateBefore/> {t("btn.back")}</button>
+            <button disabled={loading} className={"my-btn-confirm"} onClick={handleCoursePublish}>{t("btn.saveChanged")}</button>
+          </div>
         </div>
       </form>
     </div>

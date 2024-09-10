@@ -1,22 +1,22 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { toast } from "react-hot-toast"
-import { IoAddCircleOutline } from "react-icons/io5"
-import { MdNavigateNext, MdNavigateBefore } from "react-icons/md"
-import { useSelector } from "react-redux"
+import {useState} from "react"
+import {useForm} from "react-hook-form"
+import {toast} from "react-hot-toast"
+import {IoAddCircleOutline, IoHomeOutline} from "react-icons/io5"
+import {MdNavigateNext, MdNavigateBefore} from "react-icons/md"
+import {useSelector} from "react-redux"
 
 import {http_section_create, http_section_update} from "../../../../services/operations/courseDetailsAPI.js"
 import SectionNestedView from "./SectionNestedView.jsx"
 import {useNavigate} from "react-router-dom";
-import {getRouterPath, PathCourseEdit, StepForm, StepPublish} from "../../../../services/router.js";
+import {getRouterPath, PathCourseEdit, PathRoot, StepForm, StepPublish} from "../../../../services/router.js";
 import {useTranslation} from "react-i18next";
 
 
 export default function Step2CourseBuilder({course, setCourse}) {
   const navigate = useNavigate();
   const {t} = useTranslation();
-  const { register, handleSubmit, setValue, formState: { errors }, } = useForm()
-  const { token } = useSelector((state) => state.auth)
+  const {register, handleSubmit, setValue, formState: {errors},} = useForm()
+  const {token} = useSelector((state) => state.auth)
   const [loading, setLoading] = useState(false)
   const [editSectionName, setEditSectionName] = useState(null) // stored section ID
 
@@ -26,9 +26,9 @@ export default function Step2CourseBuilder({course, setCourse}) {
 
     let result = null;
     if (editSectionName) {
-      result = await http_section_update({ sectionName: data.sectionName, sectionId: editSectionName, courseId: course._id, }, token);
+      result = await http_section_update({sectionName: data.sectionName, sectionId: editSectionName, courseId: course._id,}, token);
     } else {
-      result = await http_section_create({ sectionName: data.sectionName, courseId: course._id, }, token);
+      result = await http_section_create({sectionName: data.sectionName, courseId: course._id,}, token);
     }
 
     if (result) {
@@ -58,21 +58,21 @@ export default function Step2CourseBuilder({course, setCourse}) {
   // go To Next
   const goToNext = () => {
     if (course.courseContent.length === 0) {
-      toast.error("Please add at least one section")
+      toast.error(t("toast.minimumModuleNotFulfilled"));
       return;
     }
     if (course.courseContent.some((section) => section.subSection.length === 0)) {
-      toast.error("Please add at least one lecture in each section")
+      toast.error(t("toast.minimumLectureNotFulfilled"));
       return;
     }
 
     // all set go ahead
-    navigate(getRouterPath(PathCourseEdit,"/", {courseId: course._id, stepMode: StepPublish})) // navigate to next step
+    navigate(getRouterPath(PathCourseEdit, "/", {courseId: course._id, stepMode: StepPublish})) // navigate to next step
   }
 
   // go Back
   const goBack = () => {
-    navigate(getRouterPath(PathCourseEdit,"/", {courseId: course._id, stepMode: StepForm})) // navigate to next step
+    navigate(getRouterPath(PathCourseEdit, "/", {courseId: course._id, stepMode: StepForm})) // navigate to next step
   }
 
   return (
@@ -87,7 +87,7 @@ export default function Step2CourseBuilder({course, setCourse}) {
             id="sectionName"
             disabled={loading}
             placeholder={t("course.sectionNamePlaceholder")}
-            {...register("sectionName", { required: true })}
+            {...register("sectionName", {required: true})}
             className="my-form-style"
           />
           {errors.sectionName && (
@@ -115,15 +115,22 @@ export default function Step2CourseBuilder({course, setCourse}) {
 
       {/* nested view of section - subSection */}
       {course.courseContent.length > 0 && (
-        <SectionNestedView course={course} setCourse={setCourse} handleChangeEditSectionName={handleChangeEditSectionName} />
+        <SectionNestedView course={course} setCourse={setCourse} handleChangeEditSectionName={handleChangeEditSectionName}/>
       )}
 
-      {/* Next Prev Button */}
-      <div className="flex justify-end gap-x-3">
-        <button onClick={goBack} className={"my-btn-cancel"}><MdNavigateBefore /> {t("btn.back")}</button>
+      <div className="divider"/>
 
-        {/* Next button */}
-        <button disabled={loading} className={"my-btn-confirm"} onClick={goToNext}>{t("btn.next")}<MdNavigateNext /></button>
+      {/* Next Prev Button */}
+      <div className={"flex flex-row justify-between"}>
+        <button className={"my-btn-home"} disabled={loading} onClick={() => navigate(getRouterPath(PathRoot))}>
+          <IoHomeOutline/> {t("btn.cancel")}
+        </button>
+        <div className="flex justify-end gap-x-3">
+          <button onClick={goBack} className={"my-btn-cancel"}><MdNavigateBefore/> {t("btn.back")}</button>
+
+          {/* Next button */}
+          <button disabled={loading} className={"my-btn-confirm"} onClick={goToNext}>{t("btn.next")}<MdNavigateNext/></button>
+        </div>
       </div>
     </div>
   )

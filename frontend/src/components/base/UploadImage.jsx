@@ -81,7 +81,7 @@ export default function UploadImage({
                   setSelectedFile(null)
                   setValue(name, null)
                 }}
-                className="mt-3 underline"
+                className="mt-3 underline text-error"
               >
                 {t("btn.delete")}
               </button>

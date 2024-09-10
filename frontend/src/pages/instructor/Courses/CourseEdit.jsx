@@ -80,7 +80,7 @@ export default function CourseEdit({showHome}) {
 
                     {stepMode === StepForm && <Step1CourseForm course={course} isEditCourse={true}/>}
                     {stepMode === StepBuilder && <Step2CourseBuilder course={course} setCourse={setCourse}/>}
-                    {stepMode === StepPublish && <Step3PublishCourse/>}
+                    {stepMode === StepPublish && <Step3PublishCourse course={course}/>}
                   </>
                 }
               </>
